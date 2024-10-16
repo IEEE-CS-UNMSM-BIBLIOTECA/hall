@@ -1,6 +1,6 @@
 import { rem } from '@mantine/core';
 
-const base = 120;
+const base = 90;
 const scale = 1.5;
 
 export default {

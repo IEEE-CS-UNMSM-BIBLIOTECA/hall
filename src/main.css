@@ -15,8 +15,3 @@
   width: 100dvw;
   height: 100dvh;
 }
-
-.icon {
-  color: var(--mantine-color-text);
-  size: var(--mantine-font-size-sm);
-}

@@ -1,26 +1,34 @@
 import {
   IconMenu,
+  IconProps,
   IconSearch,
 } from '@tabler/icons-react';
 
-import classes from './PageShell.module.css';
+const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
+  style: {
+    paddingLeft: 'var(--mantine-spacing-xl)',
+    paddingRight: 'var(--mantine-spacing-xl)',
+    paddingTop: 'var(--mantine-spacing-xl)',
+    height: '100%',
+  },
+};
+
+const iconProps: IconProps = {
+  size: 'var(--mantine-spacing-lg)',
+  style: { cursor: 'pointer' },
+};
 
 const PageShell = ({ children }: {
   children: React.ReactNode;
 }) => (
   <>
-    <div
-      style={{
-        display: 'flex',
-        height: '100%',
-      }}
-    >
-      <div className={classes['side-icon-container']}>
-        <IconSearch />
+    <div style={{ display: 'flex', height: '100%' }}>
+      <div {...iconContainerProps}>
+        <IconSearch {...iconProps} />
       </div>
       {children}
-      <div className={classes['side-icon-container']}>
-        <IconMenu />
+      <div {...iconContainerProps}>
+        <IconMenu {...iconProps} />
       </div>
     </div>
   </>

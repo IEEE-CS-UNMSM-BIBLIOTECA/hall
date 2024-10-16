@@ -1,6 +1,6 @@
 .side-icon-container {
   padding-left: var(--mantine-spacing-xl);
   padding-right: var(--mantine-spacing-xl);
-  padding-top: var(--mantine-spacing-xxl);
+  padding-top: var(--mantine-spacing-xl);
   height: 100%;
 }
