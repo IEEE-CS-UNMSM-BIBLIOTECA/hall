@@ -38,7 +38,7 @@ const BookCard = ({ image, title, author }: BookCardProps) => {
       </Card.Section>
 
       <Box mt="md">
-        <Text size="lg" weight={500}>{title}</Text>
+        <Text size="lg" fw={500}>{title}</Text>
         <Text color="dimmed" size="sm" mt="xs">{author}</Text>
       </Box>
     </Card>
