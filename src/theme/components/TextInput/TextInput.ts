@@ -1,7 +1,4 @@
-import {
-  MantineThemeComponent,
-  TextInput,
-} from '@mantine/core';
+import { MantineThemeComponent, TextInput } from '@mantine/core';
 
 import classes from './TextInput.module.css';
 

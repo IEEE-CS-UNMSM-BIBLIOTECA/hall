@@ -27,15 +27,11 @@ const Landing = () => {
               QUIERAS.
             </Title>
             <Text>
-              Descubre libros,
-              recógelos cuando quieras.
+              Descubre libros, recógelos cuando quieras.
               <br />
               Sin costo.
             </Text>
-            <Button
-              variant="primary"
-              size="lg"
-            >
+            <Button variant="primary" size="lg">
               EMPIEZA HOY
             </Button>
           </Stack>

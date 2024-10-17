@@ -7,10 +7,7 @@ import '@/main.css';
 import '@mantine/core/styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <MantineProvider
-    theme={theme}
-    defaultColorScheme="light"
-  >
+  <MantineProvider theme={theme} defaultColorScheme="light">
     <App />
   </MantineProvider>
 );

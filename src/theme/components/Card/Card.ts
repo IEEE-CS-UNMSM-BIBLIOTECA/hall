@@ -1,7 +1,4 @@
-import {
-  MantineThemeComponent,
-  Card,
-} from '@mantine/core';
+import { MantineThemeComponent, Card } from '@mantine/core';
 
 import classes from './Card.module.css';
 
