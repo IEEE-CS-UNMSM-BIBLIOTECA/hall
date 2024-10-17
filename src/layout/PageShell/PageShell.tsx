@@ -14,7 +14,8 @@ const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
 };
 
 const iconProps: IconProps = {
-  size: 'var(--mantine-spacing-lg)',
+  // size: 'var(--mantine-spacing-lg)',
+  size: 24,
   style: { cursor: 'pointer' },
 };
 
