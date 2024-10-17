@@ -1,6 +1,7 @@
 import { Box, Button, Group, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
+import BookSlider from '@/components/BookSlider';
 
 const WORDS = ['CUANDO', 'COMO', 'DONDE', 'LO QUE'];
 
@@ -38,8 +39,8 @@ const Landing = () => {
               EMPIEZA HOY
             </Button>
           </Stack>
-          <Box flex={4} h="100%">
-
+          <Box flex={4} h="80%">
+            <BookSlider />
           </Box>
         </Group>
       </PageShell>
