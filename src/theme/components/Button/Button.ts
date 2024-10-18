@@ -1,7 +1,4 @@
-import {
-  MantineThemeComponent,
-  Button,
-} from '@mantine/core';
+import { MantineThemeComponent, Button } from '@mantine/core';
 
 import classes from './Button.module.css';
 

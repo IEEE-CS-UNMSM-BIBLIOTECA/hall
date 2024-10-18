@@ -1,8 +1,4 @@
-import {
-  IconMenu,
-  IconProps,
-  IconSearch,
-} from '@tabler/icons-react';
+import { IconMenu, IconProps, IconSearch } from '@tabler/icons-react';
 
 const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
   style: {
@@ -14,13 +10,12 @@ const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
 };
 
 const iconProps: IconProps = {
-  size: 'var(--mantine-spacing-lg)',
+  // size: 'var(--mantine-spacing-lg)',
+  size: 24,
   style: { cursor: 'pointer' },
 };
 
-const PageShell = ({ children }: {
-  children: React.ReactNode;
-}) => (
+const PageShell = ({ children }: { children: React.ReactNode }) => (
   <>
     <div style={{ display: 'flex', height: '100%' }}>
       <div {...iconContainerProps}>

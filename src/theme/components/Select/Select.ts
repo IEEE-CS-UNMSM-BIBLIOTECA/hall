@@ -1,7 +1,4 @@
-import {
-  MantineThemeComponent,
-  Select,
-} from '@mantine/core';
+import { MantineThemeComponent, Select } from '@mantine/core';
 
 import classes from './Select.module.css';
 
