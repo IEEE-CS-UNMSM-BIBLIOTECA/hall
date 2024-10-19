@@ -1,4 +1,4 @@
-import { Box, Button, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Group, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
@@ -20,7 +20,13 @@ const Landing = () => {
   return (
     <>
       <PageShell>
-        <Group w="100%" grow preventGrowOverflow={false} gap="var(--mantine-spacing-xxl)">
+        <Flex
+          w="100%"
+          gap="var(--mantine-spacing-xxl)"
+          direction={{ base: 'column', md: 'row' }}
+          align={{ base: 'strech', md: 'center' }}
+          justify="space-between"
+        >
           <Stack flex={1} gap="var(--mantine-spacing-xl)">
             <Title>
               LEE
@@ -50,7 +56,7 @@ const Landing = () => {
           >
             <BookSlider />
           </Box>
-        </Group>
+        </Flex>
       </PageShell>
     </>
   );
