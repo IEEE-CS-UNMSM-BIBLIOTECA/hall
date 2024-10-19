@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
