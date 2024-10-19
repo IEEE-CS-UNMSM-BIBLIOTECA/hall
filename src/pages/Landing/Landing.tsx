@@ -2,6 +2,7 @@ import { Box, Button, Group, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
+import './Landing.css';
 
 const WORDS = ['CUANDO', 'COMO', 'DONDE', 'LO QUE'];
 
@@ -9,9 +10,11 @@ const Landing = () => {
   const [word, setWord] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       setWord((cur_word) => (cur_word + 1) % WORDS.length);
     }, 2000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -38,7 +41,12 @@ const Landing = () => {
           <Box
             flex={4}
             h="95vh"
-            style={{ overflowY: 'scroll' }}
+            style={{
+              overflowY: 'scroll',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+            className="hide-scrollbar"
           >
             <BookSlider />
           </Box>
