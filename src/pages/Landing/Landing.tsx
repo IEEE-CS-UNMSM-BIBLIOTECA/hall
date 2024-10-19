@@ -35,7 +35,11 @@ const Landing = () => {
               EMPIEZA HOY
             </Button>
           </Stack>
-          <Box flex={4} h="80%">
+          <Box
+            flex={4}
+            h="95vh"
+            style={{ overflowY: 'scroll' }}
+          >
             <BookSlider />
           </Box>
         </Group>
