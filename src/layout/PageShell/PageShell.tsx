@@ -13,6 +13,7 @@ const iconProps: IconProps = {
   // size: 'var(--mantine-spacing-lg)',
   size: 24,
   style: { cursor: 'pointer' },
+  stroke: 1.25,
 };
 
 const PageShell = ({ children }: { children: React.ReactNode }) => (
