@@ -1,4 +1,4 @@
-import { Card, Image as MantineImage, Text, Box } from '@mantine/core';
+import { Card, Image as MantineImage, Text, Box, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 interface BookCardProps {
@@ -19,33 +19,43 @@ const BookCard = ({ image, title, author }: BookCardProps) => {
   }, [image]);
 
   return (
-    <Card shadow="md" padding="lg" radius="md" style={{ height: 'fit-content', width: '100%' }}>
-      <Card.Section>
-        <div style={{ position: 'relative', paddingTop: `${100 / aspectRatio}%`, width: '100%' }}>
-          <MantineImage
-            src={image}
-            alt={title}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
-        </div>
-      </Card.Section>
-
-      <Box mt="md">
+    <Stack
+      bg="transparent"
+      style={{
+        height: 'fit-content',
+        width: '100%',
+      }}
+      gap="xs"
+    >
+      <div
+        style={{
+          position: 'relative',
+          paddingTop: `${100 / aspectRatio}%`,
+          width: '100%',
+        }}
+      >
+        <MantineImage
+          src={image}
+          alt={title}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      </div>
+      <Box>
         <Text size="lg" fw={500}>
           {title}
         </Text>
-        <Text color="dimmed" size="sm" mt="xs">
+        <Text c="dimmed" size="sm">
           {author}
         </Text>
       </Box>
-    </Card>
+    </Stack>
   );
 };
 
