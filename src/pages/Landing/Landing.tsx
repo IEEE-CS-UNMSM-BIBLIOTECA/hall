@@ -46,7 +46,8 @@ const Landing = () => {
           </Stack>
           <Box
             flex={4}
-            h="95vh"
+            h="100vh"
+            py="var(--mantine-spacing-xxl)"
             style={{
               overflowY: 'scroll',
               scrollbarWidth: 'none',
