@@ -9,6 +9,7 @@ const Component: MantineThemeComponent = {
   // ...Text.extend({ classNames: classes }),
   defaultProps: {
     fw: 300,
+    size: 'md',
   },
 };
 

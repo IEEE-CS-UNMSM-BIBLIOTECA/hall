@@ -1,5 +1,6 @@
 :root {
   --mantine-spacing-xxl: 3rem;
+  --mantine-spacing-xxxl: 5.3rem;
 }
 
 :root[data-mantine-color-scheme='dark'] {

@@ -2,18 +2,20 @@ import { IconMenu, IconProps, IconSearch } from '@tabler/icons-react';
 
 const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
   style: {
-    paddingLeft: 'var(--mantine-spacing-xl)',
-    paddingRight: 'var(--mantine-spacing-xl)',
-    paddingTop: 'var(--mantine-spacing-xl)',
-    height: '100%',
+    width: '100px',
+    height: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 };
 
 const iconProps: IconProps = {
-  // size: 'var(--mantine-spacing-lg)',
   size: 24,
-  style: { cursor: 'pointer' },
   stroke: 1.25,
+  style: {
+    cursor: 'pointer',
+  },
 };
 
 const PageShell = ({ children }: { children: React.ReactNode }) => (

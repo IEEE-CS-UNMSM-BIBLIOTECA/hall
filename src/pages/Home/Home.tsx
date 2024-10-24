@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Group, Stack, Text, Title } from '@mantine/core';
+import { Button, Center, Flex, Group, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
@@ -22,7 +22,7 @@ const Home = () => {
       <PageShell>
         <Flex
           w="100%"
-          gap="var(--mantine-spacing-xxl)"
+          gap="var(--mantine-spacing-xxxl)"
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'strech', md: 'center' }}
           justify="space-between"
@@ -43,19 +43,25 @@ const Home = () => {
               </Button>
             </Group>
           </Stack>
-          <Box
-            flex={2}
-            h="100vh"
-            py="var(--mantine-spacing-xxl)"
+          <div
             style={{
+              height: '100vh',
+              flex: 2,
               overflowY: 'scroll',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}
             className="hide-scrollbar"
           >
-            <BookSlider />
-          </Box>
+            <Stack gap={0}>
+              <Center h={100}>
+                {/* <Text size="lg">
+                  TEST
+                </Text> */}
+              </Center>
+              <BookSlider />
+            </Stack>
+          </div>
         </Flex>
       </PageShell>
     </>
