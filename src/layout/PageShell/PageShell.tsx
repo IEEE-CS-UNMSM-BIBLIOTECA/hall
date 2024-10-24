@@ -1,5 +1,6 @@
 import { useMatches } from '@mantine/core';
 import { IconMenu, IconProps, IconSearch } from '@tabler/icons-react';
+import { useLocation } from 'wouter';
 
 const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
   style: {
@@ -12,6 +13,8 @@ const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
 };
 
 const PageShell = ({ children }: { children: React.ReactNode }) => {
+  const [, setLocation] = useLocation();
+
   const iconSize = useMatches({
     base: 20,
     md: 24,
@@ -29,11 +32,16 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
     <>
       <div style={{ display: 'flex', height: '100%' }}>
         <div {...iconContainerProps}>
-          <IconSearch {...iconProps} />
+          <IconSearch
+            {...iconProps}
+            onClick={() => setLocation('/search')}
+          />
         </div>
         {children}
         <div {...iconContainerProps}>
-          <IconMenu {...iconProps} />
+          <IconMenu
+            {...iconProps}
+          />
         </div>
       </div>
     </>
