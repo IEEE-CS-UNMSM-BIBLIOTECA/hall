@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Group, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
 import './Landing.css';
 
-const WORDS = ['CUANDO', 'COMO', 'DONDE', 'LO QUE'];
+const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 
 const Landing = () => {
   const [word, setWord] = useState(0);
@@ -27,25 +27,24 @@ const Landing = () => {
           align={{ base: 'strech', md: 'center' }}
           justify="space-between"
         >
-          <Stack flex={1} gap="var(--mantine-spacing-xl)">
+          <Stack flex={1} gap="lg" align="flex-start">
             <Title>
-              LEE
-              <br />
-              <i>{WORDS[word]}</i>
-              <br />
-              QUIERAS.
+              Lee {WORDS[word]} quieras.
             </Title>
             <Text>
-              Descubre libros, recógelos cuando quieras.
-              <br />
-              Sin costo.
+              Descubre libros, recógelos cuando quieras. Sin costo.
             </Text>
-            <Button variant="primary" size="lg">
-              EMPIEZA HOY
-            </Button>
+            <Group>
+              <Button variant="primary" size="md">
+                EMPIEZA HOY
+              </Button>
+              <Button size="md">
+                INICIAR SESIÓN
+              </Button>
+            </Group>
           </Stack>
           <Box
-            flex={4}
+            flex={2}
             h="100vh"
             py="var(--mantine-spacing-xxl)"
             style={{
