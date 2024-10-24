@@ -5,7 +5,7 @@ const base = 85;
 const scale = 1.5;
 
 export default {
-  fontWeight: '300',
+  fontWeight: '200',
   sizes: {
     h1: {
       fontSize: rem(base / scale ** 0),

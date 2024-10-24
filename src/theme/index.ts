@@ -8,7 +8,7 @@ import components from './components';
 
 export const theme = createTheme({
   primaryColor: 'indigo',
-  fontFamily: 'Ubuntu, sans-serif',
+  fontFamily: 'Ubuntu Sans, sans-serif',
 
   colors,
   headings,
