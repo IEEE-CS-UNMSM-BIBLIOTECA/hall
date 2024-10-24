@@ -7,7 +7,9 @@ import {
 
 const Component: MantineThemeComponent = {
   // ...Text.extend({ classNames: classes }),
-  defaultProps: {},
+  defaultProps: {
+    fw: 300,
+  },
 };
 
 export default Component;

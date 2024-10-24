@@ -1,4 +1,4 @@
-import { Card, Image as MantineImage, Text, Box, Stack } from '@mantine/core';
+import { Image as MantineImage, Text, Box, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 interface BookCardProps {
