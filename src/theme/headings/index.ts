@@ -1,7 +1,7 @@
 import { rem } from '@mantine/core';
 import './headings.css';
 
-const base = 70;
+const base = 85;
 const scale = 1.5;
 
 export default {
