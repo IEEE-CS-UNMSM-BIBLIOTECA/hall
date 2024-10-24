@@ -51,7 +51,7 @@ const BookCard = ({ image, title, author }: BookCardProps) => {
         <Text size="lg" fw={500}>
           {title}
         </Text>
-        <Text c="dimmed" size="sm">
+        <Text size="sm">
           {author}
         </Text>
       </Box>
