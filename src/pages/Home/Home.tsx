@@ -27,7 +27,7 @@ const Home = () => {
           align={{ base: 'strech', md: 'center' }}
           justify="space-between"
         >
-          <Stack flex={1} gap="lg" align="flex-start">
+          <Stack flex={1} gap="xl" align="flex-start">
             <Title>
               Lee {WORDS[word]} quieras.
             </Title>
