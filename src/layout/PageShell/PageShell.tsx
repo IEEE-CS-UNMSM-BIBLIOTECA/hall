@@ -1,3 +1,4 @@
+import { useMatches } from '@mantine/core';
 import { IconMenu, IconProps, IconSearch } from '@tabler/icons-react';
 
 const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
@@ -10,26 +11,33 @@ const iconContainerProps: React.HTMLProps<HTMLDivElement> = {
   },
 };
 
-const iconProps: IconProps = {
-  size: 24,
-  stroke: 1.25,
-  style: {
-    cursor: 'pointer',
-  },
-};
+const PageShell = ({ children }: { children: React.ReactNode }) => {
+  const iconSize = useMatches({
+    base: 20,
+    md: 24,
+  });
 
-const PageShell = ({ children }: { children: React.ReactNode }) => (
-  <>
-    <div style={{ display: 'flex', height: '100%' }}>
-      <div {...iconContainerProps}>
-        <IconSearch {...iconProps} />
+  const iconProps: IconProps = {
+    size: iconSize,
+    stroke: 1.25,
+    style: {
+      cursor: 'pointer',
+    },
+  };
+
+  return (
+    <>
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div {...iconContainerProps}>
+          <IconSearch {...iconProps} />
+        </div>
+        {children}
+        <div {...iconContainerProps}>
+          <IconMenu {...iconProps} />
+        </div>
       </div>
-      {children}
-      <div {...iconContainerProps}>
-        <IconMenu {...iconProps} />
-      </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default PageShell;

@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Center, Flex, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
@@ -6,8 +6,29 @@ import './Home.css';
 
 const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 
+const LeftSection = ({ wordIndex }: { wordIndex: number }) => (
+  <div style={{ justifyContent: 'center', display: 'flex' }}>
+    <Stack flex={1} gap="xl" maw={400}>
+      <Title>
+        Lee {WORDS[wordIndex]} quieras.
+      </Title>
+      <Text>
+        Descubre libros, recógelos cuando quieras. Sin costo.
+      </Text>
+      <Flex gap="sm" direction={{ base: 'column', xl: 'row' }}>
+        <Button variant="primary" size="md" fullWidth>
+          EMPIEZA HOY
+        </Button>
+        <Button size="md" fullWidth>
+          INICIAR SESIÓN
+        </Button>
+      </Flex>
+    </Stack>
+  </div>
+);
+
 const Home = () => {
-  const [word, setWord] = useState(0);
+  const [wordIndex, setWord] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -22,27 +43,14 @@ const Home = () => {
       <PageShell>
         <Flex
           w="100%"
-          gap="var(--mantine-spacing-xxxl)"
+          gap={{ base: 'xl', md: 'var(--mantine-spacing-xxxl)' }}
           direction={{ base: 'column', md: 'row' }}
-          align={{ base: 'strech', md: 'center' }}
+          align={{ base: 'stretch', md: 'center' }}
           justify="space-between"
         >
-          <Stack flex={1} gap="xl" align="flex-start">
-            <Title>
-              Lee {WORDS[word]} quieras.
-            </Title>
-            <Text>
-              Descubre libros, recógelos cuando quieras. Sin costo.
-            </Text>
-            <Group>
-              <Button variant="primary" size="md">
-                EMPIEZA HOY
-              </Button>
-              <Button size="md">
-                INICIAR SESIÓN
-              </Button>
-            </Group>
-          </Stack>
+          <Box visibleFrom="md">
+            <LeftSection wordIndex={wordIndex} />
+          </Box>
           <div
             style={{
               height: '100vh',
@@ -57,8 +65,11 @@ const Home = () => {
               <Center h={100}>
                 {/* <Text size="lg">
                   TEST
-                </Text> */}
+                  </Text> */}
               </Center>
+              <Box hiddenFrom="md" mb="var(--mantine-spacing-xxl)">
+                <LeftSection wordIndex={wordIndex} />
+              </Box>
               <BookSlider />
             </Stack>
           </div>
