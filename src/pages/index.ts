@@ -1,8 +1,8 @@
-import Landing from './Landing';
+import Home from './Home';
 
 export default [
   {
     href: '/',
-    component: Landing,
+    component: Home,
   },
 ];

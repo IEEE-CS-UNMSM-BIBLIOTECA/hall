@@ -2,11 +2,11 @@ import { Box, Button, Flex, Group, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
-import './Landing.css';
+import './Home.css';
 
 const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 
-const Landing = () => {
+const Home = () => {
   const [word, setWord] = useState(0);
 
   useEffect(() => {
@@ -62,4 +62,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default Home;
