@@ -7,7 +7,11 @@ const App = () => {
     <div className="app-container">
       <Switch>
         {pages.map((page) => (
-          <Route key={page.href} path={page.href} component={page.component} />
+          <Route
+            key={page.href}
+            path={page.href}
+            component={page.component}
+          />
         ))}
       </Switch>
     </div>
