@@ -1,18 +1,18 @@
 import { Switch, Route } from 'wouter';
 
-import pages from '@/pages';
+import Home from './pages/Home';
+import Search from './pages/Search';
 
 const App = () => {
   return (
     <div className="app-container">
       <Switch>
-        {pages.map((page) => (
-          <Route
-            key={page.href}
-            path={page.href}
-            component={page.component}
-          />
-        ))}
+        <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/search">
+          <Search />
+        </Route>
       </Switch>
     </div>
   );
