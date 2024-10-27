@@ -42,7 +42,6 @@ const Home = () => {
     <>
       <PageShell>
         <Flex
-          w="100%"
           gap={{ base: 'xl', md: 'var(--mantine-spacing-xxxl)' }}
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'stretch', md: 'center' }}

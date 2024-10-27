@@ -1,6 +1,20 @@
-.side-icon-container {
-  padding-left: var(--mantine-spacing-xl);
-  padding-right: var(--mantine-spacing-xl);
-  padding-top: var(--mantine-spacing-xl);
-  height: 100%;
+.pageShell {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+}
+
+.iconContainer {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  stroke-width: 1.25px;
+  cursor: pointer;
 }
