@@ -1,12 +1,14 @@
+import PageShell from '@/layout/PageShell';
+
 const List = ({
   id,
 }: {
   id: string
 }) => {
   return (
-    <>
-      <div>{id}</div>
-    </>
+    <PageShell>
+      list/{id}
+    </PageShell>
   );
 };
 

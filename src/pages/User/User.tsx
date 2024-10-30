@@ -1,15 +1,17 @@
 import PageShell from '@/layout/PageShell';
 
-const Review = ({
+const User = ({
   id,
+  tab,
 }: {
-  id: string
+  id: string,
+  tab: string,
 }) => {
   return (
     <PageShell>
-      review/{id}
+      user/{id} ({tab})
     </PageShell>
   );
 };
 
-export default Review;
+export default User;

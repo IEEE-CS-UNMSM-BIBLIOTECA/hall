@@ -1,12 +1,14 @@
+import PageShell from '@/layout/PageShell';
+
 const Book = ({
   id,
 }: {
   id: string
 }) => {
   return (
-    <>
-      <div>{id}</div>
-    </>
+    <PageShell>
+      book/{id}
+    </PageShell>
   );
 };
 
