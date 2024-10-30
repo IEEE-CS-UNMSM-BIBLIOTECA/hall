@@ -2,7 +2,7 @@ import { Box, Button, Center, Flex, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
-import './Home.css';
+import './Books.css';
 
 const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 
@@ -27,7 +27,7 @@ const LeftSection = ({ wordIndex }: { wordIndex: number }) => (
   </div>
 );
 
-const Home = () => {
+const Books = () => {
   const [wordIndex, setWord] = useState(0);
 
   useEffect(() => {
@@ -78,4 +78,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Books;
