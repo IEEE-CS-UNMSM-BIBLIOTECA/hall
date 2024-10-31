@@ -1,4 +1,4 @@
-import { Switch, Route } from 'wouter';
+import { Switch, Route, Redirect } from 'wouter';
 
 import Books from './pages/Books';
 import Search from './pages/Search';
@@ -17,6 +17,9 @@ const App = () => {
   return (
     <div className="app-container">
       <Switch>
+        <Route path="/">
+          <Redirect to="/books" />
+        </Route>
         <Route path="/books">
           <Books />
         </Route>
@@ -27,19 +30,22 @@ const App = () => {
           <Reviews />
         </Route>
         <Route path="/book/:id">
-          {(params) => <Book id={params.id} />}
+          {({ id }) => <Book id={id} />}
         </Route>
         <Route path="/list/:id">
-          {(params) => <List id={params.id} />}
+          {({ id }) => <List id={id} />}
         </Route>
         <Route path="/review/:id">
-          {(params) => <Review id={params.id} />}
+          {({ id }) => <Review id={id} />}
+        </Route>
+        <Route path="/user/:id">
+          <Redirect to="/user/:id/reviews" />
         </Route>
         <Route path="/user/:id/reviews">
-          {(params) => <User id={params.id} tab="reviews" />}
+          {({ id }) => <User id={id} tab="reviews" />}
         </Route>
         <Route path="/user/:id/lists">
-          {(params) => <User id={params.id} tab="lists" />}
+          {({ id }) => <User id={id} tab="lists" />}
         </Route>
         <Route path="/search">
           <Search />

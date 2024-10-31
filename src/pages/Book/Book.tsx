@@ -7,7 +7,9 @@ const Book = ({
 }) => {
   return (
     <PageShell>
-      book/{id}
+      <div className="book-entry-container">
+        book/{id}
+      </div>
     </PageShell>
   );
 };

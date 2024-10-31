@@ -17,6 +17,11 @@
   height: 100dvh;
 }
 
+.book-entry-container {
+  display: flex;
+  width: 100;
+}
+
 .icon {
   color: var(--mantine-color-text);
   size: var(--mantine-font-size-sm);
