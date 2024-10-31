@@ -35,17 +35,11 @@ const App = () => {
         <Route path="/review/:id">
           {(params) => <Review id={params.id} />}
         </Route>
-        <Route path="/user/:id">
-          {(params) => (
-            <>
-              <Route path="/reviews">
-                <User id={params.id} tab="reviews" />
-              </Route>
-              <Route path="/lists">
-                <User id={params.id} tab="lists" />
-              </Route>
-            </>
-          )}
+        <Route path="/user/:id/reviews">
+          {(params) => <User id={params.id} tab="reviews" />}
+        </Route>
+        <Route path="/user/:id/lists">
+          {(params) => <User id={params.id} tab="lists" />}
         </Route>
         <Route path="/search">
           <Search />
