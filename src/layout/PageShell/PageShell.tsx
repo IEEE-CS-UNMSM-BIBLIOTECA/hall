@@ -1,14 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Tooltip, useMatches, Drawer, Text, Anchor, Flex } from '@mantine/core';
+import { Tooltip, useMatches, Drawer } from '@mantine/core';
 import { IconMenu, IconSearch } from '@tabler/icons-react';
-import styles from './PageShell.module.css';
 import { AUTHENTICATED_MENU_ITEMS, PUBLIC_MENU_ITEMS } from '@/constants/menuItems';
+import { SidebarMenu } from './components/SidebarMenu';
+import { LoginButton } from './components/LoginButton';
+import styles from './PageShell.module.css';
 
 const PageShell = ({ children }: { children: React.ReactNode }) => {
   const [, setLocation] = useLocation();
   const [opened, setOpened] = useState(false);
-  const [authenticated] = useState(true);
+  const [authenticated] = useState(false);
 
   const iconSize = useMatches({
     base: 20,
@@ -35,7 +37,9 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
             />
           </Tooltip>
         </div>
+
         <div className={styles.content}>{children}</div>
+
         <div className={styles.iconContainer}>
           <IconMenu onClick={() => setOpened(true)} className={styles.icon} size={iconSize} />
         </div>
@@ -43,6 +47,7 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
 
       <Drawer.Root opened={opened} onClose={() => setOpened(false)} position="right" size="sm">
         <Drawer.Overlay />
+
         <Drawer.Content p={10}>
           <Drawer.Header>
             <Drawer.CloseButton
@@ -53,48 +58,11 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
           </Drawer.Header>
 
           <Drawer.Body>
-            <Flex pt={30} direction="column" className={styles.sidebarContent}>
-              {menuItems.map(({ label, link }) => (
-                <Anchor
-                  key={label}
-                  variant="text"
-                  underline="never"
-                  size="xl"
-                  onClick={() => setLocation(link)}
-                  style={{
-                    opacity: 1,
-                    transition: 'opacity 0.2s',
-                    color: 'var(--mantine-color-primary)',
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.opacity = '0.5';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.opacity = '1';
-                  }}
-                >
-                  {label}
-                </Anchor>
-              ))}
-            </Flex>
+            <SidebarMenu menuItems={menuItems} />
           </Drawer.Body>
 
-          {
-            !authenticated && (
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  padding: '2rem 1rem',
-                  textAlign: 'left',
-                }}
-              >
-                <Text fz={25} style={{ cursor: 'pointer' }} onClick={() => setLocation('/login')}>
-                  INICIAR SESIÓN
-                </Text>
-              </div>
-            )
-          }
+          {!authenticated && <LoginButton />}
+
         </Drawer.Content>
       </Drawer.Root>
     </>
