@@ -1,4 +1,3 @@
-import { Image } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import PageShell from '@/layout/PageShell';
 import { getBook } from '@/services/api';
@@ -23,9 +22,6 @@ const Book = ({
         <img
           src={bookQuery.data.image}
           alt={`Portada de ${bookQuery.data.title}`}
-          style={{
-            height: '100%',
-          }}
         />
       </div>
     </PageShell>
