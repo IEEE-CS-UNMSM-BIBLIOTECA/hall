@@ -1,12 +1,6 @@
 import PageShell from '@/layout/PageShell';
 
-const User = ({
-  id,
-  tab,
-}: {
-  id: string,
-  tab: string,
-}) => {
+const User = ({ id, tab }: { id: string; tab: string }) => {
   return (
     <PageShell>
       user/{id} ({tab})
