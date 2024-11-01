@@ -9,12 +9,8 @@ const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 const LeftSection = ({ wordIndex }: { wordIndex: number }) => (
   <div style={{ justifyContent: 'center', display: 'flex' }}>
     <Stack flex={1} gap="xl" maw={400}>
-      <Title>
-        Lee {WORDS[wordIndex]} quieras.
-      </Title>
-      <Text>
-        Descubre libros, recógelos cuando quieras. Sin costo.
-      </Text>
+      <Title>Lee {WORDS[wordIndex]} quieras.</Title>
+      <Text>Descubre libros, recógelos cuando quieras. Sin costo.</Text>
       <Flex gap="sm" direction={{ base: 'column', xl: 'row' }}>
         <Button variant="primary" size="md" fullWidth>
           EMPIEZA HOY

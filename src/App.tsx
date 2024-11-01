@@ -29,24 +29,14 @@ const App = () => {
         <Route path="/reviews">
           <Reviews />
         </Route>
-        <Route path="/book/:id">
-          {({ id }) => <Book id={id} />}
-        </Route>
-        <Route path="/list/:id">
-          {({ id }) => <List id={id} />}
-        </Route>
-        <Route path="/review/:id">
-          {({ id }) => <Review id={id} />}
-        </Route>
+        <Route path="/book/:id">{({ id }) => <Book id={id} />}</Route>
+        <Route path="/list/:id">{({ id }) => <List id={id} />}</Route>
+        <Route path="/review/:id">{({ id }) => <Review id={id} />}</Route>
         <Route path="/user/:id">
           <Redirect to="/user/:id/reviews" />
         </Route>
-        <Route path="/user/:id/reviews">
-          {({ id }) => <User id={id} tab="reviews" />}
-        </Route>
-        <Route path="/user/:id/lists">
-          {({ id }) => <User id={id} tab="lists" />}
-        </Route>
+        <Route path="/user/:id/reviews">{({ id }) => <User id={id} tab="reviews" />}</Route>
+        <Route path="/user/:id/lists">{({ id }) => <User id={id} tab="lists" />}</Route>
         <Route path="/search">
           <Search />
         </Route>

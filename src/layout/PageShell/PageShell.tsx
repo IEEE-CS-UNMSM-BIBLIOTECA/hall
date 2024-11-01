@@ -62,7 +62,6 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
           </Drawer.Body>
 
           {!authenticated && <LoginButton />}
-
         </Drawer.Content>
       </Drawer.Root>
     </>

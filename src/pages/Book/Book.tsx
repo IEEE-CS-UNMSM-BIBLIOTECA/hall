@@ -1,15 +1,9 @@
 import PageShell from '@/layout/PageShell';
 
-const Book = ({
-  id,
-}: {
-  id: string
-}) => {
+const Book = ({ id }: { id: string }) => {
   return (
     <PageShell>
-      <div className="book-entry-container">
-        book/{id}
-      </div>
+      <div className="book-entry-container">book/{id}</div>
     </PageShell>
   );
 };
