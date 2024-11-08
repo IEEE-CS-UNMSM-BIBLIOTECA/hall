@@ -92,10 +92,10 @@ const Book = ({
               </section>
               <section className="group gap-xs">
                 <Button variant="primary">
-                  Separar copia
+                  SEPARAR COPIA
                 </Button>
                 <Button>
-                  Añadir a lista
+                  AÑADIR A LISTA
                 </Button>
               </section>
               <section>
@@ -131,7 +131,7 @@ const Book = ({
               <header className="group space-between align-center">
                 RESEÑAS
                 <Button>
-                  Añadir reseña
+                  NUEVA RESEÑA
                 </Button>
               </header>
               <section className="stack gap-xl">
