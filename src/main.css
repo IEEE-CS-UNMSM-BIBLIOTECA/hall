@@ -12,27 +12,99 @@
   --mantine-color-body: var(--mantine-color-gray-0);
 }
 
+/* layout */
+
 .app-container {
   width: 100dvw;
   height: 100dvh;
 }
 
-.flex-center {
+.flex-center-page {
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
-.flex-center > * {
+.flex-center-page > * {
   height: 100%;
   max-height: 750px;
+  min-width: 400px;
+  max-width: 500px;
 }
 
-.icon {
-  color: var(--mantine-color-text);
-  size: var(--mantine-font-size-sm);
+.vertical-scroll {
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
 }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.group {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/* spacing */
+
+.gap-xs { gap: var(--mantine-spacing-xs); }
+.gap-sm { gap: var(--mantine-spacing-sm); }
+.gap-md { gap: var(--mantine-spacing-md); }
+.gap-lg { gap: var(--mantine-spacing-lg); }
+.gap-xl { gap: var(--mantine-spacing-xl); }
+.gap-xxl { gap: var(--mantine-spacing-xxl); }
+.gap-xxxl { gap: var(--mantine-spacing-xxxl); }
+
+.py-xxl {
+  padding-top: var(--mantine-spacing-xxl);
+  padding-bottom: var(--mantine-spacing-xxl);
+}
+
+/* styling */
+
+.icon-button {
+  color: var(--mantine-color-text);
+  stroke-width: 1.25;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.explicit,
+a:hover {
+  text-decoration: underline;
+}
+
+a.no-underline {
+  text-decoration: none;
+}
+
+.c-dimmed {
+  color: var(--mantine-color-dark-3);
+}
+
+.fz-xs { font-size: var(--mantine-font-size-xs); }
+.fz-sm { font-size: var(--mantine-font-size-sm); }
+.fz-md { font-size: var(--mantine-font-size-md); }
+.fz-lg { font-size: var(--mantine-font-size-lg); }
+.fz-xl { font-size: var(--mantine-font-size-xl); }
+
+/* masonry */
 
 .my-masonry-grid {
   display: flex;

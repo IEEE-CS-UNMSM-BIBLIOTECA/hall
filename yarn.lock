@@ -4130,6 +4130,11 @@ react-is@^18.0.0:
 react-is@18.1.0:
   version "18.1.0"
 
+react-lorem-ipsum@^1.4.10:
+  version "1.4.10"
+  resolved "https://registry.npmjs.org/react-lorem-ipsum/-/react-lorem-ipsum-1.4.10.tgz"
+  integrity sha512-PCEuauLZTGJkm++oxJeUycEgQOBg3qmmD7pn5sUyq9e0OvvNbW32RKQsSgalAYGUIbS91UkDgxvt6iHVAsqYJw==
+
 react-masonry-css@^1.0.16:
   version "1.0.16"
   resolved "https://registry.npmjs.org/react-masonry-css/-/react-masonry-css-1.0.16.tgz"

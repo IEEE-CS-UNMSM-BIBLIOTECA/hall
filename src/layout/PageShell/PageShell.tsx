@@ -3,7 +3,7 @@ import { IconMenu, IconSearch } from '@tabler/icons-react';
 import { useLocation } from 'wouter';
 import styles from './PageShell.module.css';
 
-const PageShell = ({ children }: { children: React.ReactNode }) => {
+const PageShell = ({ children }: { children?: React.ReactNode }) => {
   const [, setLocation] = useLocation();
 
   const iconSize = useMatches({
@@ -16,7 +16,7 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
       <div className={styles.pageShell}>
         <div className={styles.iconContainer}>
           <IconSearch
-            className={styles.icon}
+            className="icon-button"
             size={iconSize}
             onClick={() => setLocation('/search')}
           />
@@ -26,7 +26,7 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div className={styles.iconContainer}>
           <IconMenu
-            className={styles.icon}
+            className="icon-button"
             size={iconSize}
           />
         </div>
