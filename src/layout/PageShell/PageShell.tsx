@@ -31,16 +31,11 @@ const PageShell = ({ children }: { children?: React.ReactNode }) => {
             transitionProps={{ duration: 200, transition: 'fade-down' }}
           >
             <IconSearch
-              className={styles.icon}
+              className="icon-button"
               size={iconSize}
               onClick={() => setLocation('/search')}
             />
           </Tooltip>
-          <IconSearch
-            className="icon-button"
-            size={iconSize}
-            onClick={() => setLocation('/search')}
-          />
         </div>
 
         <div className={styles.content}>{children}</div>
