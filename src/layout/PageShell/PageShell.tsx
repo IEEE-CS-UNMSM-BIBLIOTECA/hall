@@ -44,6 +44,7 @@ const PageShell = ({ children }: { children?: React.ReactNode }) => {
           <IconMenu
             className="icon-button"
             size={iconSize}
+            onClick={() => setOpened(true)}
           />
         </div>
       </div>
