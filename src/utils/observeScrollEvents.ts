@@ -13,24 +13,30 @@ const setScrollClasses = (el: HTMLElement) => {
   el.classList.toggle('is-top-overflowing', !isScrolledToTop);
 };
 
-export default () => {
-  const handleScroll = (e: Event) => {
-    const el = e.currentTarget;
+const handleScroll = (e: Event) => {
+  const el = e.currentTarget;
+  if (el instanceof HTMLElement) {
+    setScrollClasses(el);
+  }
+};
+
+const addScrollListeners = () => {
+  const elements = document.querySelectorAll('.vertical-scroll');
+  elements.forEach((el) => {
+    // if (!el.classList.contains('is-bottom-overflowing')) {
+    //   el.classList.add('is-bottom-overflowing');
+    // }
     if (el instanceof HTMLElement) {
       setScrollClasses(el);
     }
-  };
+    el.addEventListener('scroll', handleScroll);
+  });
+};
 
-  const addScrollListeners = () => {
-    const elements = document.querySelectorAll('.vertical-scroll');
-    elements.forEach((element) => {
-      element.addEventListener('scroll', handleScroll);
-    });
-  };
-
+export default () => {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-      if (mutation.type === 'childList' || mutation.type === 'attributes') {
+      if (mutation.type === 'childList') {
         addScrollListeners();
       }
     });
@@ -43,10 +49,6 @@ export default () => {
     attributeFilter: ['class'],
   });
 
-  // Initial call to add listeners to existing elements
-  addScrollListeners();
-
-  // Cleanup function to disconnect the observer and remove event listeners
   return () => {
     observer.disconnect();
     const elements = document.querySelectorAll('.vertical-scroll');

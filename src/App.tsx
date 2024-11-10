@@ -40,8 +40,8 @@ const App = () => {
         <Route path="/user/:id">
           <Redirect to="/user/:id/reviews" />
         </Route>
-        <Route path="/user/:id/reviews">{({ id }) => <User id={id} tab="reviews" />}</Route>
-        <Route path="/user/:id/lists">{({ id }) => <User id={id} tab="lists" />}</Route>
+        <Route path="/user/:id/reviews">{({ id }) => <User id={id} initialTab="reviews" />}</Route>
+        <Route path="/user/:id/lists">{({ id }) => <User id={id} initialTab="lists" />}</Route>
         <Route path="/search">
           <Search />
         </Route>

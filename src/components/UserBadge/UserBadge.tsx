@@ -5,7 +5,7 @@ const UserBadge = ({ name, id }: {
   id: number;
 }) => {
   return (
-    <div className="group gap-xs align-center">
+    <div className="group gap-xs ai-center">
       <Avatar size="sm" />
       <a href={`/user/${id}`} className="fz-sm">
         {name}

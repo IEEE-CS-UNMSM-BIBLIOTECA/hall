@@ -41,7 +41,7 @@ const Books = () => {
           gap={{ base: 'xl', md: 'var(--mantine-spacing-xxxl)' }}
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'stretch', md: 'center' }}
-          justify="space-between"
+          justify="jc-space-between"
         >
           <Box visibleFrom="md">
             <LeftSection wordIndex={wordIndex} />

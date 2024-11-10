@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
+import observeScrollEvents from '@/utils/observeScrollEvents';
 
 const useAppStart = () => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    observeScrollEvents();
+  }, []);
 };
 
 export default useAppStart;

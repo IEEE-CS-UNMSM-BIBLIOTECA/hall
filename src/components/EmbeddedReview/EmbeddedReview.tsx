@@ -1,10 +1,10 @@
-import { Avatar, Spoiler, Title } from '@mantine/core';
-import { EmbeddedReviewType } from '../../types';
+import { Spoiler, Title } from '@mantine/core';
+import { ReviewType } from '../../types';
 import LikeButton from '../LikeButton';
 import UserBadge from '../UserBadge';
 
 const EmbeddedReview = ({ data }: {
-  data: EmbeddedReviewType;
+  data: ReviewType;
 }) => {
   return (
     <article className="stack gap-md">
@@ -24,7 +24,7 @@ const EmbeddedReview = ({ data }: {
           {data.content}
         </Spoiler>
       </p>
-      <footer className="group space-between align-center">
+      <footer className="group jc-space-between ai-center">
         <UserBadge name={data.author.name} id={data.author.id} />
         <LikeButton
           totalLikes={data.total_likes}
