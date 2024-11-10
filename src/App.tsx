@@ -12,8 +12,13 @@ import Settings from './pages/Settings';
 import Lends from './pages/Lends';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import useAppStart from './hooks/useAppStart';
+import useLocationChange from './hooks/useLocationChange';
 
 const App = () => {
+  useAppStart();
+  useLocationChange();
+
   return (
     <div className="app-container">
       <Switch>
@@ -35,8 +40,8 @@ const App = () => {
         <Route path="/user/:id">
           <Redirect to="/user/:id/reviews" />
         </Route>
-        <Route path="/user/:id/reviews">{({ id }) => <User id={id} tab="reviews" />}</Route>
-        <Route path="/user/:id/lists">{({ id }) => <User id={id} tab="lists" />}</Route>
+        <Route path="/user/:id/reviews">{({ id }) => <User id={id} initialTab="reviews" />}</Route>
+        <Route path="/user/:id/lists">{({ id }) => <User id={id} initialTab="lists" />}</Route>
         <Route path="/search">
           <Search />
         </Route>

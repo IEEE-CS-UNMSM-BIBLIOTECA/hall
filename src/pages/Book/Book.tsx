@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { Button, Rating, Spoiler, Title } from '@mantine/core';
+import { Button, Rating, Title } from '@mantine/core';
 import LoremIpsum from 'react-lorem-ipsum';
 import PageShell from '@/layout/PageShell';
 import { getBook } from '@/services/api';
-import { EmbeddedReviewType } from '@/types';
+import { ReviewType } from '@/types';
 import EmbeddedReview from '@/components/EmbeddedReview';
 
 const mockTags = [
@@ -16,7 +16,7 @@ const mockTags = [
   { id: '7', name: 'Self-learning' },
 ];
 
-const mockReviews: EmbeddedReviewType[] = [
+const mockReviews: ReviewType[] = [
   {
     id: 1,
     title: 'Excelente',
@@ -63,13 +63,13 @@ const Book = ({
 
   return (
     <PageShell>
-      <div className="flex-center-page gap-xl">
+      <div className="page-container gap-xl">
         <img
           src={bookQuery.data.image}
           alt={`Portada de ${bookQuery.data.title}`}
         />
         <div className="vertical-scroll">
-          <div className="stack gap-xxl py-xxl">
+          <div className="stack gap-xxl">
             <main className="stack gap-xl">
               <section>
                 <Rating
@@ -98,22 +98,18 @@ const Book = ({
                   AÑADIR A LISTA
                 </Button>
               </section>
-              <section>
-                <Spoiler
-                  hideLabel="Leer menos"
-                  showLabel="Leer más"
-                  maxHeight={115}
-                >
-                  { /* {bookQuery.data.description} */ }
-                  <LoremIpsum p={1} />
-                </Spoiler>
+              <section
+                className="vertical-scroll"
+                style={{ maxHeight: '100px' }}
+              >
+                <LoremIpsum p={1} />
               </section>
               <section className="stack gap-xs">
                 TAGS
                 <div className="c-dimmed fz-sm">
                   {
                     mockTags.map((tag, i) => (
-                      <span>
+                      <span key={tag.id}>
                         <a
                           href={`/tag/${tag.id}`}
                           key={tag.id}
@@ -128,7 +124,7 @@ const Book = ({
               </section>
             </main>
             <section className="stack gap-lg">
-              <header className="group space-between align-center">
+              <header className="group jc-space-between ai-center">
                 RESEÑAS
                 <Button>
                   NUEVA RESEÑA
@@ -137,9 +133,11 @@ const Book = ({
               <section className="stack gap-xl">
               {
                 mockReviews.map((review) => (
-                  <EmbeddedReview
-                    data={review}
-                  />
+                  <div key={review.id}>
+                    <EmbeddedReview
+                      data={review}
+                    />
+                  </div>
                 ))
               }
               </section>
