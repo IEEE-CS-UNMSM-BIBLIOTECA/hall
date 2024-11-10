@@ -12,8 +12,13 @@ import Settings from './pages/Settings';
 import Lends from './pages/Lends';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import useAppStart from './hooks/useAppStart';
+import useLocationChange from './hooks/useLocationChange';
 
 const App = () => {
+  useAppStart();
+  useLocationChange();
+
   return (
     <div className="app-container">
       <Switch>
