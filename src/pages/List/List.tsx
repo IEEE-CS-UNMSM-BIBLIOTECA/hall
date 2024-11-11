@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { Avatar, Center, Flex, Stack, Title, Text } from '@mantine/core';
+import { IconHeart, IconBook, IconDots } from '@tabler/icons-react';
 import PageShell from '@/layout/PageShell';
 import { Book } from '@/interfaces';
 import BookCard from '@/components/BookCard';
@@ -12,9 +13,10 @@ const List = ({ id }: { id: string }) => {
 
   const breakpointColumnsObj = {
     default: 5, // Número de columnas por defecto
-    1200: 4, // Para pantallas más pequeñas (max-width: 1200px)
-    900: 2, // Para pantallas más pequeñas (max-width: 900px)
-    600: 1, // Para pantallas más pequeñas (max-width: 600px)
+    1536: 4, // Para pantallas más pequeñas (max-width: 1536px)
+    1280: 3,
+    768: 2,
+    480: 1,
   };
 
   useEffect(() => {
@@ -56,19 +58,39 @@ const List = ({ id }: { id: string }) => {
         >
           <Stack gap={0}>
             <Center h={100}>lista de libros con id: {id}</Center>
-            <Title order={2} fw={300} style={{ marginBottom: 'var(--mantine-spacing-md)' }}>
-              Libros con portada azul
-            </Title>
+            <Flex align="center" justify="space-between">
+              <Title order={2} fw={350} style={{ marginBottom: 'var(--mantine-spacing-md)' }}>
+                Libros con portada azul
+              </Title>
+              <IconDots size={30} />
+            </Flex>
             <div
-              style={{ display: 'flex', gap: 'var(--mantine-spacing-md)', alignItems: 'center', marginBottom: 'var(--mantine-spacing-md)' }}
+              style={{
+                display: 'flex',
+                gap: 'var(--mantine-spacing-md)',
+                alignItems: 'center',
+                marginBottom: 'var(--mantine-spacing-md)',
+              }}
             >
-              <Avatar
-                src="https://imgmedia.libero.pe/652x358/libero/original/2022/10/03/633b65ed2883df3ae046fcdd.webp"
-                size="sm"
-              />
-              <div>
-                <Text>Jesús Andrés Luján Carrión</Text>
-              </div>
+              <Flex align="center" justify="center" direction={{ base: 'column', sm: 'row' }} gap="xs">
+                <Flex align="center" gap="xs">
+                  <Avatar
+                    src="https://imgmedia.libero.pe/652x358/libero/original/2022/10/03/633b65ed2883df3ae046fcdd.webp"
+                    size="sm"
+                  />
+                  <Text>Jesús Andrés Luján Carrión</Text>
+                </Flex>
+                <Flex align="center" gap="xs" style={{ marginLeft: 'var(--mantine-spacing-lg)' }}>
+                  <Flex align="center" gap="xs">
+                    <IconHeart size={20} />
+                    23
+                  </Flex>
+                  <Flex align="center" justify="center" gap="xs">
+                    <IconBook size={20} />
+                    50 libros
+                  </Flex>
+                </Flex>
+              </Flex>
             </div>
             <Masonry
               breakpointCols={breakpointColumnsObj}
