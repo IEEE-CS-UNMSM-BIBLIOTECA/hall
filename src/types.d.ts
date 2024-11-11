@@ -38,7 +38,7 @@ export interface ReviewType {
   rating: number;
   total_likes: number;
   liked: boolean;
-  author: {
+  user: {
     id: number;
     name: string;
     profile_picture_url: string;

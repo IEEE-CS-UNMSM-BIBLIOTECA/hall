@@ -56,7 +56,7 @@ const Review = ({ id }: { id: string }) => {
               </a>
             </div>
           </section>
-          <main className="vertical-scroll py-xxl stack gap-lg">
+          <main className="vertical-scroll stack gap-lg">
             <Rating
               readOnly
               value={reviewQuery.data.rating}

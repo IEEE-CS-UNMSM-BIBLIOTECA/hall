@@ -19,6 +19,13 @@
   height: 100dvh;
 }
 
+.page-header {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .page-container {
   display: flex;
   height: 100vh;
@@ -43,8 +50,8 @@
   -ms-overflow-style: none;
 }
 
-.vertical-scroll.is-top-overflowing { --top-mask-size: 64px !important; }
-.vertical-scroll.is-bottom-overflowing { --bottom-mask-size: 64px !important; }
+.vertical-scroll.is-top-overflowing { --top-mask-size: 48px !important; }
+.vertical-scroll.is-bottom-overflowing { --bottom-mask-size: 48px !important; }
 
 .stack {
   display: flex;
@@ -136,9 +143,17 @@ img.square-xl { width: 450px; height: 450px; }
   align-items: flex-end;
 }
 
+.list-preview.big {
+  height: 400px;
+}
+
 .list-preview > * {
   height: 250px;
   position: relative;
+}
+
+.list-preview.big > * {
+  height: 350px;
 }
 
 /* masonry */

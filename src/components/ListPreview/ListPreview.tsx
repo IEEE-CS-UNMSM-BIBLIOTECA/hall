@@ -2,12 +2,13 @@ import { Title } from '@mantine/core';
 import { ListType } from '@/types';
 import LikeButton from '../LikeButton';
 
-const ListPreview = ({ data }: {
-  data: ListType
+const ListPreview = ({ data, big }: {
+  data: ListType,
+  big?: boolean,
 }) => {
   return (
     <div className="stack gap-lg">
-      <div className="list-preview">
+      <div className={`list-preview ${big && 'big'}`}>
       {
         data.preview_images.map((url, i) => (
           <img
