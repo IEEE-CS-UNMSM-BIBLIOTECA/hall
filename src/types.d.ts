@@ -31,6 +31,11 @@ export interface DocumentType {
   }[]
 }
 
+export interface TagType {
+  id: number;
+  name: string;
+}
+
 export interface ReviewType {
   id: number;
   title: string;

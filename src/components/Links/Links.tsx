@@ -3,13 +3,13 @@ export interface LinkType {
   label: string;
 }
 
-interface LinksProps extends React.HTMLProps<HTMLDivElement> {
+interface LinksProps extends React.HTMLProps<HTMLSpanElement> {
   links: LinkType[];
 }
 
 const Links = ({ links, ...rest }: LinksProps) => {
   return (
-    <div {...rest}>
+    <span {...rest}>
       {
         links.map(({ href, label }, i) => (
           <span key={href}>
@@ -20,7 +20,7 @@ const Links = ({ links, ...rest }: LinksProps) => {
           </span>
         ))
       }
-    </div>
+    </span>
   );
 };
 
