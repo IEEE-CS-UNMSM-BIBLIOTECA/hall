@@ -124,6 +124,10 @@ a.no-underline {
 .fz-lg { font-size: var(--mantine-font-size-lg); }
 .fz-xl { font-size: var(--mantine-font-size-xl); }
 
+.fw-normal { font-weight: normal; }
+.fw-semibold { font-weight: 500; }
+.fw-bold { font-weight: bold; }
+
 /* images */
 
 img {

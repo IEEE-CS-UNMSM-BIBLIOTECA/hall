@@ -49,10 +49,10 @@ export interface ReviewTypeFull extends ReviewType {
   book: {
     id: number;
     title: string;
-    author: {
+    authors: {
       id: number;
       name: string;
-    }
+    }[]
     cover_url: string;
   }
 }

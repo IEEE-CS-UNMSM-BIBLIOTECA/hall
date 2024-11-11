@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { Button, Rating, Title } from '@mantine/core';
+import { Button, Rating, Spoiler, Title } from '@mantine/core';
 import LoremIpsum from 'react-lorem-ipsum';
 import PageShell from '@/layout/PageShell';
 import { getBook } from '@/services/api';
 import { ReviewType } from '@/types';
 import EmbeddedReview from '@/components/EmbeddedReview';
+import Links from '@/components/Links';
 
 const mockTags = [
   { id: '1', name: 'Graphic design' },
@@ -24,7 +25,7 @@ const mockReviews: ReviewType[] = [
     rating: 5,
     total_likes: 10,
     liked: true,
-    author: {
+    user: {
       id: 1,
       name: 'John Doe',
       profile_picture_url: 'https://placehold.co/50x50',
@@ -37,7 +38,7 @@ const mockReviews: ReviewType[] = [
     rating: 4,
     total_likes: 5,
     liked: false,
-    author: {
+    user: {
       id: 2,
       name: 'Jane Doe',
       profile_picture_url: 'https://placehold.co/50x50',
@@ -98,29 +99,21 @@ const Book = ({
                   AÑADIR A LISTA
                 </Button>
               </section>
-              <section
-                className="vertical-scroll"
-                style={{ maxHeight: '100px' }}
+              <Spoiler
+                hideLabel="Leer menos"
+                showLabel="Leer más"
               >
                 <LoremIpsum p={1} />
-              </section>
+              </Spoiler>
               <section className="stack gap-xs">
                 TAGS
-                <div className="c-dimmed fz-sm">
-                  {
-                    mockTags.map((tag, i) => (
-                      <span key={tag.id}>
-                        <a
-                          href={`/tag/${tag.id}`}
-                          key={tag.id}
-                        >
-                          #{tag.name}
-                        </a>
-                        {i !== (mockTags.length - 1) && ', '}
-                      </span>
-                    ))
-                  }
-                </div>
+                <Links
+                  links={mockTags.map((tag) => ({
+                    href: `/tag/${tag.id}`,
+                    label: `#${tag.name}`,
+                  }))}
+                  className="c-dimmed fz-sm"
+                />
               </section>
             </main>
             <section className="stack gap-lg">

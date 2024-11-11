@@ -3,6 +3,7 @@ import Card from './Card';
 import Text from './Text';
 import Select from './Select';
 import TextInput from './TextInput';
+import Rating from './Rating';
 
 export default {
   Button,
@@ -10,4 +11,5 @@ export default {
   Text,
   Select,
   TextInput,
+  Rating,
 };
