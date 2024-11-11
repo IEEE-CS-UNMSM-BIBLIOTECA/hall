@@ -19,8 +19,8 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
 
   return (
     <PageShell>
-      <div className="page-container gap-xxl">
-        <section className="stack gap-xxl jc-center">
+      <div className="page-container gap-xxxl">
+        <section className="stack gap-xxl jc-center" style={{ flex: 0.2 }}>
           <img
             src={mockUser.profile_picture_url}
             alt={mockUser.username}
@@ -58,7 +58,7 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
               LISTAS
             </Button>
           </div>
-          <div className="vertical-scroll" style={{ flex: 1 }}>
+          <div className="vertical-scroll">
           {
             currentTab === 'lists' && (
               <UserLists userId={id} />
