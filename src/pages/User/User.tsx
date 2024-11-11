@@ -13,6 +13,23 @@ const mockUser: UserType = {
   profile_picture_url: 'https://placehold.it/500',
 };
 
+const LinkButton = ({ children, onClick, active }: {
+  children: React.ReactNode;
+  onClick: () => void;
+  active: boolean;
+}) => {
+  return (
+    <Button
+      c="black"
+      variant="transparent"
+      onClick={onClick}
+      styles={{ label: { textDecoration: active ? 'underline' : 'none' } }}
+    >
+      {children}
+    </Button>
+  );
+};
+
 const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
   const [currentTab, setCurrentTab] = useState<string>(initialTab);
   const [, setLocation] = useLocation();
@@ -35,28 +52,26 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
             </p>
           </div>
         </section>
-        <section className="stack gap-xl">
+        <section className="stack gap-xxl">
           <div className="group grow ta-center">
-            <Button
-              variant="transparent"
-              c="black"
+            <LinkButton
               onClick={() => {
                 setCurrentTab('reviews');
                 setLocation(`/user/${id}/reviews`);
               }}
+              active={currentTab === 'reviews'}
             >
               RESEÑAS
-            </Button>
-            <Button
-              variant="transparent"
-              c="black"
+            </LinkButton>
+            <LinkButton
               onClick={() => {
                 setCurrentTab('lists');
                 setLocation(`/user/${id}/lists`);
               }}
+              active={currentTab === 'lists'}
             >
               LISTAS
-            </Button>
+            </LinkButton>
           </div>
           <div className="vertical-scroll">
           {

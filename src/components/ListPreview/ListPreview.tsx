@@ -15,9 +15,9 @@ const ListPreview = ({ data }: {
             src={url}
             alt=""
             style={{
-              top: `-${i * 5}px`,
-              left: `-${i * 30}px`,
-              opacity: 1 - (i * 0.2),
+              top: `-${i * 7}px`,
+              left: `-${i * 50}px`,
+              // opacity: 1 - (i * 0.2),
               zIndex: data.preview_images.length - i,
             }}
           />
