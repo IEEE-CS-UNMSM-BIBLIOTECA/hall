@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
-import { Box, Center, Flex, Stack } from '@mantine/core';
+import { Avatar, Center, Flex, Stack, Title, Text } from '@mantine/core';
 import PageShell from '@/layout/PageShell';
 import { Book } from '@/interfaces';
 import BookCard from '@/components/BookCard';
@@ -55,9 +55,21 @@ const List = ({ id }: { id: string }) => {
           className="hide-scrollbar"
         >
           <Stack gap={0}>
-            <Center h={100}>
-              id: {id}
-            </Center>
+            <Center h={100}>lista de libros con id: {id}</Center>
+            <Title order={2} fw={300} style={{ marginBottom: 'var(--mantine-spacing-md)' }}>
+              Libros con portada azul
+            </Title>
+            <div
+              style={{ display: 'flex', gap: 'var(--mantine-spacing-md)', alignItems: 'center', marginBottom: 'var(--mantine-spacing-md)' }}
+            >
+              <Avatar
+                src="https://imgmedia.libero.pe/652x358/libero/original/2022/10/03/633b65ed2883df3ae046fcdd.webp"
+                size="sm"
+              />
+              <div>
+                <Text>Jesús Andrés Luján Carrión</Text>
+              </div>
+            </div>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="my-masonry-grid"
