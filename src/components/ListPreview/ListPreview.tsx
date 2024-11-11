@@ -18,6 +18,7 @@ const ListPreview = ({ data }: {
               top: `-${i * 5}px`,
               left: `-${i * 30}px`,
               opacity: 1 - (i * 0.2),
+              zIndex: data.preview_images.length - i,
             }}
           />
         ))
