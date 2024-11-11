@@ -25,7 +25,7 @@ const ListPreview = ({ data }: {
       }
       </div>
       <div className="stack gap-sm">
-        <Title order={2}>
+        <Title order={3}>
           <a href={`/list/${data.id}`} className="no-underline">
             {data.title}
           </a>
