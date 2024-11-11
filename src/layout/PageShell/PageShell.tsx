@@ -7,7 +7,7 @@ import { SidebarMenu } from './components/SidebarMenu';
 import { LoginButton } from './components/LoginButton';
 import styles from './PageShell.module.css';
 
-const PageShell = ({ children }: { children: React.ReactNode }) => {
+const PageShell = ({ children }: { children?: React.ReactNode }) => {
   const [, setLocation] = useLocation();
   const [opened, setOpened] = useState(false);
   const [authenticated] = useState(false);
@@ -31,7 +31,7 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
             transitionProps={{ duration: 200, transition: 'fade-down' }}
           >
             <IconSearch
-              className={styles.icon}
+              className="icon-button"
               size={iconSize}
               onClick={() => setLocation('/search')}
             />
@@ -41,7 +41,11 @@ const PageShell = ({ children }: { children: React.ReactNode }) => {
         <div className={styles.content}>{children}</div>
 
         <div className={styles.iconContainer}>
-          <IconMenu onClick={() => setOpened(true)} className={styles.icon} size={iconSize} />
+          <IconMenu
+            className="icon-button"
+            size={iconSize}
+            onClick={() => setOpened(true)}
+          />
         </div>
       </div>
 

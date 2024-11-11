@@ -12,20 +12,151 @@
   --mantine-color-body: var(--mantine-color-gray-0);
 }
 
+/* layout */
+
 .app-container {
   width: 100dvw;
   height: 100dvh;
 }
 
-.book-entry-container {
+.page-header {
+  height: 100px;
   display: flex;
-  width: 100;
+  justify-content: center;
+  align-items: center;
 }
 
-.icon {
-  color: var(--mantine-color-text);
-  size: var(--mantine-font-size-sm);
+.page-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
+
+.page-container > * {
+  height: 100%;
+  max-height: 750px;
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.vertical-scroll {
+  overflow: auto;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 0), black calc(100% - var(--bottom-mask-size, 0)), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 0), black calc(100% - var(--bottom-mask-size, 0)), transparent 100%);
+  --top-mask-size: 0px;
+  --bottom-mask-size: 0px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.vertical-scroll.is-top-overflowing { --top-mask-size: 48px !important; }
+.vertical-scroll.is-bottom-overflowing { --bottom-mask-size: 48px !important; }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.group {
+  display: flex;
+}
+
+.grow > * { 
+  flex-grow: 1;
+}
+
+.jc-space-between { justify-content: space-between; }
+.jc-center { justify-content: center; }
+
+.ai-center { align-items: center; }
+
+.ta-center { text-align: center; }
+
+/* spacing */
+
+p {
+  margin: 0;
+}
+
+.gap-xs { gap: var(--mantine-spacing-xs); }
+.gap-sm { gap: var(--mantine-spacing-sm); }
+.gap-md { gap: var(--mantine-spacing-md); }
+.gap-lg { gap: var(--mantine-spacing-lg); }
+.gap-xl { gap: var(--mantine-spacing-xl); }
+.gap-xxl { gap: var(--mantine-spacing-xxl); }
+.gap-xxxl { gap: var(--mantine-spacing-xxxl); }
+
+.py-xxl {
+  padding-top: var(--mantine-spacing-xxl);
+  padding-bottom: var(--mantine-spacing-xxl);
+}
+
+/* styling */
+
+.icon-button {
+  color: var(--mantine-color-text);
+  stroke-width: 1.25;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.explicit,
+a:hover {
+  text-decoration: underline;
+}
+
+a.no-underline {
+  text-decoration: none;
+}
+
+.c-dimmed {
+  color: var(--mantine-color-dark-3);
+}
+
+.fz-xs { font-size: var(--mantine-font-size-xs); }
+.fz-sm { font-size: var(--mantine-font-size-sm); }
+.fz-md { font-size: var(--mantine-font-size-md); }
+.fz-lg { font-size: var(--mantine-font-size-lg); }
+.fz-xl { font-size: var(--mantine-font-size-xl); }
+
+/* images */
+
+img {
+  object-fit: cover;
+}
+
+img.square-xs { width: 50px; height: 50px; }
+img.square-sm { width: 150px; height: 150px; }
+img.square-md { width: 250px; height: 250px; }
+img.square-lg { width: 350px; height: 350px; }
+img.square-xl { width: 450px; height: 450px; }
+
+.list-preview {
+  height: 300px;
+  display: flex;
+  overflow-x: hidden;
+  align-items: flex-end;
+}
+
+.list-preview.big {
+  height: 400px;
+}
+
+.list-preview > * {
+  height: 250px;
+  position: relative;
+}
+
+.list-preview.big > * {
+  height: 350px;
+}
+
+/* masonry */
 
 .my-masonry-grid {
   display: flex;
@@ -40,4 +171,11 @@
 
 .my-masonry-grid_column > div {
   margin-bottom: 30px;
+}
+
+
+/* debugging */
+
+.debug {
+  background-color: rgba(255, 0, 0, 0.1);
 }

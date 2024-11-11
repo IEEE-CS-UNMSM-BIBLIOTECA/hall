@@ -1,8 +1,7 @@
 import ListPreview from '@/components/ListPreview';
-import PageShell from '@/layout/PageShell';
-import { ListTypeFull } from '@/types';
+import { ListType } from '@/types';
 
-const mockLists: ListTypeFull[] = [
+const mockLists: ListType[] = [
   {
     id: 1,
     title: 'Best Books of 2021',
@@ -17,12 +16,6 @@ const mockLists: ListTypeFull[] = [
       'https://placehold.co/200x300',
       'https://placehold.co/200x330',
     ],
-    private: false,
-    user: {
-      id: 1,
-      username: 'John Doe',
-      profile_picture_url: 'https://placehold.co/50x50',
-    },
   },
   {
     id: 2,
@@ -37,12 +30,6 @@ const mockLists: ListTypeFull[] = [
       'https://placehold.co/230x350',
       'https://placehold.co/200x330',
     ],
-    private: false,
-    user: {
-      id: 1,
-      username: 'John Doe',
-      profile_picture_url: 'https://placehold.co/50x50',
-    },
   },
   {
     id: 3,
@@ -58,39 +45,23 @@ const mockLists: ListTypeFull[] = [
       'https://placehold.co/200x300',
       'https://placehold.co/200x330',
     ],
-    private: false,
-    user: {
-      id: 1,
-      username: 'John Doe',
-      profile_picture_url: 'https://placehold.co/50x50',
-    },
   },
 ];
 
-const Lists = () => {
+const UserLists = ({ userId }: {
+  userId: string
+}) => {
   const listsQuery = { data: mockLists };
 
   return (
-    <PageShell>
-      <div className="page-header">
-        LISTAS
-      </div>
-      <div
-        className="stack gap-xl py-xxl"
-        style={{
-          maxWidth: 920,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-      >
-      {
-        listsQuery.data.map((listData) => (
-          <ListPreview data={listData} big />
-        ))
-      }
-      </div>
-    </PageShell>
+    <div className="stack gap-xl">
+    {
+      listsQuery.data.map((listData) => (
+        <ListPreview data={listData} />
+      ))
+    }
+    </div>
   );
 };
 
-export default Lists;
+export default UserLists;
