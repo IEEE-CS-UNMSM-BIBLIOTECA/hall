@@ -1,4 +1,5 @@
-import { Image as MantineImage, Text, Box, Stack } from '@mantine/core';
+import { Image as MantineImage, Text, Box, Stack, Flex } from '@mantine/core';
+import { IconDots } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
 interface BookCardProps {
@@ -48,9 +49,12 @@ const BookCard = ({ image, title, author }: BookCardProps) => {
         />
       </div>
       <Box>
-        <Text size="lg" fw={500}>
-          {title}
-        </Text>
+        <Flex align="center" justify="space-between">
+          <Text size="lg" fw={500}>
+            {title}
+          </Text>
+          <IconDots size={20} />
+        </Flex>
         <Text size="sm">{author}</Text>
       </Box>
     </Stack>
