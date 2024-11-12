@@ -1,5 +1,5 @@
 import { Button, Title } from '@mantine/core';
-import LoremIpsum from 'react-lorem-ipsum';
+// import LoremIpsum from 'react-lorem-ipsum';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import PageShell from '@/layout/PageShell';
@@ -48,7 +48,7 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
               {mockUser.username}
             </Title>
             <p className="vertical-scroll" style={{ maxHeight: '150px' }}>
-              <LoremIpsum p={2} />
+              {mockUser.bio}
             </p>
           </div>
         </section>
