@@ -1,14 +1,15 @@
 import { Image as MantineImage, Text, Box, Stack, Flex } from '@mantine/core';
 import { IconDots } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import Links, { LinkType } from '../Links/Links';
 
 interface BookCardProps {
   image: string;
   title: string;
-  author: string;
+  authors: LinkType[];
 }
 
-const BookCard = ({ image, title, author }: BookCardProps) => {
+const BookCard = ({ image, title, authors }: BookCardProps) => {
   const [aspectRatio, setAspectRatio] = useState(1);
 
   useEffect(() => {
@@ -55,7 +56,9 @@ const BookCard = ({ image, title, author }: BookCardProps) => {
           </Text>
           <IconDots size={20} />
         </Flex>
-        <Text size="sm">{author}</Text>
+        <Text size="sm">
+          <Links links={authors} />
+        </Text>
       </Box>
     </Stack>
   );

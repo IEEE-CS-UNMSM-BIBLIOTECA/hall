@@ -44,7 +44,15 @@ const BookSlider = () => {
       columnClassName="my-masonry-grid_column"
     >
       {books.map((book, index) => (
-        <BookCard key={index} image={book.image} title={book.title} author={book.author} />
+        <BookCard
+          key={index}
+          image={book.image}
+          title={book.title}
+          authors={[
+            { href: 'https://autor1.com', label: 'Autor 1' },
+            { href: 'https://autor2.com', label: 'Autor 2' },
+          ]}
+        />
       ))}
     </Masonry>
   );
