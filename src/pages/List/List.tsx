@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { Avatar, Center, Flex, Stack, Title, Text } from '@mantine/core';
-import { IconHeart, IconBook, IconDots } from '@tabler/icons-react';
+import { IconBook, IconDots } from '@tabler/icons-react';
 import PageShell from '@/layout/PageShell';
 import { Book } from '@/interfaces';
 import BookCard from '@/components/BookCard';
 import './List.css';
+import LikeButton from '@/components/LikeButton';
 
 const List = ({ id }: { id: string }) => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -72,7 +73,12 @@ const List = ({ id }: { id: string }) => {
                 marginBottom: 'var(--mantine-spacing-md)',
               }}
             >
-              <Flex align="center" justify="center" direction={{ base: 'column', sm: 'row' }} gap="xs">
+              <Flex
+                align="center"
+                justify="center"
+                direction={{ base: 'column', sm: 'row' }}
+                gap="xs"
+              >
                 <Flex align="center" gap="xs">
                   <Avatar
                     src="https://imgmedia.libero.pe/652x358/libero/original/2022/10/03/633b65ed2883df3ae046fcdd.webp"
@@ -82,12 +88,16 @@ const List = ({ id }: { id: string }) => {
                 </Flex>
                 <Flex align="center" gap="xs" style={{ marginLeft: 'var(--mantine-spacing-lg)' }}>
                   <Flex align="center" gap="xs">
-                    <IconHeart size={20} />
-                    23
+                    <LikeButton
+                      totalLikes={100}
+                      liked={false}
+                      addLike={() => {}}
+                      removeLike={() => {}}
+                    />
                   </Flex>
                   <Flex align="center" justify="center" gap="xs">
-                    <IconBook size={20} />
-                    50 libros
+                    <IconBook size={20} stroke={1} />
+                    <span className="fz-sm">50 libros</span>
                   </Flex>
                 </Flex>
               </Flex>
@@ -98,7 +108,15 @@ const List = ({ id }: { id: string }) => {
               columnClassName="my-masonry-grid_column"
             >
               {books.map((book, index) => (
-                <BookCard key={index} image={book.image} title={book.title} author={book.author} />
+                <BookCard
+                  key={index}
+                  image={book.image}
+                  title={book.title}
+                  authors={[
+                    { href: 'https://autor1.com', label: 'Autor 1' },
+                    { href: 'https://autor2.com', label: 'Autor 2' },
+                  ]}
+                />
               ))}
             </Masonry>
           </Stack>
