@@ -34,7 +34,7 @@ const CreateReview = ({ opened, onClose }: {
           label="Marcar como spoiler"
         />
         <div className="group jc-space-between">
-          <Button>
+          <Button onClick={onClose}>
             CERRAR
           </Button>
           <Button variant="primary">
