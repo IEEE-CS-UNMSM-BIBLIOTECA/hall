@@ -1,7 +1,7 @@
 import ListPreview from '@/components/ListPreview';
-import { ListType } from '@/types';
+import { ListTypePreview } from '@/types';
 
-const mockLists: ListType[] = [
+const mockLists: ListTypePreview[] = [
   {
     id: 1,
     title: 'Best Books of 2021',

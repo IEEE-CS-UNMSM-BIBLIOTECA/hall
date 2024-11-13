@@ -1,9 +1,9 @@
 import EmbeddedReview from '@/components/EmbeddedReview';
 import PageShell from '@/layout/PageShell';
-import { ReviewTypeFull } from '@/types';
+import { ReviewType } from '@/types';
 import Links from '@/components/Links';
 
-const mockReviews: ReviewTypeFull[] = [
+const mockReviews: ReviewType[] = [
   {
     id: 1,
     title: 'Excelente',

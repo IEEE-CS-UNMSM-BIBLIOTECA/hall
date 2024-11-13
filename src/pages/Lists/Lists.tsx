@@ -1,8 +1,8 @@
 import ListPreview from '@/components/ListPreview';
 import PageShell from '@/layout/PageShell';
-import { ListTypeFull } from '@/types';
+import { ListType } from '@/types';
 
-const mockLists: ListTypeFull[] = [
+const mockLists: ListType[] = [
   {
     id: 1,
     title: 'Best Books of 2021',
