@@ -4,60 +4,13 @@ import { useState } from 'react';
 import { ListTypeAddDocument } from '@/types';
 import DynamicText from '@/components/DynamicText';
 import Loading from '@/components/Loading';
-import { addDocumentToList, getListsOfUser, removeDocumentFromList, renameList } from '@/services/api';
-
-const mockLists: ListTypeAddDocument[] = [
-  {
-    id: 1,
-    title: 'Lista 1',
-    has_document: true,
-  },
-  {
-    id: 2,
-    title: 'Lista 2',
-    has_document: false,
-  },
-  {
-    id: 3,
-    title: 'Lista 3',
-    has_document: true,
-  },
-  {
-    id: 4,
-    title: 'Lista 4',
-    has_document: false,
-  },
-  {
-    id: 5,
-    title: 'Lista 5',
-    has_document: true,
-  },
-  {
-    id: 6,
-    title: 'Lista 6',
-    has_document: false,
-  },
-  {
-    id: 7,
-    title: 'Lista 7',
-    has_document: true,
-  },
-  {
-    id: 8,
-    title: 'Lista 8',
-    has_document: false,
-  },
-  {
-    id: 9,
-    title: 'Lista 9',
-    has_document: true,
-  },
-  {
-    id: 10,
-    title: 'Lista 10',
-    has_document: false,
-  },
-];
+import {
+  addDocumentToList,
+  createList,
+  getListsOfUser,
+  removeDocumentFromList,
+  renameList,
+} from '@/services/api';
 
 const List = ({ document_id, listData, queryClient }: {
   document_id: number;
@@ -112,12 +65,18 @@ const AddToList = ({ document_id, opened, onClose }: {
 }) => {
   const queryClient = useQueryClient();
 
-  // const listsQuery = useQuery({
-  //   queryKey: ['lists_of_user'],
-  //   queryFn: getListsOfUser,
-  // });
+  const listsQuery = useQuery({
+    queryKey: ['lists_of_user'],
+    queryFn: getListsOfUser,
+  });
 
-  const listsQuery = { data: mockLists, isPending: false, isError: false };
+  const newListMutation = useMutation({
+    mutationFn: createList,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists_of_user'] });
+    },
+  });
+
   const [filterInput, setFilterInput] = useState('');
 
   if (listsQuery.isPending) {
@@ -135,6 +94,10 @@ const AddToList = ({ document_id, opened, onClose }: {
   const filteredLists = listsQuery.data.filter((list) => (
     list.title.toLowerCase().includes(filterInput.toLowerCase())
   ));
+
+  const handleNewList = async () => {
+    await newListMutation.mutateAsync();
+  };
 
   return (
     <Modal opened={opened} onClose={onClose}>
@@ -158,7 +121,7 @@ const AddToList = ({ document_id, opened, onClose }: {
         }
         </div>
         <div className="group gap-xs jc-space-between">
-          <Button>
+          <Button onClick={handleNewList}>
             NUEVA LISTA
           </Button>
           <Button onClick={onClose}>

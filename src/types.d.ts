@@ -60,7 +60,7 @@ export interface NewReviewType {
 
 export interface UserTypePublicPreview {
   id:                  number;
-  username:            string;
+  user_name:            string;
   profile_picture_url: string;
 }
 
@@ -80,6 +80,8 @@ export interface UserType extends UserTypePublic {
 /* list */
 
 export interface ListTypePreview {
+  id:             number;
+  title:          string;
   description:    string;
   total_likes:    number;
   total_books:    number;
