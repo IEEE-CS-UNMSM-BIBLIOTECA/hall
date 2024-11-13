@@ -5,7 +5,6 @@ import { IconMenu, IconSearch } from '@tabler/icons-react';
 import { AUTHENTICATED_MENU_ITEMS, PUBLIC_MENU_ITEMS } from '@/constants/menuItems';
 import { SidebarMenu } from './components/SidebarMenu';
 import { LoginButton } from './components/LoginButton';
-import styles from './PageShell.module.css';
 
 const PageShell = ({ children }: { children?: React.ReactNode }) => {
   const [, setLocation] = useLocation();
@@ -23,8 +22,8 @@ const PageShell = ({ children }: { children?: React.ReactNode }) => {
 
   return (
     <>
-      <div className={styles.pageShell}>
-        <div className={styles.iconContainer}>
+      <div className="group" style={{ height: '100vh' }}>
+        <div className="stack jc-center ai-center" style={{ width: 100, height: 100 }}>
           <Tooltip
             label="Buscar"
             withArrow
@@ -38,9 +37,9 @@ const PageShell = ({ children }: { children?: React.ReactNode }) => {
           </Tooltip>
         </div>
 
-        <div className={styles.content}>{children}</div>
+        <div className="stack flex-1 jc-center" style={{ height: '100%' }}>{children}</div>
 
-        <div className={styles.iconContainer}>
+        <div className="stack jc-center ai-center" style={{ width: 100, height: 100 }}>
           <IconMenu
             className="icon-button"
             size={iconSize}

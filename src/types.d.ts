@@ -60,7 +60,7 @@ export interface NewReviewType {
 
 export interface UserTypePublicPreview {
   id:                  number;
-  user_name:            string;
+  user_name:           string;
   profile_picture_url: string;
 }
 

@@ -73,6 +73,7 @@
 .ai-center { align-items: center; }
 .ai-start { align-items: start; }
 .ai-end { align-items: end; }
+.ai-stretch { align-items: stretch; }
 
 .ta-center { text-align: center; }
 
@@ -101,6 +102,26 @@ p {
 .p-xl { padding: var(--mantine-spacing-xl); }
 .p-xxl { padding: var(--mantine-spacing-xxl); }
 .p-xxxl { padding: var(--mantine-spacing-xxxl); }
+
+.py-xs {
+  padding-top: var(--mantine-spacing-xs);
+  padding-bottom: var(--mantine-spacing-xs);
+}
+
+.py-sm {
+  padding-top: var(--mantine-spacing-sm);
+  padding-bottom: var(--mantine-spacing-sm);
+}
+
+.py-md {
+  padding-top: var(--mantine-spacing-md);
+  padding-bottom: var(--mantine-spacing-md);
+}
+
+.py-lg {
+  padding-top: var(--mantine-spacing-lg);
+  padding-bottom: var(--mantine-spacing-lg);
+}
 
 .py-xxl {
   padding-top: var(--mantine-spacing-xxl);

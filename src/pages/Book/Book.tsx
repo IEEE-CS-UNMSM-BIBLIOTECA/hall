@@ -7,6 +7,8 @@ import EmbeddedReview from '@/components/EmbeddedReview';
 import Links from '@/components/Links';
 import AddToList from './components/AddToList';
 import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+import CreateReview from './components/CreateReview';
 
 const Reviews = ({ documentId }: { documentId: number }) => {
   const reviewsQuery = useQuery({
@@ -22,9 +24,7 @@ const Reviews = ({ documentId }: { documentId: number }) => {
 
   if (reviewsQuery.isError || !reviewsQuery.data) {
     return (
-      <div>
-        Error
-      </div>
+      <Error />
     );
   }
 
@@ -49,6 +49,7 @@ const Book = ({
   id: string
 }) => {
   const [addListOpened, addListHandlers] = useDisclosure(false);
+  const [createReviewOpened, createReviewHandlers] = useDisclosure(false);
 
   const documentQuery = useQuery({
     queryKey: ['book', id],
@@ -57,16 +58,16 @@ const Book = ({
 
   if (documentQuery.isPending) {
     return (
-      <PageShell />
+      <PageShell>
+        <Loading />
+      </PageShell>
     );
   }
 
   if (documentQuery.isError) {
     return (
       <PageShell>
-        <div>
-          Error
-        </div>
+        <Error />
       </PageShell>
     );
   }
@@ -138,7 +139,7 @@ const Book = ({
               <section className="stack gap-xl">
                 <header className="group jc-space-between ai-center">
                   RESEÑAS
-                  <Button>
+                  <Button onClick={createReviewHandlers.open}>
                     NUEVA RESEÑA
                   </Button>
                 </header>
@@ -152,6 +153,10 @@ const Book = ({
         document_id={documentData.id}
         opened={addListOpened}
         onClose={addListHandlers.close}
+      />
+      <CreateReview
+        opened={createReviewOpened}
+        onClose={createReviewHandlers.close}
       />
     </>
   );

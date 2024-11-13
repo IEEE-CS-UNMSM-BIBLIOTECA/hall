@@ -6,6 +6,7 @@ import TextInput from './TextInput';
 import Rating from './Rating';
 import Checkbox from './Checkbox';
 import Modal from './Modal';
+import Textarea from './Textarea';
 
 export default {
   Button,
@@ -16,4 +17,5 @@ export default {
   Rating,
   Checkbox,
   Modal,
+  Textarea,
 };
