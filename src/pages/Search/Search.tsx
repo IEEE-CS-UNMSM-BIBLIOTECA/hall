@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Center, Input, Stack, TextInput, Title } from '@mantine/core';
+import { Center, Stack, TextInput } from '@mantine/core';
 import Masonry from 'react-masonry-css';
 import PageShell from '@/layout/PageShell';
 import BookCard from '@/components/BookCard';
