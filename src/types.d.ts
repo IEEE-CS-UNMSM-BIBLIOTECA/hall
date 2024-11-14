@@ -48,12 +48,12 @@ export interface ReviewType extends ReviewTypePreview {
 }
 
 export interface NewReviewType {
+  // user_id:     number;
+  document_id: number;
   title:       string;
   content:     string;
   rating:      number;
   spoiler:     boolean;
-  user_id:     number;
-  // document_id: number;
 }
 
 /* user */
