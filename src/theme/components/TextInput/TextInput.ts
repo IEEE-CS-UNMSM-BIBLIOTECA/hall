@@ -4,7 +4,9 @@ import classes from './TextInput.module.css';
 
 const Component: MantineThemeComponent = {
   ...TextInput.extend({ classNames: classes }),
-  defaultProps: {},
+  defaultProps: {
+    radius: 0,
+  },
 };
 
 export default Component;

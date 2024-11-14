@@ -3,11 +3,11 @@ import LoremIpsum from 'react-lorem-ipsum';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useLocation } from 'wouter';
 import PageShell from '@/layout/PageShell';
-import { ReviewTypeFull } from '@/types';
+import { ReviewType } from '@/types';
 import UserBadge from '@/components/UserBadge';
 import LikeButton from '@/components/LikeButton';
 
-const data: ReviewTypeFull = {
+const data: ReviewType = {
   id: 1,
   title: 'Excelente',
   content: 'Me encantó este libro, lo recomiendo mucho.',

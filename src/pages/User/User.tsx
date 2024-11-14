@@ -3,10 +3,10 @@ import { Button, Title } from '@mantine/core';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import PageShell from '@/layout/PageShell';
-import { UserType } from '@/types';
+import { UserTypePublic } from '@/types';
 import UserLists from './components/UserLists';
 
-const mockUser: UserType = {
+const mockUser: UserTypePublic = {
   id: 1,
   username: 'johndoe',
   bio: 'I am a software engineer',

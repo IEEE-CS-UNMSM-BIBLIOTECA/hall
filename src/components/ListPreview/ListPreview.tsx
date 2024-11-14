@@ -1,9 +1,9 @@
 import { Title } from '@mantine/core';
-import { ListType } from '@/types';
+import { ListTypePreview } from '@/types';
 import LikeButton from '../LikeButton';
 
 const ListPreview = ({ data, big }: {
-  data: ListType,
+  data: ListTypePreview,
   big?: boolean,
 }) => {
   return (

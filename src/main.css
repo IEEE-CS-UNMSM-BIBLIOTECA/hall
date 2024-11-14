@@ -1,4 +1,5 @@
 :root {
+  --mantine-spacing-xxs: 0.25rem;
   --mantine-spacing-xxl: 3rem;
   --mantine-spacing-xxxl: 5.3rem;
 }
@@ -70,8 +71,13 @@
 .jc-center { justify-content: center; }
 
 .ai-center { align-items: center; }
+.ai-start { align-items: start; }
+.ai-end { align-items: end; }
+.ai-stretch { align-items: stretch; }
 
 .ta-center { text-align: center; }
+
+.flex-1 { flex: 1; }
 
 /* spacing */
 
@@ -79,6 +85,7 @@ p {
   margin: 0;
 }
 
+.gap-xxs { gap: var(--mantine-spacing-xxs); }
 .gap-xs { gap: var(--mantine-spacing-xs); }
 .gap-sm { gap: var(--mantine-spacing-sm); }
 .gap-md { gap: var(--mantine-spacing-md); }
@@ -87,18 +94,59 @@ p {
 .gap-xxl { gap: var(--mantine-spacing-xxl); }
 .gap-xxxl { gap: var(--mantine-spacing-xxxl); }
 
+.p-xxs { padding: var(--mantine-spacing-xxs); }
+.p-xs { padding: var(--mantine-spacing-xs); }
+.p-sm { padding: var(--mantine-spacing-sm); }
+.p-md { padding: var(--mantine-spacing-md); }
+.p-lg { padding: var(--mantine-spacing-lg); }
+.p-xl { padding: var(--mantine-spacing-xl); }
+.p-xxl { padding: var(--mantine-spacing-xxl); }
+.p-xxxl { padding: var(--mantine-spacing-xxxl); }
+
+.py-xs {
+  padding-top: var(--mantine-spacing-xs);
+  padding-bottom: var(--mantine-spacing-xs);
+}
+
+.py-sm {
+  padding-top: var(--mantine-spacing-sm);
+  padding-bottom: var(--mantine-spacing-sm);
+}
+
+.py-md {
+  padding-top: var(--mantine-spacing-md);
+  padding-bottom: var(--mantine-spacing-md);
+}
+
+.py-lg {
+  padding-top: var(--mantine-spacing-lg);
+  padding-bottom: var(--mantine-spacing-lg);
+}
+
 .py-xxl {
   padding-top: var(--mantine-spacing-xxl);
   padding-bottom: var(--mantine-spacing-xxl);
 }
 
-/* styling */
+/* icons */
 
-.icon-button {
+.icon {
   color: var(--mantine-color-text);
   stroke-width: 1.25;
-  cursor: pointer;
 }
+
+.icon.xs { width: 16px; height: 16px; }
+.icon.sm { width: 24px; height: 24px; }
+.icon.md { width: 32px; height: 32px; }
+.icon.lg { width: 48px; height: 48px; }
+.icon.xl { width: 64px; height: 64px; }
+
+.icon.button { cursor: pointer; }
+
+.icon.dimmed { color: var(--mantine-color-dark-3); }
+
+
+/* styling */
 
 a {
   color: inherit;
@@ -127,6 +175,16 @@ a.no-underline {
 .fw-normal { font-weight: normal; }
 .fw-semibold { font-weight: 500; }
 .fw-bold { font-weight: bold; }
+
+input.unstyled {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+input::placeholder {
+  opacity: 0.5;
+}
 
 /* images */
 
