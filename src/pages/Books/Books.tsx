@@ -4,24 +4,30 @@ import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
 import './Books.css';
 
+import { useLocation } from 'wouter';
+
 const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 
-const LeftSection = ({ wordIndex }: { wordIndex: number }) => (
-  <div style={{ justifyContent: 'center', display: 'flex' }}>
-    <Stack flex={1} gap="xl" maw={400}>
-      <Title>Lee {WORDS[wordIndex]} quieras.</Title>
-      <Text>Descubre libros, recógelos cuando quieras. Sin costo.</Text>
-      <Flex gap="sm" direction={{ base: 'column', xl: 'row' }}>
-        <Button variant="primary" size="md" fullWidth>
-          EMPIEZA HOY
-        </Button>
-        <Button size="md" fullWidth>
-          INICIAR SESIÓN
-        </Button>
-      </Flex>
-    </Stack>
-  </div>
-);
+const LeftSection = ({ wordIndex }: { wordIndex: number }) => {
+  const [, setLocation] = useLocation();
+
+  return (
+    <div style={{ justifyContent: 'center', display: 'flex' }}>
+      <Stack flex={1} gap="xl" maw={400}>
+        <Title>Lee {WORDS[wordIndex]} quieras.</Title>
+        <Text>Descubre libros, recógelos cuando quieras. Sin costo.</Text>
+        <Flex gap="sm" direction={{ base: 'column', xl: 'row' }}>
+          <Button variant="primary" size="md" fullWidth onClick={() => setLocation('/signin')}>
+            EMPIEZA HOY
+          </Button>
+          <Button size="md" fullWidth>
+            INICIAR SESIÓN
+          </Button>
+        </Flex>
+      </Stack>
+    </div>
+  );
+};
 
 const Books = () => {
   const [wordIndex, setWord] = useState(0);
