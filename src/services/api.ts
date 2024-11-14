@@ -62,6 +62,11 @@ export const deleteDocumentFromList = (document_id: number, list_id: number) => 
   return res;
 };
 
+export const createList = () => {
+  const res = axios.post(`${base}/lists`, {}, headers);
+  return res;
+};
+
 // export const addList = () => {
 //   const res = axios.post(`${base}/lists`, {}, headers);
 //   return res;
