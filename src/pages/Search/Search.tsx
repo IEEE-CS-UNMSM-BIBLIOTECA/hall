@@ -48,8 +48,8 @@ const Search = () => {
           }}
           className="hide-scrollbar"
         >
-          <Stack gap={0}>
-            <Center h={100}>Búsqueda</Center>
+          <Stack gap={5}>
+            <Center h={150}>Búsqueda</Center>
 
             <TextInput
               size="xl"
