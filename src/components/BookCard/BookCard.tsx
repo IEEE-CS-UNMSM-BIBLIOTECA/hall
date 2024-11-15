@@ -1,15 +1,21 @@
-import { Image as MantineImage, Text, Box, Stack, Flex } from '@mantine/core';
+import { Image as MantineImage, Text, Box, Stack, Flex, Menu } from '@mantine/core';
 import { IconDots } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import Links, { LinkType } from '../Links/Links';
+
+interface Option {
+  label: string;
+  onClick: () => void;
+}
 
 interface BookCardProps {
   image: string;
   title: string;
   authors: LinkType[];
+  options?: Option[];
 }
 
-const BookCard = ({ image, title, authors }: BookCardProps) => {
+const BookCard = ({ image, title, authors, options = [] }: BookCardProps) => {
   const [aspectRatio, setAspectRatio] = useState(1);
 
   useEffect(() => {
@@ -54,7 +60,20 @@ const BookCard = ({ image, title, authors }: BookCardProps) => {
           <Text size="lg" fw={500}>
             {title}
           </Text>
-          <IconDots size={20} />
+          {options.length > 0 && (
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <IconDots size={20} style={{ cursor: 'pointer' }} />
+              </Menu.Target>
+              <Menu.Dropdown>
+                {options.map((option, index) => (
+                  <Menu.Item key={index} onClick={option.onClick}>
+                    {option.label}
+                  </Menu.Item>
+                ))}
+              </Menu.Dropdown>
+            </Menu>
+          )}
         </Flex>
         <Text size="sm">
           <Links links={authors} />

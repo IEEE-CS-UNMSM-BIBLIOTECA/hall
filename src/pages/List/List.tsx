@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
-import { Avatar, Center, Flex, Stack, Title, Text } from '@mantine/core';
+import { Avatar, Center, Flex, Stack, Title, Text, Menu } from '@mantine/core';
 import { IconBook, IconDots } from '@tabler/icons-react';
 import PageShell from '@/layout/PageShell';
 import { Book } from '@/interfaces';
@@ -63,7 +63,19 @@ const List = ({ id }: { id: string }) => {
               <Title order={2} fw={350} style={{ marginBottom: 'var(--mantine-spacing-md)' }}>
                 Libros con portada azul
               </Title>
-              <IconDots size={30} />
+              <Menu shadow="md" width={200}>
+                <Menu.Target>
+                  <IconDots size={30} style={{ cursor: 'pointer' }} />
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <Text>Hacer Privada</Text>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <Text>Eliminar</Text>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </Flex>
             <div
               style={{
@@ -116,6 +128,7 @@ const List = ({ id }: { id: string }) => {
                     { href: 'https://autor1.com', label: 'Autor 1' },
                     { href: 'https://autor2.com', label: 'Autor 2' },
                   ]}
+                  options={[{ label: 'Remover', onClick: () => console.log('Remover') }]}
                 />
               ))}
             </Masonry>
