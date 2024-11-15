@@ -13,7 +13,11 @@ import {
 } from '@/services/api';
 import Error from '@/components/Error';
 
-const List = ({ document_id, listData, queryClient }: {
+const List = ({
+  document_id,
+  listData,
+  queryClient,
+}: {
   document_id: number;
   listData: ListTypeAddDocument;
   queryClient: ReturnType<typeof useQueryClient>;
@@ -47,48 +51,44 @@ const List = ({ document_id, listData, queryClient }: {
 
   return (
     <div className="group gap-xs ai-center">
-      <Checkbox
-        checked={listData.has_document}
-        onChange={onCheckboxChange}
-      />
-      <DynamicText
-        value={listData.title}
-        setValue={onListRename}
-      />
+      <Checkbox checked={listData.has_document} onChange={onCheckboxChange} />
+      <DynamicText value={listData.title} setValue={onListRename} />
     </div>
   );
 };
 
-const Lists = ({ lists, document_id, queryClient }: {
-  document_id: number,
-  lists: ListTypeAddDocument[],
-  queryClient: ReturnType<typeof useQueryClient>,
+const Lists = ({
+  lists,
+  document_id,
+  queryClient,
+}: {
+  document_id: number;
+  lists: ListTypeAddDocument[];
+  queryClient: ReturnType<typeof useQueryClient>;
 }) => {
   if (lists.length === 0) {
-    return (
-      <p className="stack jc-center ai-center c-dimmed fz-sm py-xxl">
-        Aún no tienes listas
-      </p>
-    );
+    return <p className="stack jc-center ai-center c-dimmed fz-sm py-xxl">Aún no tienes listas</p>;
   }
 
   return (
     <div className="vertical-scroll" style={{ height: 300 }}>
-    {
-      lists.map((listData) => (
+      {lists.map((listData) => (
         <List
           key={listData.id}
           document_id={document_id}
           listData={listData}
           queryClient={queryClient}
         />
-      ))
-    }
+      ))}
     </div>
   );
 };
 
-const AddToList = ({ document_id, opened, onClose }: {
+const AddToList = ({
+  document_id,
+  opened,
+  onClose,
+}: {
   document_id: number;
   opened: boolean;
   onClose: () => void;
@@ -122,17 +122,15 @@ const AddToList = ({ document_id, opened, onClose }: {
       <Modal opened={opened} onClose={onClose}>
         <div className="stack gap-sm ai-center">
           <Error />
-          <Button onClick={onClose}>
-            CERRAR
-          </Button>
+          <Button onClick={onClose}>CERRAR</Button>
         </div>
       </Modal>
     );
   }
 
-  const filteredLists = listsQuery.data.filter((list) => (
+  const filteredLists = listsQuery.data.filter((list) =>
     list.title.toLowerCase().includes(filterInput.toLowerCase())
-  ));
+  );
 
   const handleNewList = async () => {
     await newListMutation.mutateAsync();
@@ -147,18 +145,10 @@ const AddToList = ({ document_id, opened, onClose }: {
           value={filterInput}
           onChange={(e) => setFilterInput(e.currentTarget.value)}
         />
-        <Lists
-          lists={filteredLists}
-          document_id={document_id}
-          queryClient={queryClient}
-        />
+        <Lists lists={filteredLists} document_id={document_id} queryClient={queryClient} />
         <div className="group gap-xs jc-space-between">
-          <Button onClick={handleNewList}>
-            NUEVA LISTA
-          </Button>
-          <Button onClick={onClose}>
-            CERRAR
-          </Button>
+          <Button onClick={handleNewList}>NUEVA LISTA</Button>
+          <Button onClick={onClose}>CERRAR</Button>
         </div>
       </div>
     </Modal>
