@@ -6,11 +6,12 @@ import DynamicText from '@/components/DynamicText';
 import Loading from '@/components/Loading';
 import {
   addDocumentToList,
-  // createList,
   getListsOfUser,
-  // removeDocumentFromList,
+  createList,
+  deleteDocumentFromList,
   renameList,
 } from '@/services/api';
+import Error from '@/components/Error';
 
 const List = ({
   document_id,
@@ -23,12 +24,12 @@ const List = ({
 }) => {
   const addToListMutation = useMutation({
     mutationFn: () => addDocumentToList(document_id, listData.id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['lists_of_user'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['listsOfUser'] }),
   });
 
   const removeFromListMutation = useMutation({
-    mutationFn: () => removeDocumentFromList(document_id, listData.id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['lists_of_user'] }),
+    mutationFn: () => deleteDocumentFromList(document_id, listData.id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['listsOfUser'] }),
   });
 
   const renameListMutation = useMutation({
@@ -56,6 +57,33 @@ const List = ({
   );
 };
 
+const Lists = ({
+  lists,
+  document_id,
+  queryClient,
+}: {
+  document_id: number;
+  lists: ListTypeAddDocument[];
+  queryClient: ReturnType<typeof useQueryClient>;
+}) => {
+  if (lists.length === 0) {
+    return <p className="stack jc-center ai-center c-dimmed fz-sm py-xxl">Aún no tienes listas</p>;
+  }
+
+  return (
+    <div className="vertical-scroll" style={{ height: 300 }}>
+      {lists.map((listData) => (
+        <List
+          key={listData.id}
+          document_id={document_id}
+          listData={listData}
+          queryClient={queryClient}
+        />
+      ))}
+    </div>
+  );
+};
+
 const AddToList = ({
   document_id,
   opened,
@@ -68,14 +96,14 @@ const AddToList = ({
   const queryClient = useQueryClient();
 
   const listsQuery = useQuery({
-    queryKey: ['lists_of_user'],
-    queryFn: getListsOfUser,
+    queryKey: ['lists', { user: 'self' }],
+    queryFn: () => getListsOfUser(document_id),
   });
 
   const newListMutation = useMutation({
     mutationFn: createList,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['lists_of_user'] });
+      queryClient.invalidateQueries({ queryKey: ['lists', { user: 'self' }] });
     },
   });
 
@@ -90,7 +118,14 @@ const AddToList = ({
   }
 
   if (listsQuery.isError) {
-    return null;
+    return (
+      <Modal opened={opened} onClose={onClose}>
+        <div className="stack gap-sm ai-center">
+          <Error />
+          <Button onClick={onClose}>CERRAR</Button>
+        </div>
+      </Modal>
+    );
   }
 
   const filteredLists = listsQuery.data.filter((list) =>
@@ -110,16 +145,7 @@ const AddToList = ({
           value={filterInput}
           onChange={(e) => setFilterInput(e.currentTarget.value)}
         />
-        <div className="vertical-scroll" style={{ height: 300 }}>
-          {filteredLists.map((listData) => (
-            <List
-              key={listData.id}
-              document_id={document_id}
-              listData={listData}
-              queryClient={queryClient}
-            />
-          ))}
-        </div>
+        <Lists lists={filteredLists} document_id={document_id} queryClient={queryClient} />
         <div className="group gap-xs jc-space-between">
           <Button onClick={handleNewList}>NUEVA LISTA</Button>
           <Button onClick={onClose}>CERRAR</Button>

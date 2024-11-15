@@ -10,10 +10,10 @@ import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import CreateReview from './components/CreateReview';
 
-const Reviews = ({ documentId }: { documentId: number }) => {
+const Reviews = ({ document_id }: { document_id: number }) => {
   const reviewsQuery = useQuery({
-    queryKey: ['reviews_by_document', documentId],
-    queryFn: () => getReviewsByDocument(documentId),
+    queryKey: ['reviews', { document_id }],
+    queryFn: () => getReviewsByDocument(document_id),
   });
 
   if (reviewsQuery.isPending) {
@@ -22,9 +22,17 @@ const Reviews = ({ documentId }: { documentId: number }) => {
     );
   }
 
-  if (reviewsQuery.isError || !reviewsQuery.data) {
+  if (reviewsQuery.isError) {
     return (
       <Error />
+    );
+  }
+
+  if (!reviewsQuery.data || reviewsQuery.data.length === 0) {
+    return (
+      <p className="stack jc-center ai-center c-dimmed fz-sm">
+        Aún no hay reseñas para este libro
+      </p>
     );
   }
 
@@ -143,21 +151,28 @@ const Book = ({
                     NUEVA RESEÑA
                   </Button>
                 </header>
-                <Reviews documentId={documentData.id} />
+                <Reviews document_id={documentData.id} />
               </section>
             </div>
           </div>
         </div>
       </PageShell>
-      <AddToList
-        document_id={documentData.id}
-        opened={addListOpened}
-        onClose={addListHandlers.close}
-      />
-      <CreateReview
-        opened={createReviewOpened}
-        onClose={createReviewHandlers.close}
-      />
+      {
+        addListOpened &&
+        <AddToList
+          document_id={documentData.id}
+          opened={addListOpened}
+          onClose={addListHandlers.close}
+        />
+      }
+      {
+        createReviewOpened &&
+        <CreateReview
+          document_id={documentData.id}
+          opened={createReviewOpened}
+          onClose={createReviewHandlers.close}
+        />
+      }
     </>
   );
 };

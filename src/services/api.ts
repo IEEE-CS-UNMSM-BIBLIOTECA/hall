@@ -21,7 +21,7 @@ export const getDocument = async (document_id: string) => {
 
 export const getReviewsByDocument = async (document_id: number) => {
   const res = await axios.get(`${base}/books/${document_id}/reviews`, headers);
-  const { data }: { data: ReviewTypePreview [] } = res;
+  const data: ReviewTypePreview[] = res.data || [];
   return data;
 };
 
@@ -32,7 +32,9 @@ export const getDocuments = async () => {
 };
 
 export const addReview = (data: NewReviewType) => {
-  const res = axios.post(`${base}/reviews`, data, headers);
+  const res = axios.post(`${base}/books/new-review`, data, headers);
+  // TODO: new path
+  // const res = axios.post(`${base}/reviews`, data, headers);
   return res;
 };
 
@@ -42,8 +44,10 @@ export const addOrder = (document_id: number) => {
 };
 
 export const getListsOfUser = async (document_id: number) => {
-  const res = await axios.get(`${base}/lists?check=${document_id}&minimal=true`, headers);
-  const { data }: { data: ListTypeAddDocument[] } = res;
+  const res = await axios.get(`${base}/books/${document_id}/lists/0`, headers);
+  // TODO: new path
+  // const res = await axios.get(`${base}/lists?check=${document_id}&minimal=true`, headers);
+  const data: ListTypeAddDocument[] = res.data || [];
   return data;
 };
 
@@ -59,6 +63,11 @@ export const renameList = (list_id: number, title: string) => {
 
 export const deleteDocumentFromList = (document_id: number, list_id: number) => {
   const res = axios.delete(`${base}/lists/${list_id}/books/${document_id}`, headers);
+  return res;
+};
+
+export const createList = () => {
+  const res = axios.post(`${base}/lists`, {}, headers);
   return res;
 };
 

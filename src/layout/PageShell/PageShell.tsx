@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
 import { Tooltip, useMatches, Drawer } from '@mantine/core';
-import { IconMenu, IconSearch } from '@tabler/icons-react';
+import { IconHome, IconMenu, IconSearch } from '@tabler/icons-react';
 import { AUTHENTICATED_MENU_ITEMS, PUBLIC_MENU_ITEMS } from '@/constants/menuItems';
 import { SidebarMenu } from './components/SidebarMenu';
 import { LoginButton } from './components/LoginButton';
 
 const PageShell = ({ children }: { children?: React.ReactNode }) => {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [opened, setOpened] = useState(false);
   const [authenticated] = useState(false);
 
@@ -25,25 +25,38 @@ const PageShell = ({ children }: { children?: React.ReactNode }) => {
       <div className="group" style={{ height: '100vh' }}>
         <div className="stack jc-center ai-center" style={{ width: 100, height: 100 }}>
           <Tooltip
-            label="Buscar"
+            label={location === '/search' ? 'Home' : 'Buscar'}
             withArrow
             transitionProps={{ duration: 200, transition: 'fade-down' }}
           >
-            <IconSearch
-              className="icon-button"
-              size={iconSize}
-              onClick={() => setLocation('/search')}
-            />
+            {location === '/search' ? (
+              <IconHome
+                className="icon-button"
+                size={iconSize}
+                onClick={() => setLocation('/')}
+                style={{ cursor: 'pointer' }}
+              />
+            ) : (
+              <IconSearch
+                className="icon-button"
+                size={iconSize}
+                onClick={() => setLocation('/search')}
+                style={{ cursor: 'pointer' }}
+              />
+            )}
           </Tooltip>
         </div>
 
-        <div className="stack flex-1 jc-center" style={{ height: '100%' }}>{children}</div>
+        <div className="stack flex-1 jc-center" style={{ height: '100%' }}>
+          {children}
+        </div>
 
         <div className="stack jc-center ai-center" style={{ width: 100, height: 100 }}>
           <IconMenu
             className="icon-button"
             size={iconSize}
             onClick={() => setOpened(true)}
+            style={{ cursor: 'pointer' }}
           />
         </div>
       </div>
