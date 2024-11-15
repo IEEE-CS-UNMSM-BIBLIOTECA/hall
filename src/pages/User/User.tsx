@@ -5,6 +5,7 @@ import { useLocation } from 'wouter';
 import PageShell from '@/layout/PageShell';
 import { UserTypePublic } from '@/types';
 import UserLists from './components/UserLists';
+import UserReviews from './components/UserReviews';
 
 const mockUser: UserTypePublic = {
   id: 1,
@@ -13,7 +14,11 @@ const mockUser: UserTypePublic = {
   profile_picture_url: 'https://placehold.it/500',
 };
 
-const LinkButton = ({ children, onClick, active }: {
+const LinkButton = ({
+  children,
+  onClick,
+  active,
+}: {
   children: React.ReactNode;
   onClick: () => void;
   active: boolean;
@@ -38,15 +43,9 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
     <PageShell>
       <div className="page-container gap-xxxl">
         <section className="stack gap-xxl jc-center" style={{ flex: 0.2 }}>
-          <img
-            src={mockUser.profile_picture_url}
-            alt={mockUser.username}
-            className="square-md"
-          />
+          <img src={mockUser.profile_picture_url} alt={mockUser.username} className="square-md" />
           <div className="stack gap-lg">
-            <Title order={2}>
-              {mockUser.username}
-            </Title>
+            <Title order={2}>{mockUser.username}</Title>
             <p className="vertical-scroll" style={{ maxHeight: '150px' }}>
               {mockUser.bio}
             </p>
@@ -74,11 +73,8 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
             </LinkButton>
           </div>
           <div className="vertical-scroll">
-          {
-            currentTab === 'lists' && (
-              <UserLists userId={id} />
-            )
-          }
+            {currentTab === 'lists' && <UserLists userId={id} />}
+            {currentTab === 'reviews' && <UserReviews userId={id} />}
           </div>
         </section>
       </div>
