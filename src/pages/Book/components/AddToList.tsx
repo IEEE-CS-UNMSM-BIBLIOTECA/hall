@@ -6,13 +6,17 @@ import DynamicText from '@/components/DynamicText';
 import Loading from '@/components/Loading';
 import {
   addDocumentToList,
-  createList,
+  // createList,
   getListsOfUser,
-  removeDocumentFromList,
+  // removeDocumentFromList,
   renameList,
 } from '@/services/api';
 
-const List = ({ document_id, listData, queryClient }: {
+const List = ({
+  document_id,
+  listData,
+  queryClient,
+}: {
   document_id: number;
   listData: ListTypeAddDocument;
   queryClient: ReturnType<typeof useQueryClient>;
@@ -46,19 +50,17 @@ const List = ({ document_id, listData, queryClient }: {
 
   return (
     <div className="group gap-xs ai-center">
-      <Checkbox
-        checked={listData.has_document}
-        onChange={onCheckboxChange}
-      />
-      <DynamicText
-        value={listData.title}
-        setValue={onListRename}
-      />
+      <Checkbox checked={listData.has_document} onChange={onCheckboxChange} />
+      <DynamicText value={listData.title} setValue={onListRename} />
     </div>
   );
 };
 
-const AddToList = ({ document_id, opened, onClose }: {
+const AddToList = ({
+  document_id,
+  opened,
+  onClose,
+}: {
   document_id: number;
   opened: boolean;
   onClose: () => void;
@@ -91,9 +93,9 @@ const AddToList = ({ document_id, opened, onClose }: {
     return null;
   }
 
-  const filteredLists = listsQuery.data.filter((list) => (
+  const filteredLists = listsQuery.data.filter((list) =>
     list.title.toLowerCase().includes(filterInput.toLowerCase())
-  ));
+  );
 
   const handleNewList = async () => {
     await newListMutation.mutateAsync();
@@ -109,24 +111,18 @@ const AddToList = ({ document_id, opened, onClose }: {
           onChange={(e) => setFilterInput(e.currentTarget.value)}
         />
         <div className="vertical-scroll" style={{ height: 300 }}>
-        {
-          filteredLists.map((listData) => (
+          {filteredLists.map((listData) => (
             <List
               key={listData.id}
               document_id={document_id}
               listData={listData}
               queryClient={queryClient}
             />
-          ))
-        }
+          ))}
         </div>
         <div className="group gap-xs jc-space-between">
-          <Button onClick={handleNewList}>
-            NUEVA LISTA
-          </Button>
-          <Button onClick={onClose}>
-            CERRAR
-          </Button>
+          <Button onClick={handleNewList}>NUEVA LISTA</Button>
+          <Button onClick={onClose}>CERRAR</Button>
         </div>
       </div>
     </Modal>
