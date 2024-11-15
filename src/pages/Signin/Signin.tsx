@@ -18,40 +18,42 @@ const Signin = () => {
 
   return (
     <PageShell>
-      <Group justify="center">
-        <Stack style={{ width: '100%', maxWidth: '400px' }}>
-          <Text ta={'center'} size="xl" fw={'bold'}>
-            Bienvenido de vuelta
-          </Text>
+      <form onSubmit={handleSignIn}>
+        <Group justify="center">
+          <Stack style={{ width: '100%', maxWidth: '400px' }}>
+            <Text ta={'center'} size="xl" fw={'bold'}>
+              Bienvenido de vuelta
+            </Text>
 
-          <TextInput
-            label="Username"
-            placeholder="Tu usuario"
-            value={username}
-            onChange={(event) => setUsername(event.currentTarget.value)}
-            required
-          />
+            <TextInput
+              label="Username"
+              placeholder="Tu usuario"
+              value={username}
+              onChange={(event) => setUsername(event.currentTarget.value)}
+              required
+            />
 
-          <PasswordInput
-            label="Contraseña"
-            placeholder="Tu contraseña"
-            value={password}
-            onChange={(event) => setPassword(event.currentTarget.value)}
-            required
-          />
+            <PasswordInput
+              label="Contraseña"
+              placeholder="Tu contraseña"
+              value={password}
+              onChange={(event) => setPassword(event.currentTarget.value)}
+              required
+            />
 
-          <Button my={'lg'} variant="primary" type="submit">
-            Iniciar sesión
-          </Button>
+            <Button my={'lg'} variant="primary" type="submit">
+              Iniciar sesión
+            </Button>
 
-          <Text ta={'center'}>
-            ¿Aún no tienes cuenta?{' '}
-            <Anchor href="/signin" c="blue">
-              Regístrate
-            </Anchor>
-          </Text>
-        </Stack>
-      </Group>
+            <Text ta={'center'}>
+              ¿Aún no tienes cuenta?{' '}
+              <Anchor href="/signin" c="blue">
+                Regístrate
+              </Anchor>
+            </Text>
+          </Stack>
+        </Group>
+      </form>
     </PageShell>
   );
 };
