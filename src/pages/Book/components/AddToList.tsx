@@ -6,9 +6,9 @@ import DynamicText from '@/components/DynamicText';
 import Loading from '@/components/Loading';
 import {
   addDocumentToList,
-  createList,
   getListsOfUser,
-  removeDocumentFromList,
+  createList,
+  deleteDocumentFromList,
   renameList,
 } from '@/services/api';
 
@@ -23,7 +23,7 @@ const List = ({ document_id, listData, queryClient }: {
   });
 
   const removeFromListMutation = useMutation({
-    mutationFn: () => removeDocumentFromList(document_id, listData.id),
+    mutationFn: () => deleteDocumentFromList(document_id, listData.id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['lists_of_user'] }),
   });
 
@@ -67,7 +67,7 @@ const AddToList = ({ document_id, opened, onClose }: {
 
   const listsQuery = useQuery({
     queryKey: ['lists_of_user'],
-    queryFn: getListsOfUser,
+    queryFn: () => getListsOfUser(document_id),
   });
 
   const newListMutation = useMutation({
