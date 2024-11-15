@@ -17,10 +17,10 @@ const LeftSection = ({ wordIndex }: { wordIndex: number }) => {
         <Title>Lee {WORDS[wordIndex]} quieras.</Title>
         <Text>Descubre libros, recógelos cuando quieras. Sin costo.</Text>
         <Flex gap="sm" direction={{ base: 'column', xl: 'row' }}>
-          <Button variant="primary" size="md" fullWidth onClick={() => setLocation('/signin')}>
+          <Button variant="primary" size="md" fullWidth onClick={() => setLocation('/signup')}>
             EMPIEZA HOY
           </Button>
-          <Button size="md" fullWidth onClick={() => setLocation('/signup')}>
+          <Button size="md" fullWidth onClick={() => setLocation('/signin')}>
             INICIAR SESIÓN
           </Button>
         </Flex>
