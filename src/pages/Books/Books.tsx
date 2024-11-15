@@ -20,7 +20,7 @@ const LeftSection = ({ wordIndex }: { wordIndex: number }) => {
           <Button variant="primary" size="md" fullWidth onClick={() => setLocation('/signin')}>
             EMPIEZA HOY
           </Button>
-          <Button size="md" fullWidth>
+          <Button size="md" fullWidth onClick={() => setLocation('/signup')}>
             INICIAR SESIÓN
           </Button>
         </Flex>
