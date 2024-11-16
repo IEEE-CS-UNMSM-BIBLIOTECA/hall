@@ -1,39 +1,74 @@
-import { useEffect, useState } from 'react';
-import { Center, Stack, TextInput } from '@mantine/core';
+import { TextInput } from '@mantine/core';
 import Masonry from 'react-masonry-css';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useDebouncedValue } from '@mantine/hooks';
 import PageShell from '@/layout/PageShell';
 import BookCard from '@/components/BookCard';
-import { Book } from '@/interfaces';
+import { searchDocument } from '@/services/api';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+
+const breakpointColumnsObj = {
+  default: 5,
+  1536: 4,
+  1280: 3,
+  768: 2,
+  480: 1,
+};
+
+const Results = ({ queryFilter }: { queryFilter: string }) => {
+  if (!queryFilter) {
+    return (
+      <p className="c-dimmed">
+        Los resultados aparecerán aquí
+      </p>
+    );
+  }
+
+  const searchQuery = useQuery({
+    queryKey: ['search'],
+    queryFn: () => searchDocument(queryFilter),
+  });
+
+  if (searchQuery.isLoading) {
+    return <Loading />;
+  }
+
+  if (searchQuery.isError || !searchQuery.data) {
+    return <Error />;
+  }
+
+  if (searchQuery.data.length === 0) {
+    return (
+      <p className="c-dimmed">
+        No se encontraron resultados
+      </p>
+    );
+  }
+
+  return (
+    <div>
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+        style={{ paddingTop: 'var(--mantine-spacing-lg)' }}
+      >
+        {searchQuery.data.map((book) => (
+          <BookCard
+            key={book.id}
+            data={book}
+          />
+        ))}
+      </Masonry>
+    </div>
+  );
+};
 
 const Search = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const breakpointColumnsObj = {
-    default: 5, // Número de columnas por defecto
-    1536: 4, // Para pantallas más pequeñas (max-width: 1536px)
-    1280: 3,
-    768: 2,
-    480: 1,
-  };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  const fetchBooks = async () => {
-    const response = await fetch('http://localhost:3000/books?');
-    if (!response.ok) {
-      throw new Error('Error fetching books');
-    }
-    const data = await response.json();
-    setBooks(data);
-    setLoading(false);
-  };
-
-  if (loading) {
-    return <p>Cargando libros...</p>;
-  }
+  const [queryFilter, setQueryFilter] = useState('');
+  const [debouncedQueryFilter] = useDebouncedValue(queryFilter, 200);
 
   return (
     <>
@@ -46,43 +81,28 @@ const Search = () => {
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
-          className="hide-scrollbar"
+          className="hide-scrollbar stack gap-xl"
         >
-          <Stack gap={5}>
-            <Center h={150}>Búsqueda</Center>
-
+          <div className="page-header">
+            BÚSQUEDA
+          </div>
+          <div className="stack gap-xxs">
             <TextInput
-              size="xl"
-              placeholder="Compiladores..."
+              value={queryFilter}
+              onChange={(event) => setQueryFilter(event.currentTarget.value)}
+              placeholder="Busca un libro..."
+              variant="transparent"
               styles={{
                 input: {
-                  border: 'none',
-                  fontSize: 'clamp(2rem, 5vw, 150px)',
+                  fontSize: 'var(--mantine-h1-font-size)',
+                  fontWeight: 'var(--mantine-h1-font-weight)',
                   height: 'auto',
-                  padding: '0',
-                  marginBottom: 'var(--mantine-spacing-md)',
+                  padding: 0,
                 },
               }}
             />
-
-            <Masonry
-              breakpointCols={breakpointColumnsObj}
-              className="my-masonry-grid"
-              columnClassName="my-masonry-grid_column"
-            >
-              {books.map((book, index) => (
-                <BookCard
-                  key={index}
-                  image={book.image}
-                  title={book.title}
-                  authors={[
-                    { href: 'https://autor1.com', label: 'Autor 1' },
-                    { href: 'https://autor2.com', label: 'Autor 2' },
-                  ]}
-                />
-              ))}
-            </Masonry>
-          </Stack>
+            <Results queryFilter={debouncedQueryFilter} />
+          </div>
         </div>
       </PageShell>
     </>

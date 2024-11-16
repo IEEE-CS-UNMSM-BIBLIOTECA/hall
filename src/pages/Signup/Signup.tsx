@@ -1,398 +1,214 @@
-import { useState, useRef } from 'react';
-import {
-  TextInput,
-  Select,
-  Textarea,
-  PasswordInput,
-  Button,
-  Box,
-  Flex,
-  Grid,
-  Text,
-  Anchor,
-} from '@mantine/core';
-import { IconX } from '@tabler/icons-react';
+import { Button, Grid, PasswordInput, Select, Textarea, TextInput, Title } from '@mantine/core';
+// import { Dropzone } from '@mantine/dropzone';
+import { hasLength, isEmail, matches, useForm } from '@mantine/form';
+import { useMutation } from '@tanstack/react-query';
+import { useLocation } from 'wouter';
+import { signUp } from '@/services/api';
+import { SignupPayload } from '@/types';
+import PageShell from '@/layout/PageShell';
+
+const genderData = [
+  { value: '1', label: 'Masculino' },
+  { value: '2', label: 'Femenino' },
+  { value: '3', label: 'Prefiero no decirlo' },
+  { value: '4', label: 'Otro' },
+];
 
 const Signup = () => {
-  // Estado único para almacenar todos los datos del formulario
-  const [formData, setFormData] = useState({
-    user_name: '',
-    gender: '',
-    full_name: '',
-    bio: '',
-    password: '',
-    confirm_password: '',
-    address: '',
-    birth_date: '',
-    phone: '',
-    email: '',
-    image: null as string | null,
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+      confirm_password: '',
+      email: '',
+      name: '',
+      birth_date: '',
+      bio: '',
+      address: '',
+      mobile_phone: '',
+      gender_id: '0',
+    },
+    validate: {
+      username: hasLength({ min: 1, max: 20 }, 'El nombre de usuario debe tener entre 1 y 20 caracteres'),
+      password: matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número'),
+      confirm_password: (value, values) => values.password === value ? null : 'Las contraseñas no coinciden',
+      email: isEmail('El correo electrónico no es válido'),
+      name: hasLength({ min: 1, max: 100 }, 'El nombre debe tener entre 1 y 100 caracteres'),
+      birth_date: (value) => {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+          return 'La fecha de nacimiento no es válida';
+        }
+        const thirteenYearsAgo = new Date();
+        thirteenYearsAgo.setFullYear(thirteenYearsAgo.getFullYear() - 13);
+        return date < thirteenYearsAgo ? null : 'Debes tener al menos 13 años para registrarte';
+      },
+      address: hasLength({ min: 1, max: 100 }, 'La dirección debe tener entre 1 y 100 caracteres'),
+      mobile_phone: matches(/^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/, 'El número de teléfono no es válido'),
+    },
   });
-  const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const maxLength = 200; // Límite de caracteres para la biografía
 
-  // Opciones de género que vienen de la base de datos
-  const genderOptions = [
-    { value: '1', label: 'Hombre' },
-    { value: '2', label: 'Mujer' },
-    { value: '3', label: 'No especificado' },
-    { value: '4', label: 'No binario' },
-  ];
+  const [, setLocation] = useLocation();
 
-  // Manejar cambios en los campos de texto
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const registerMutation = useMutation({
+    mutationFn: (data: SignupPayload) => signUp(data),
+  });
 
-  const handleSelectChange = (value: string | null) => {
-    if (value !== null) {
-      setFormData({ ...formData, gender: value });
-    }
-  };
-
-  const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({ ...formData, bio: event.target.value });
-  };
-
-  // Manejar la imagen de perfil
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files ? event.target.files[0] : null;
-    if (file) {
-      const reader = new FileReader();
-
-      // Verificar el tamaño del archivo (3 MB)
-      if (file.size > 3 * 1024 * 1024) {
-        setError('La imagen no debe exceder 3 MB');
-        setTimeout(() => setError(null), 4000);
-        return;
-      }
-
-      reader.onloadend = () => {
-        setFormData({ ...formData, image: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-    setError(null);
-  };
-
-  const handleRemoveImage = (event: React.MouseEvent) => {
-    event.stopPropagation();
-
-    // Limpiar la imagen del estado
-    setFormData({ ...formData, image: null });
-
-    // Limpiar el valor del input de archivo
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''; // Restablecer el input de archivo
-    }
-
-    setError(null);
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); // Evita el comportamiento por defecto del formulario
-
-    // 1. Validar si las contraseñas son iguales
-    if (formData.password !== formData.confirm_password) {
-      alert('Las contraseñas no coinciden');
-      return;
-    }
-
-    // 2. Validar fecha de nacimiento (al menos 13 años)
-    const birthDate = new Date(formData.birth_date);
-    const age = new Date().getFullYear() - birthDate.getFullYear();
-    if (age < 13) {
-      alert('Debes tener al menos 13 años para registrarte');
-      return;
-    }
-
-    // 3. Validar el nombre de usuario (mínimo 2 caracteres)
-    if (formData.user_name.length < 2) {
-      alert('El nombre de usuario debe tener al menos 2 caracteres');
-      return;
-    }
-
-    // 4. Validar el formato del email (aunque ya lo validas en el formulario, puedes agregar una verificación extra)
-    const emailRegex = /^[^@]+@[^@]+\.[^@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      alert('El formato del correo electrónico no es válido');
-      return;
-    }
-
-    try {
-      const dataToSend = {
-        username: formData.user_name,
-        gender_id: parseInt(formData.gender),
-        name: formData.full_name,
-        bio: formData.bio.trim() === '' ? null : formData.bio, // Enviar null si está vacío
-        password: formData.password,
-        address: formData.address,
-        birth_date: formData.birth_date,
-        mobile_phone: formData.phone,
-        email: formData.email,
-        profile_picture_url:
-          fileInputRef.current && fileInputRef.current.files && fileInputRef.current.files[0]
-            ? fileInputRef.current.files[0]
-            : null, // Aquí lo puedes manejar dependiendo de tu backend
-      };
-
-      const response = await fetch('http://143.198.142.139:8080/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Especificamos que estamos enviando JSON
-        },
-        body: JSON.stringify(dataToSend), // Convertimos el objeto a JSON
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al enviar los datos');
-      }
-
-      alert('¡Registro exitoso!');
-      window.location.href = '/books'; // Redirigir a /books
-
-      console.log('Datos enviados con éxito');
-    } catch (error) {
-      console.error('Error al enviar los datos:', error);
-    }
-  };
+  const handleSubmit = () => form.onSubmit(async (values) => {
+    const data: SignupPayload = {
+      username: values.username,
+      password: values.password,
+      email: values.email,
+      name: values.name,
+      birth_date: values.birth_date,
+      address: values.address,
+      mobile_phone: values.mobile_phone,
+      gender_id: Number(values.gender_id),
+    };
+    await registerMutation.mutateAsync(data);
+    setLocation('/signin');
+  });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Flex
-        gap={{ base: 'sm', md: 'xl' }}
-        direction="column"
-        align="center"
-        py={{ base: '50px', md: '75px' }}
-        px={{ base: '100px', md: '150px' }}
+    <PageShell>
+      <div
+        className="stack ai-center gap-xxl jc-center"
+        style={{ marginLeft: 'auto', marginRight: 'auto', height: '100dvh' }}
       >
-        {/* Título del formulario */}
-        <Text size="xl" fw={700} mb="md">
-          Crea una cuenta
-        </Text>
-
-        <Flex
-          gap={{ base: 'sm', md: 'xl' }}
-          direction={{ base: 'column', md: 'row' }}
-          align={{ base: 'stretch', md: 'center' }}
-          justify="space-between"
+        <Title order={4}>
+          Crea tu cuenta
+        </Title>
+        <form
+          className="stack gap-xxl ai-center"
+          onSubmit={handleSubmit()}
         >
-          {/* Columna Izquierda */}
-          <Box
-            style={{
-              flex: 0.4,
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              alignItems: 'center',
-              alignSelf: 'flex-start',
-            }}
-          >
-            <div style={{ fontWeight: 'bold', marginBottom: '10px' }}>Foto de perfil</div>
-            <div style={{ position: 'relative', width: 250, height: 250 }}>
-              <img
-                src={formData.image || 'https://placehold.co/250'}
-                alt="Profile"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '10px',
-                  border: '2px solid #ccc',
-                  cursor: 'pointer',
-                }}
-                onClick={handleImageClick}
-              />
-              {formData.image && (
-                <div
-                  onClick={handleRemoveImage}
-                  style={{
-                    position: 'absolute',
-                    top: '5px',
-                    right: '5px',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    color: 'white',
-                    borderRadius: '50%',
-                    width: '30px',
-                    height: '30px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    zIndex: 2,
-                  }}
-                >
-                  <IconX size={20} color="white" />
-                </div>
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  opacity: 0,
-                  cursor: 'pointer',
-                  zIndex: 1,
-                }}
-                onChange={handleImageChange}
-              />
-            </div>
-            {error && (
-              <Text
-                c="red"
-                style={{
-                  marginTop: '10px',
-                  textAlign: 'center',
-                }}
-              >
-                {error}
-              </Text>
-            )}
-          </Box>
-
-          {/* Columna Derecha */}
-          <Box style={{ flex: 0.6 }}>
-            <Grid>
+          <div className="group gap-xl ai-start">
+            {/* <Dropzone
+              className="stack ai-center jc-center ta-center fz-sm c-dimmed"
+              w={200}
+              h={200}
+              bg="gray.3"
+              onDrop={() => {}}
+            >
+              <p style={{ maxWidth: 130 }}>
+                Presiona o arrastra para subir
+              </p>
+            </Dropzone> */}
+            <Grid maw={700}>
               <Grid.Col span={6}>
                 <TextInput
+                  key={form.key('username')}
                   label="Nombre de Usuario"
                   name="user_name"
-                  value={formData.user_name}
-                  onChange={handleInputChange}
                   placeholder="Escribe tu nombre de usuario"
                   required
+                  {...form.getInputProps('username')}
                 />
               </Grid.Col>
               <Grid.Col span={6}>
                 <Select
+                  key={form.key('gender_id')}
                   label="Género"
-                  value={formData.gender}
-                  onChange={handleSelectChange}
                   placeholder="Selecciona tu género"
-                  data={genderOptions} // Usamos las opciones de género
+                  data={genderData}
                   required
+                  {...form.getInputProps('gender_id')}
                 />
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col>
                 <TextInput
+                  key={form.key('name')}
                   label="Nombres y Apellidos"
                   name="full_name"
-                  value={formData.full_name}
-                  onChange={handleInputChange}
                   placeholder="Escribe tu nombre completo"
                   required
+                  {...form.getInputProps('name')}
                 />
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col>
                 <TextInput
+                  key={form.key('email')}
                   label="Correo Electrónico"
                   name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
                   placeholder="Escribe tu correo electrónico"
                   required
-                  type="email" // Tipo de campo para correo electrónico
+                  type="email"
+                  {...form.getInputProps('email')}
                 />
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col>
                 <Textarea
+                  key={form.key('bio')}
                   label="Biografía"
                   name="bio"
-                  value={formData.bio}
-                  onChange={handleBioChange}
                   placeholder="Escribe algo sobre ti"
                   minRows={3}
-                  autosize
-                  maxLength={maxLength}
+                  maxRows={3}
+                  {...form.getInputProps('bio')}
                 />
-                <Text size="xs" c="gray" style={{ textAlign: 'right' }}>
-                  {formData.bio.length}/{maxLength}
-                </Text>
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col>
                 <PasswordInput
+                  key={form.key('password')}
                   label="Contraseña"
                   name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
                   placeholder="Escribe tu contraseña"
                   required
+                  {...form.getInputProps('password')}
                 />
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col>
                 <PasswordInput
+                  key={form.key('confirm_password')}
                   label="Repite Contraseña"
                   name="confirm_password"
-                  value={formData.confirm_password}
-                  onChange={handleInputChange}
                   placeholder="Repite tu contraseña"
                   required
+                  {...form.getInputProps('confirm_password')}
                 />
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col>
                 <TextInput
+                  key={form.key('address')}
                   label="Dirección"
                   name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
                   placeholder="Escribe tu dirección"
                   required
+                  {...form.getInputProps('address')}
                 />
               </Grid.Col>
               <Grid.Col span={6}>
                 <TextInput
+                  key={form.key('birth_date')}
                   label="Fecha de Nacimiento"
                   name="birth_date"
-                  value={formData.birth_date}
-                  onChange={handleInputChange}
                   placeholder="DD/MM/AAAA"
                   type="date"
                   required
+                  {...form.getInputProps('birth_date')}
                 />
               </Grid.Col>
               <Grid.Col span={6}>
                 <TextInput
+                  key={form.key('mobile_phone')}
                   label="Teléfono"
                   name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
                   placeholder="Escribe tu número de teléfono"
                   required
+                  {...form.getInputProps('mobile_phone')}
                 />
               </Grid.Col>
             </Grid>
-          </Box>
-        </Flex>
-
-        <Button mt="xl" type="submit" size="lg" variant="primary">
-          Registrarme
-        </Button>
-        <Text
-          mt="lg"
-          style={{
-            alignSelf: 'center',
-          }}
-        >
-          ¿Ya tienes una cuenta?{' '}
-          <Anchor href="/signin" c="blue">
-            Inicia sesión aquí
-          </Anchor>
-        </Text>
-      </Flex>
-    </form>
+          </div>
+          <Button
+            variant="primary"
+            type="submit"
+          >
+            REGISTRARSE
+          </Button>
+        </form>
+      </div>
+    </PageShell>
   );
 };
 

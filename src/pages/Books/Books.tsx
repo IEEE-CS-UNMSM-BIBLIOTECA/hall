@@ -1,10 +1,10 @@
 import { Box, Button, Center, Flex, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
+import { useLocalStorage } from '@mantine/hooks';
 import PageShell from '@/layout/PageShell';
 import BookSlider from '@/components/BookSlider';
 import './Books.css';
-
-import { useLocation } from 'wouter';
 
 const WORDS = ['cuando', 'como', 'donde', 'lo que'];
 
@@ -31,6 +31,7 @@ const LeftSection = ({ wordIndex }: { wordIndex: number }) => {
 
 const Books = () => {
   const [wordIndex, setWord] = useState(0);
+  const [token] = useLocalStorage({ key: 'token' });
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -49,9 +50,12 @@ const Books = () => {
           align={{ base: 'stretch', md: 'center' }}
           justify="jc-space-between"
         >
-          <Box visibleFrom="md">
-            <LeftSection wordIndex={wordIndex} />
-          </Box>
+          {
+            !token &&
+            <Box visibleFrom="md">
+              <LeftSection wordIndex={wordIndex} />
+            </Box>
+          }
           <div
             style={{
               height: '100vh',
@@ -64,9 +68,12 @@ const Books = () => {
           >
             <Stack gap={0}>
               <Center h={100}>
-                {/* <Text size="lg">
-                  TEST
-                  </Text> */}
+              {
+                token &&
+                <Text size="lg">
+                  LIBROS
+                </Text>
+              }
               </Center>
               <Box hiddenFrom="md" mb="var(--mantine-spacing-xxl)">
                 <LeftSection wordIndex={wordIndex} />

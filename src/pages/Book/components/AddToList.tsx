@@ -24,16 +24,23 @@ const List = ({
 }) => {
   const addToListMutation = useMutation({
     mutationFn: () => addDocumentToList(document_id, listData.id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['listsOfUser'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists', { user: 'self' }] });
+    },
   });
 
   const removeFromListMutation = useMutation({
     mutationFn: () => deleteDocumentFromList(document_id, listData.id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['listsOfUser'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists', { user: 'self' }] });
+    },
   });
 
   const renameListMutation = useMutation({
     mutationFn: (newTitle: string) => renameList(listData.id, newTitle),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists', { user: 'self' }] });
+    },
   });
 
   const onCheckboxChange = async ({ currentTarget }: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +53,7 @@ const List = ({
   };
 
   const onListRename = async (newTitle: string) => {
+    console.log('newTitle', newTitle);
     await renameListMutation.mutateAsync(newTitle);
   };
 
@@ -67,7 +75,14 @@ const Lists = ({
   queryClient: ReturnType<typeof useQueryClient>;
 }) => {
   if (lists.length === 0) {
-    return <p className="stack jc-center ai-center c-dimmed fz-sm py-xxl">Aún no tienes listas</p>;
+    return (
+      <p
+        className="stack jc-center ai-center c-dimmed fz-sm py-xxl"
+        style={{ height: 300 }}
+      >
+        No hay listas que mostrar
+      </p>
+    );
   }
 
   return (

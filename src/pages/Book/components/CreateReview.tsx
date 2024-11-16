@@ -31,6 +31,7 @@ const CreateReview = ({ document_id, opened, onClose }: {
     mutationFn: (data: NewReviewType) => addReview(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', { document_id }] });
+      queryClient.invalidateQueries({ queryKey: ['book', { id: document_id }] });
     },
   });
 
@@ -40,7 +41,7 @@ const CreateReview = ({ document_id, opened, onClose }: {
       // todo: delete user_id
       user_id: 22,
       ...values,
-  };
+    };
     await addReviewMutation.mutateAsync(data);
     onClose();
   });

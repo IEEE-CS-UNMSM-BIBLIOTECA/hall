@@ -1,58 +1,80 @@
+import { TextInput, PasswordInput, Button, Title } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { useMutation } from '@tanstack/react-query';
+import { useLocation } from 'wouter';
+import { AxiosError } from 'axios';
 import PageShell from '@/layout/PageShell';
-import { Text, TextInput, PasswordInput, Button, Stack, Group, Anchor } from '@mantine/core';
-import { useState } from 'react';
+import { SigninPayload } from '@/types';
+import { signIn } from '@/services/api';
 
 const Signin = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+  });
 
-  const handleSignIn = () => {
-    // Aquí podrías agregar la lógica para manejar el inicio de sesión
-    // Por ejemplo, hacer una petición a tu backend con el username y password
-    if (username && password) {
-      alert(`Intentando iniciar sesión con usuario: ${username}`);
-    } else {
-      alert('Por favor, completa ambos campos.');
-    }
-  };
+  const [, setLocation] = useLocation();
+
+  const signinMutation = useMutation({
+    mutationFn: (data: SigninPayload) => signIn(data),
+    onSuccess: () => {},
+    onError: ({ status }: AxiosError) => {
+      if (status === 401) {
+        form.setErrors({ username: 'Usuario o contraseña incorrectos' });
+      }
+    },
+  });
+
+  const handleSignin = () => form.onSubmit(async (values: SigninPayload) => {
+    const { data } = await signinMutation.mutateAsync(values);
+    localStorage.setItem('token', data.token);
+    setLocation('/');
+  });
 
   return (
     <PageShell>
-      <form onSubmit={handleSignIn}>
-        <Group justify="center">
-          <Stack style={{ width: '100%', maxWidth: '400px' }}>
-            <Text ta={'center'} size="xl" fw={'bold'}>
-              Bienvenido de vuelta
-            </Text>
+      <form
+        className="stack gap-lg jc-center"
+        style={{ marginLeft: 'auto', marginRight: 'auto', height: '100dvh' }}
+        onSubmit={handleSignin()}
+      >
+        <Title order={3} mb="sm">
+          Bienvenido de vuelta
+        </Title>
 
-            <TextInput
-              label="Username"
-              placeholder="Tu usuario"
-              value={username}
-              onChange={(event) => setUsername(event.currentTarget.value)}
-              required
-            />
+        <div className="stack gap-xs">
+          <TextInput
+            key={form.key('username')}
+            {...form.getInputProps('username')}
+            label="Nombre de usuario"
+            placeholder="Tu usuario"
+            required
+          />
+          <PasswordInput
+            key={form.key('password')}
+            {...form.getInputProps('password')}
+            label="Contraseña"
+            placeholder="Tu contraseña"
+            required
+          />
+        </div>
 
-            <PasswordInput
-              label="Contraseña"
-              placeholder="Tu contraseña"
-              value={password}
-              onChange={(event) => setPassword(event.currentTarget.value)}
-              required
-            />
+        <Button
+          my="md"
+          variant="primary"
+          type="submit"
+        >
+          INICIAR SESIÓN
+        </Button>
 
-            <Button my={'lg'} variant="primary" type="submit">
-              Iniciar sesión
-            </Button>
-
-            <Text ta={'center'}>
-              ¿Aún no tienes cuenta?{' '}
-              <Anchor href="/signin" c="blue">
-                Regístrate
-              </Anchor>
-            </Text>
-          </Stack>
-        </Group>
+        <p className="ta-center fz-sm">
+          ¿Aún no tienes cuenta?{' '}
+          <a href="/signup" className="explicit">
+            Regístrate
+          </a>
+        </p>
       </form>
     </PageShell>
   );

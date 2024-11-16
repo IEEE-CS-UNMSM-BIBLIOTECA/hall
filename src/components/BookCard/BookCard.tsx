@@ -1,7 +1,8 @@
 import { Image as MantineImage, Text, Box, Stack, Flex, Menu } from '@mantine/core';
 import { IconDots } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
-import Links, { LinkType } from '../Links/Links';
+import Links from '../Links';
+import { DocumentTypePreview } from '@/types';
 
 interface Option {
   label: string;
@@ -9,13 +10,11 @@ interface Option {
 }
 
 interface BookCardProps {
-  image: string;
-  title: string;
-  authors: LinkType[];
+  data: DocumentTypePreview;
   options?: Option[];
 }
 
-const BookCard = ({ image, title, authors, options = [] }: BookCardProps) => {
+const BookCard = ({ data, options = [] }: BookCardProps) => {
   const [aspectRatio, setAspectRatio] = useState(1);
 
   useEffect(() => {
@@ -23,8 +22,8 @@ const BookCard = ({ image, title, authors, options = [] }: BookCardProps) => {
     img.onload = () => {
       setAspectRatio(img.width / img.height);
     };
-    img.src = image;
-  }, [image]);
+    img.src = data.cover_url;
+  }, [data.cover_url]);
 
   return (
     <Stack
@@ -43,8 +42,8 @@ const BookCard = ({ image, title, authors, options = [] }: BookCardProps) => {
         }}
       >
         <MantineImage
-          src={image}
-          alt={title}
+          src={data.cover_url}
+          alt={data.title}
           style={{
             position: 'absolute',
             top: 0,
@@ -58,7 +57,9 @@ const BookCard = ({ image, title, authors, options = [] }: BookCardProps) => {
       <Box>
         <Flex align="center" justify="space-between">
           <Text size="lg" fw={500}>
-            {title}
+            <a href={`/book/${data.id}`}>
+              {data.title}
+            </a>
           </Text>
           {options.length > 0 && (
             <Menu shadow="md" width={200}>
@@ -76,7 +77,10 @@ const BookCard = ({ image, title, authors, options = [] }: BookCardProps) => {
           )}
         </Flex>
         <Text size="sm">
-          <Links links={authors} />
+          <Links links={(data.authors.map((author) => ({
+            href: `/author/${author.id}`,
+            label: author.name,
+          })))} />
         </Text>
       </Box>
     </Stack>

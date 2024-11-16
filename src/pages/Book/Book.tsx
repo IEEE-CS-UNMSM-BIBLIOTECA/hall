@@ -1,8 +1,8 @@
 import { Button, Rating, Spoiler, Title } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDisclosure } from '@mantine/hooks';
 import PageShell from '@/layout/PageShell';
-import { getDocument, getReviewsByDocument } from '@/services/api';
+import { addOrder, getDocument, getReviewsByDocument } from '@/services/api';
 import EmbeddedReview from '@/components/EmbeddedReview';
 import Links from '@/components/Links';
 import AddToList from './components/AddToList';
@@ -59,9 +59,18 @@ const Book = ({
   const [addListOpened, addListHandlers] = useDisclosure(false);
   const [createReviewOpened, createReviewHandlers] = useDisclosure(false);
 
+  const queryClient = useQueryClient();
+
   const documentQuery = useQuery({
     queryKey: ['book', id],
     queryFn: () => getDocument(id),
+  });
+
+  const addOrderMutation = useMutation({
+    mutationFn: (document_id: number) => addOrder(document_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders', { user: 'self' }] });
+    },
   });
 
   if (documentQuery.isPending) {
@@ -82,12 +91,17 @@ const Book = ({
 
   const documentData = documentQuery.data;
 
+  const handleAddOrder = async () => {
+    await addOrderMutation.mutateAsync(Number(id));
+    console.log('Order added');
+  };
+
   return (
     <>
       <PageShell>
         <div className="page-container gap-xl">
           <img
-            src={documentData.cover_url}
+            src={`http://143.198.142.139:8080/cover/${documentData.id}`}
             alt={`Portada de ${documentData.title}`}
           />
           <div className="vertical-scroll">
@@ -120,7 +134,11 @@ const Book = ({
                   </div>
                 </section>
                 <section className="group gap-xs">
-                  <Button variant="primary">
+                  <Button
+                    variant="primary"
+                    loading={addOrderMutation.isPending}
+                    onClick={handleAddOrder}
+                  >
                     SEPARAR COPIA
                   </Button>
                   <Button onClick={addListHandlers.open}>

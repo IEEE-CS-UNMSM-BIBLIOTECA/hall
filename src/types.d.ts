@@ -60,7 +60,7 @@ export interface NewReviewType {
 
 export interface UserTypePublicPreview {
   id:                  number;
-  user_name:           string;
+  username:            string;
   profile_picture_url: string;
 }
 
@@ -75,6 +75,23 @@ export interface UserType extends UserTypePublic {
   address:      string;
   mobile_phone: string;
   gender:       GenderType;
+}
+
+export interface SignupPayload {
+  username:     string;
+  password:     string;
+  email:        string;
+  name:         string;
+  birth_date:   string;
+  bio?:         string;
+  address:      string;
+  mobile_phone: string;
+  gender_id:    number;
+}
+
+export interface SigninPayload {
+  username: string;
+  password: string;
 }
 
 /* list */

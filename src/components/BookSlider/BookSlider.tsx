@@ -1,40 +1,29 @@
-import { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
+import { useQuery } from '@tanstack/react-query';
 import BookCard from '@/components/BookCard/BookCard';
+import { getDocuments } from '@/services/api';
+import Loading from '../Loading';
+import Error from '@/components/Error';
 
-interface Book {
-  image: string;
-  title: string;
-  author: string;
-}
+const breakpointColumnsObj = {
+  default: 5,
+  1200: 3,
+  900: 2,
+  600: 1,
+};
 
 const BookSlider = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
+  const booksQuery = useQuery({
+    queryKey: ['books'],
+    queryFn: getDocuments,
+  });
 
-  const breakpointColumnsObj = {
-    default: 4, // Número de columnas por defecto
-    1200: 3, // Para pantallas más pequeñas (max-width: 1200px)
-    900: 2, // Para pantallas más pequeñas (max-width: 900px)
-    600: 1, // Para pantallas más pequeñas (max-width: 600px)
-  };
+  if (booksQuery.isLoading) {
+    return <Loading />;
+  }
 
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  const fetchBooks = async () => {
-    const response = await fetch('http://localhost:3000/books?');
-    if (!response.ok) {
-      throw new Error('Error fetching books');
-    }
-    const data = await response.json();
-    setBooks(data);
-    setLoading(false);
-  };
-
-  if (loading) {
-    return <p>Cargando libros...</p>;
+  if (booksQuery.isError || !booksQuery.data) {
+    return <Error />;
   }
 
   return (
@@ -43,15 +32,10 @@ const BookSlider = () => {
       className="my-masonry-grid"
       columnClassName="my-masonry-grid_column"
     >
-      {books.map((book, index) => (
+      {booksQuery.data.map((book, index) => (
         <BookCard
           key={index}
-          image={book.image}
-          title={book.title}
-          authors={[
-            { href: 'https://autor1.com', label: 'Autor 1' },
-            { href: 'https://autor2.com', label: 'Autor 2' },
-          ]}
+          data={book}
         />
       ))}
     </Masonry>

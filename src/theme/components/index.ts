@@ -15,6 +15,7 @@ export default {
   Text,
   Select,
   TextInput,
+  Input: TextInput,
   Rating,
   Checkbox,
   Modal,
