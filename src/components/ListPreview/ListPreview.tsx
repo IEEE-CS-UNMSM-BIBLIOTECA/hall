@@ -1,11 +1,16 @@
-import { Title } from '@mantine/core';
-import { ListTypePreview } from '@/types';
+import { Menu, Title } from '@mantine/core';
+import { IconBook, IconDots } from '@tabler/icons-react';
+import { ListTypePreview, OptionType } from '@/types';
 import LikeButton from '../LikeButton';
 
 const ListPreview = ({ data, big }: {
   data: ListTypePreview,
   big?: boolean,
 }) => {
+  const options: OptionType[] | undefined = data.own ? [
+    // { label }
+  ] : undefined;
+
   return (
     <div className="stack gap-lg">
       <div className={`list-preview ${big && 'big'}`}>
@@ -31,14 +36,32 @@ const ListPreview = ({ data, big }: {
             {data.title}
           </a>
         </Title>
-        <p>{data.description}</p>
-        <footer className="group jc-space-between ai-center">
+        <footer className="group gap-md">
           <LikeButton
             totalLikes={data.total_likes}
             liked={data.liked}
             addLike={() => {}}
             removeLike={() => {}}
           />
+          <div className="group gap-xxs ai-center">
+            <IconBook
+              className="icon-button"
+              size={20}
+            />
+            <span className="fz-sm">
+              {data.total_books}
+            </span>
+          </div>
+          <Menu>
+            <Menu.Target>
+              <IconDots
+                className="icon-button"
+                size={20}
+              />
+            </Menu.Target>
+            <Menu.Dropdown>
+            </Menu.Dropdown>
+          </Menu>
         </footer>
       </div>
     </div>

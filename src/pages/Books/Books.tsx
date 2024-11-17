@@ -1,12 +1,48 @@
-import { Box, Button, Center, Flex, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useLocalStorage } from '@mantine/hooks';
+import Masonry from 'react-masonry-css';
+import { useQuery } from '@tanstack/react-query';
 import PageShell from '@/layout/PageShell';
-import BookSlider from '@/components/BookSlider';
+import { getDocuments, getDocumentsPublic } from '@/services/api';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+import BookCard from '@/components/BookCard';
+import { breakpointCols } from '@/constants';
 import './Books.css';
 
 const WORDS = ['cuando', 'como', 'donde', 'lo que'];
+
+const Content = ({ token }: { token: string | null }) => {
+  const booksQuery = useQuery({
+    queryKey: ['books'],
+    queryFn: token ? getDocuments : getDocumentsPublic,
+  });
+
+  if (booksQuery.isLoading) {
+    return <Loading />;
+  }
+
+  if (booksQuery.isError || !booksQuery.data) {
+    return <Error />;
+  }
+
+  return (
+    <Masonry
+      breakpointCols={breakpointCols}
+      className="my-masonry-grid"
+      columnClassName="my-masonry-grid_column"
+    >
+      {booksQuery.data.map((book, index) => (
+        <BookCard
+          key={index}
+          data={book}
+        />
+      ))}
+    </Masonry>
+  );
+};
 
 const LeftSection = ({ wordIndex }: { wordIndex: number }) => {
   const [, setLocation] = useLocation();
@@ -44,44 +80,20 @@ const Books = () => {
   return (
     <>
       <PageShell>
-        <Flex
-          gap={{ base: 'xl', md: 'var(--mantine-spacing-xxxl)' }}
-          direction={{ base: 'column', md: 'row' }}
-          align={{ base: 'stretch', md: 'center' }}
-          justify="jc-space-between"
-        >
+        <div className="group gap-xxl ai-center jc-space-between">
           {
             !token &&
             <Box visibleFrom="md">
               <LeftSection wordIndex={wordIndex} />
             </Box>
           }
-          <div
-            style={{
-              height: '100vh',
-              flex: 2,
-              overflowY: 'scroll',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
-            className="hide-scrollbar"
-          >
-            <Stack gap={0}>
-              <Center h={100}>
-              {
-                token &&
-                <Text size="lg">
-                  LIBROS
-                </Text>
-              }
-              </Center>
-              <Box hiddenFrom="md" mb="var(--mantine-spacing-xxl)">
-                <LeftSection wordIndex={wordIndex} />
-              </Box>
-              <BookSlider />
-            </Stack>
+          <div className="scrollable-page flex-1">
+          <div className="page-header">
+            {token && 'LIBROS'}
           </div>
-        </Flex>
+            <Content token={token} />
+          </div>
+        </div>
       </PageShell>
     </>
   );

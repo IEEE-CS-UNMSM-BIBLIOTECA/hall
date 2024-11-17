@@ -6,6 +6,7 @@ import PageShell from '@/layout/PageShell';
 import { ReviewType } from '@/types';
 import UserBadge from '@/components/UserBadge';
 import LikeButton from '@/components/LikeButton';
+import Links from '@/components/Links';
 
 const data: ReviewType = {
   id: 1,
@@ -14,19 +15,22 @@ const data: ReviewType = {
   rating: 5,
   total_likes: 10,
   liked: true,
-  author: {
+  user: {
     id: 1,
-    name: 'John Doe',
+    username: 'John Doe',
     profile_picture_url: 'https://placehold.co/50x50',
   },
-  book: {
+  spoiler: false,
+  document: {
     id: 0,
     title: 'Título 1',
     cover_url: 'https://via.placeholder.com/200x310',
-    author: {
-      id: 0,
-      name: 'Autor 1',
-    },
+    authors: [
+      {
+        id: 0,
+        name: 'Autor 1',
+      },
+    ],
   },
 };
 
@@ -38,22 +42,26 @@ const Review = ({ id }: { id: string }) => {
     <PageShell>
       <div className="page-container gap-xl">
         <img
-          src={reviewQuery.data.book.cover_url}
-          alt={`Portada de ${reviewQuery.data.book.title}`}
+          src={reviewQuery.data.document.cover_url}
+          alt={`Portada de ${reviewQuery.data.document.title}`}
         />
         <div className="stack gap-lg">
           <section className="group gap-xs ai-center">
             <IconArrowLeft
               className="icon-button"
-              onClick={() => setLocation(`/book/${reviewQuery.data.book.id}`)}
+              onClick={() => setLocation(`/book/${reviewQuery.data.document.id}`)}
             />
             <div className="stack">
-              <a href={`/book/${reviewQuery.data.book.id}`}>
-                {reviewQuery.data.book.title}
+              <a href={`/book/${reviewQuery.data.document.id}`}>
+                {reviewQuery.data.document.title}
               </a>
-              <a className="fz-sm" href={`/author/${reviewQuery.data.book.author.id}`}>
-                {reviewQuery.data.book.author.name}
-              </a>
+              <Links
+                links={reviewQuery.data.document.authors.map((author) => ({
+                  href: `/author/${author.id}`,
+                  label: author.name,
+                }))}
+                className="fz-sm c-dimmed"
+              />
             </div>
           </section>
           <main className="vertical-scroll stack gap-lg">
@@ -70,8 +78,8 @@ const Review = ({ id }: { id: string }) => {
             </section>
             <footer className="group jc-space-between ai-center">
               <UserBadge
-                name={reviewQuery.data.author.name}
-                id={reviewQuery.data.author.id}
+                name={reviewQuery.data.user.username}
+                id={reviewQuery.data.user.id}
               />
               <LikeButton
                 totalLikes={data.total_likes}

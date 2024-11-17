@@ -31,7 +31,7 @@ const LikeButton = ({ totalLikes, liked, addLike, removeLike }: {
   removeLike: () => void;
 }) => {
   return (
-    <div className="group gap-xs ai-center">
+    <div className="group gap-xxs ai-center">
       <LikeIcon liked={liked} addLike={addLike} removeLike={removeLike} />
       <span className="fz-sm">
         {totalLikes}

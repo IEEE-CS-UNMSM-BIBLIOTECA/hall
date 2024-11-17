@@ -36,6 +36,7 @@ export interface ReviewTypePreview {
   liked:       boolean;
   spoiler:     boolean;
   user:        UserTypePublicPreview;
+  own:         boolean;
 }
 
 export interface ReviewType extends ReviewTypePreview {
@@ -61,7 +62,7 @@ export interface NewReviewType {
 export interface UserTypePublicPreview {
   id:                  number;
   username:            string;
-  profile_picture_url: string;
+  // profile_picture_url: string;
 }
 
 export interface UserTypePublic extends UserTypePublicPreview {
@@ -99,16 +100,16 @@ export interface SigninPayload {
 export interface ListTypePreview {
   id:             number;
   title:          string;
-  description:    string;
   total_likes:    number;
   total_books:    number;
-  liked:          boolean;
   preview_images: string[];
+  private?:       boolean;
+  liked:          boolean;
+  own:            boolean;
 }
 
-export interface ListType extends ListTypePreview {
-  private: boolean;
-  user:    UserTypePublicPreview;
+export interface ListType extends Omit<ListTypePreview, "preview_images"> {
+  user: UserTypePublicPreview;
 }
 
 export interface ListTypeAddDocument {
@@ -147,6 +148,11 @@ export interface OrderType {
 }
 
 /* other */
+
+export interface OptionType {
+  label:   string;
+  onClick: () => void;
+}
 
 export interface DocumentFormat extends BaseEntity {}
 

@@ -25,6 +25,8 @@ const BookCard = ({ data, options = [] }: BookCardProps) => {
     img.src = data.cover_url;
   }, [data.cover_url]);
 
+  // console.log(data.authors);
+
   return (
     <Stack
       bg="transparent"

@@ -8,6 +8,7 @@ import {
   ReviewTypePreview,
   SigninPayload,
   DocumentTypePreview,
+  OrderType,
 } from '@/types';
 
 const base = 'http://143.198.142.139:8080';
@@ -47,7 +48,13 @@ export const getReviewsByDocument = async (document_id: number) => {
 };
 
 export const getDocuments = async () => {
-  const res = await axios.get(`${base}/books?page=1&limit=10`, config());
+  const res = await axios.get(`${base}/books?page=1&limit=100`, config());
+  const { data }: { data: DocumentTypePreview[] } = res;
+  return data;
+};
+
+export const getDocumentsPublic = async () => {
+  const res = await axios.get(`${base}/books-public?page=1&limit=100`);
   const { data }: { data: DocumentTypePreview[] } = res;
   return data;
 };
@@ -98,7 +105,8 @@ export const searchDocument = async (query: string) => {
   return data;
 };
 
-// export const addList = () => {
-//   const res = axios.post(`${base}/lists`, {}, config());
-//   return res;
-// };
+export const getLends = async () => {
+  const res = await axios.get(`${base}/lends`, config());
+  const data: OrderType[] = res.data || [];
+  return data;
+};

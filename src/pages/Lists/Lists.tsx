@@ -1,15 +1,13 @@
 import ListPreview from '@/components/ListPreview';
 import PageShell from '@/layout/PageShell';
-import { ListType } from '@/types';
+import { ListTypePreview } from '@/types';
 
-const mockLists: ListType[] = [
+const mockLists: ListTypePreview[] = [
   {
     id: 1,
     title: 'Best Books of 2021',
-    description: 'A list of the best books of 2021',
     total_likes: 10,
     total_books: 10,
-    liked: false,
     preview_images: [
       'https://placehold.co/200x300',
       'https://placehold.co/200x330',
@@ -18,19 +16,14 @@ const mockLists: ListType[] = [
       'https://placehold.co/200x330',
     ],
     private: false,
-    user: {
-      id: 1,
-      username: 'John Doe',
-      profile_picture_url: 'https://placehold.co/50x50',
-    },
+    liked: false,
+    own: true,
   },
   {
     id: 2,
     title: 'Best Books of 2020',
-    description: 'A list of the best books of 2020',
     total_likes: 10,
     total_books: 10,
-    liked: true,
     preview_images: [
       'https://placehold.co/200x300',
       'https://placehold.co/200x330',
@@ -38,19 +31,14 @@ const mockLists: ListType[] = [
       'https://placehold.co/200x330',
     ],
     private: false,
-    user: {
-      id: 1,
-      username: 'John Doe',
-      profile_picture_url: 'https://placehold.co/50x50',
-    },
+    liked: true,
+    own: false,
   },
   {
     id: 3,
     title: 'Best Books of 2019',
-    description: 'A list of the best books of 2019',
     total_likes: 10,
     total_books: 10,
-    liked: false,
     preview_images: [
       'https://placehold.co/200x300',
       'https://placehold.co/200x330',
@@ -59,11 +47,8 @@ const mockLists: ListType[] = [
       'https://placehold.co/200x330',
     ],
     private: false,
-    user: {
-      id: 1,
-      username: 'John Doe',
-      profile_picture_url: 'https://placehold.co/50x50',
-    },
+    liked: false,
+    own: false,
   },
 ];
 
@@ -72,22 +57,24 @@ const Lists = () => {
 
   return (
     <PageShell>
-      <div className="page-header">
-        LISTAS
-      </div>
-      <div
-        className="stack gap-xl py-xxl"
-        style={{
-          maxWidth: 920,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-      >
-      {
-        listsQuery.data.map((listData) => (
-          <ListPreview data={listData} big />
-        ))
-      }
+      <div className="scrollable-page">
+        <div className="page-header">
+          LISTAS
+        </div>
+        <div
+          className="stack gap-xl py-xxl"
+          style={{
+            maxWidth: 920,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+        {
+          listsQuery.data.map((listData) => (
+            <ListPreview data={listData} big />
+          ))
+        }
+        </div>
       </div>
     </PageShell>
   );

@@ -1,14 +1,16 @@
 import { Button, Rating, Spoiler, Title } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDisclosure } from '@mantine/hooks';
+import { IconCheck } from '@tabler/icons-react';
 import PageShell from '@/layout/PageShell';
-import { addOrder, getDocument, getReviewsByDocument } from '@/services/api';
+import { addOrder, getDocument, getLends, getReviewsByDocument } from '@/services/api';
 import EmbeddedReview from '@/components/EmbeddedReview';
 import Links from '@/components/Links';
 import AddToList from './components/AddToList';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import CreateReview from './components/CreateReview';
+import { lendsLimit } from '@/constants';
 
 const Reviews = ({ document_id }: { document_id: number }) => {
   const reviewsQuery = useQuery({
@@ -66,10 +68,15 @@ const Book = ({
     queryFn: () => getDocument(id),
   });
 
+  const lendsQuery = useQuery({
+    queryKey: ['lends'],
+    queryFn: getLends,
+  });
+
   const addOrderMutation = useMutation({
     mutationFn: (document_id: number) => addOrder(document_id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['orders', { user: 'self' }] });
+      queryClient.invalidateQueries({ queryKey: ['lends'] });
     },
   });
 
@@ -91,9 +98,14 @@ const Book = ({
 
   const documentData = documentQuery.data;
 
+  const hasExceededLendLimit = lendsQuery.data && lendsQuery.data?.length >= lendsLimit;
+  const ordered = lendsQuery.data?.some((order) => order.document.id === documentData.id);
+
   const handleAddOrder = async () => {
+    if (hasExceededLendLimit || ordered) {
+      return;
+    }
     await addOrderMutation.mutateAsync(Number(id));
-    console.log('Order added');
   };
 
   return (
@@ -138,8 +150,19 @@ const Book = ({
                     variant="primary"
                     loading={addOrderMutation.isPending}
                     onClick={handleAddOrder}
+                    disabled={hasExceededLendLimit || ordered}
+                    leftSection={ordered && (
+                      <IconCheck size={20} />
+                    )}
+                    title={
+                      hasExceededLendLimit
+                      ? 'Has alcanzado el límite de préstamos'
+                      : ordered
+                        ? 'Ya has pedido este libro'
+                        : undefined
+                    }
                   >
-                    SEPARAR COPIA
+                    {ordered ? 'COPIA SEPARADA' : 'SEPARAR COPIA'}
                   </Button>
                   <Button onClick={addListHandlers.open}>
                     AÑADIR A LISTA

@@ -54,6 +54,21 @@
 .vertical-scroll.is-top-overflowing { --top-mask-size: 48px !important; }
 .vertical-scroll.is-bottom-overflowing { --bottom-mask-size: 48px !important; }
 
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.h-full-page { height: 100dvh; }
+.w-full-page { width: 100dvw; }
+
+.scrollable-page {
+  height: 100dvh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 .stack {
   display: flex;
   flex-direction: column;
@@ -162,9 +177,8 @@ a.no-underline {
   text-decoration: none;
 }
 
-.c-dimmed {
-  color: var(--mantine-color-dark-3);
-}
+.c-dimmed { color: var(--mantine-color-dark-3); }
+.c-error { color: var(--mantine-color-error); }
 
 .fz-xs { font-size: var(--mantine-font-size-xs); }
 .fz-sm { font-size: var(--mantine-font-size-sm); }

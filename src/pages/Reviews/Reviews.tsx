@@ -13,10 +13,11 @@ const mockReviews: ReviewType[] = [
     liked: true,
     user: {
       id: 1,
-      name: 'John Doe',
+      username: 'John Doe',
       profile_picture_url: 'https://placehold.co/50x50',
     },
-    book: {
+    spoiler: false,
+    document: {
       id: 0,
       title: 'Título 1',
       cover_url: 'https://via.placeholder.com/200x310',
@@ -27,6 +28,7 @@ const mockReviews: ReviewType[] = [
         },
       ],
     },
+    own: false,
   },
   {
     id: 2,
@@ -37,10 +39,11 @@ const mockReviews: ReviewType[] = [
     liked: false,
     user: {
       id: 2,
-      name: 'Jane Doe',
+      username: 'Jane Doe',
       profile_picture_url: 'https://placehold.co/50x50',
     },
-    book: {
+    spoiler: false,
+    document: {
       id: 1,
       title: 'Título 2',
       cover_url: 'https://via.placeholder.com/200x310',
@@ -51,6 +54,7 @@ const mockReviews: ReviewType[] = [
         },
       ],
     },
+    own: false,
   },
   {
     id: 3,
@@ -61,10 +65,11 @@ const mockReviews: ReviewType[] = [
     liked: false,
     user: {
       id: 3,
-      name: 'John Smith',
+      username: 'John Smith',
       profile_picture_url: 'https://placehold.co/50x50',
     },
-    book: {
+    spoiler: false,
+    document: {
       id: 2,
       title: 'Título 3',
       cover_url: 'https://via.placeholder.com/200x310',
@@ -75,6 +80,7 @@ const mockReviews: ReviewType[] = [
         },
       ],
     },
+    own: true,
   },
 ];
 
@@ -83,39 +89,41 @@ const Reviews = () => {
 
   return (
     <PageShell>
-      <div className="page-header">
-        RESEÑAS
-      </div>
-      <div
-        className="stack gap-xxl py-xxl"
-        style={{ width: 800, marginLeft: 'auto', marginRight: 'auto' }}
-      >
-      {
-        reviewsQuery.data.map((reviewData) => (
-          <div className="stack gap-sm">
-            <div className="group gap-md">
-              <img
-                alt={`Portada de ${reviewData.book.title}`}
-                src={reviewData.book.cover_url}
-                style={{ flex: 1 }}
-              />
-              <EmbeddedReview data={reviewData} big />
+      <div className="scrollable-page">
+        <div className="page-header">
+          RESEÑAS
+        </div>
+        <div
+          className="stack gap-xxl py-xxl"
+          style={{ width: 800, marginLeft: 'auto', marginRight: 'auto' }}
+        >
+        {
+          reviewsQuery.data.map((reviewData) => (
+            <div className="stack gap-sm">
+              <div className="group gap-md">
+                <img
+                  alt={`Portada de ${reviewData.document.title}`}
+                  src={reviewData.document.cover_url}
+                  style={{ flex: 1 }}
+                />
+                <EmbeddedReview data={reviewData} big />
+              </div>
+              <div className="stack">
+                <a className="fz-lg" href={`/book/${reviewData.document.id}`}>
+                  {reviewData.document.title}
+                </a>
+                <Links
+                  links={reviewData.document.authors.map(({ id, name }) => ({
+                    href: `/author/${id}`,
+                    label: name,
+                  }))}
+                  className="fz-sm c-dimmed"
+                />
+              </div>
             </div>
-            <div className="stack">
-              <a className="fz-lg" href={`/book/${reviewData.book.id}`}>
-                {reviewData.book.title}
-              </a>
-              <Links
-                links={reviewData.book.authors.map(({ id, name }) => ({
-                  href: `/author/${id}`,
-                  label: name,
-                }))}
-                className="fz-sm c-dimmed"
-              />
-            </div>
-          </div>
-        ))
-      }
+          ))
+        }
+        </div>
       </div>
     </PageShell>
   );
