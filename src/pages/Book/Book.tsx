@@ -1,6 +1,6 @@
 import { Button, Rating, Spoiler, Title } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { IconCheck } from '@tabler/icons-react';
 import PageShell from '@/layout/PageShell';
 import { addOrder, getDocument, getLends, getReviewsByDocument } from '@/services/api';
@@ -60,6 +60,7 @@ const Book = ({
 }) => {
   const [addListOpened, addListHandlers] = useDisclosure(false);
   const [createReviewOpened, createReviewHandlers] = useDisclosure(false);
+  const [token] = useLocalStorage({ key: 'token' });
 
   const queryClient = useQueryClient();
 
@@ -145,29 +146,32 @@ const Book = ({
                     </a>
                   </div>
                 </section>
-                <section className="group gap-xs">
-                  <Button
-                    variant="primary"
-                    loading={addOrderMutation.isPending}
-                    onClick={handleAddOrder}
-                    disabled={hasExceededLendLimit || ordered}
-                    leftSection={ordered && (
-                      <IconCheck size={20} />
-                    )}
-                    title={
-                      hasExceededLendLimit
-                      ? 'Has alcanzado el límite de préstamos'
-                      : ordered
-                        ? 'Ya has pedido este libro'
-                        : undefined
-                    }
-                  >
-                    {ordered ? 'COPIA SEPARADA' : 'SEPARAR COPIA'}
-                  </Button>
-                  <Button onClick={addListHandlers.open}>
-                    AÑADIR A LISTA
-                  </Button>
-                </section>
+                {
+                  token &&
+                  <section className="group gap-xs">
+                    <Button
+                      variant="primary"
+                      loading={addOrderMutation.isPending}
+                      onClick={handleAddOrder}
+                      disabled={hasExceededLendLimit || ordered}
+                      leftSection={ordered && (
+                        <IconCheck size={20} />
+                      )}
+                      title={
+                        hasExceededLendLimit
+                        ? 'Has alcanzado el límite de préstamos'
+                        : ordered
+                          ? 'Ya has pedido este libro'
+                          : undefined
+                      }
+                    >
+                      {ordered ? 'COPIA SEPARADA' : 'SEPARAR COPIA'}
+                    </Button>
+                    <Button onClick={addListHandlers.open}>
+                      AÑADIR A LISTA
+                    </Button>
+                  </section>
+                }
                 <Spoiler
                   hideLabel="Leer menos"
                   showLabel="Leer más"
@@ -188,9 +192,12 @@ const Book = ({
               <section className="stack gap-xl">
                 <header className="group jc-space-between ai-center">
                   RESEÑAS
-                  <Button onClick={createReviewHandlers.open}>
-                    NUEVA RESEÑA
-                  </Button>
+                  {
+                    token &&
+                    <Button onClick={createReviewHandlers.open}>
+                      NUEVA RESEÑA
+                    </Button>
+                  }
                 </header>
                 <Reviews document_id={documentData.id} />
               </section>
