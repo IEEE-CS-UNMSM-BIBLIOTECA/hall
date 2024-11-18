@@ -8,6 +8,7 @@ import { breakpointCols } from '@/constants';
 import BookCard from '@/components/BookCard';
 import isDateLate from '@/utils/isDateLate';
 import readableDate from '@/utils/readableDate';
+import Empty from '@/components/Empty';
 
 const Lends = () => {
   const lendsQuery = useQuery({
@@ -15,17 +16,9 @@ const Lends = () => {
     queryFn: getLends,
   });
 
-  if (lendsQuery.isLoading) {
-    return (
-      <Loading />
-    );
-  }
-
-  if (lendsQuery.isError || !lendsQuery.data) {
-    return (
-      <Error />
-    );
-  }
+  if (lendsQuery.isLoading || lendsQuery.isFetching) { return <Loading />; }
+  if (lendsQuery.isError || !lendsQuery.data) { return <Error />; }
+  if (!lendsQuery.data.length) { return <Empty />; }
 
   return (
     <Masonry

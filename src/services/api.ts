@@ -9,6 +9,9 @@ import {
   SigninPayload,
   DocumentTypePreview,
   OrderType,
+  ListTypePreview,
+  ListType,
+  UserTypePublic,
 } from '@/types';
 
 const base = 'http://143.198.142.139:8080';
@@ -109,4 +112,51 @@ export const getLends = async () => {
   const res = await axios.get(`${base}/lends`, config());
   const data: OrderType[] = res.data || [];
   return data;
+};
+
+export const getLists = async () => {
+  const res = await axios.get(`${base}/lists`, config());
+  const data: ListTypePreview[] = res.data || [];
+  return data;
+};
+
+export const getList = async (list_id: number) => {
+  const res = await axios.get(`${base}/list/${list_id}`, config());
+  const data: ListType = res.data || [];
+  return data;
+};
+
+export const getBooksOfList = async (list_id: number) => {
+  const res = await axios.get(`${base}/lists/books/${list_id}`, config());
+  const data: DocumentTypePreview[] = res.data || [];
+  return data;
+};
+
+export const getReviews = async () => {
+  const res = await axios.get(`${base}/reviews`, config());
+  const data: ReviewTypePreview[] = res.data || [];
+  return data;
+};
+
+export const getUserReviews = async (user_id: number) => {
+  const res = await axios.get(`${base}/user/reviews/${user_id}`, config());
+  const data: ReviewTypePreview[] = res.data || [];
+  return data;
+};
+
+export const getUserLists = async (user_id: number) => {
+  const res = await axios.get(`${base}/user/lists/${user_id}`, config());
+  const data: ListTypePreview[] = res.data || [];
+  return data;
+};
+
+export const getUser = async (user_id: number) => {
+  const res = await axios.get(`${base}/user/screen/${user_id}`, config());
+  const data: UserTypePublic = res.data || {};
+  return data;
+};
+
+export const getIdOfCurrentUser = async () => {
+  const res = await axios.get(`${base}/protected`, config());
+  return res.data.user_id;
 };

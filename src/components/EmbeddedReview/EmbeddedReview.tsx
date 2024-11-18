@@ -57,7 +57,7 @@ const EmbeddedReview = ({ data, big }: {
         </section>
       </section>
       <footer className="group jc-space-between ai-center">
-        <UserBadge name={data.user.username} id={data.user.id} />
+        {big && <UserBadge name={data.user.username} id={data.user.id} />}
         <LikeButton
           totalLikes={data.total_likes}
           liked={data.liked}

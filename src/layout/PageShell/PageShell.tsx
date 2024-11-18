@@ -3,12 +3,13 @@ import { useLocation } from 'wouter';
 import { useMatches, Drawer, Anchor, Text } from '@mantine/core';
 import { IconHome, IconMenu, IconSearch } from '@tabler/icons-react';
 import { useLocalStorage } from '@mantine/hooks';
+import { useQuery } from '@tanstack/react-query';
+import { getIdOfCurrentUser } from '@/services/api';
 
 const staticDrawerLinks = [
   { label: 'INICIO', href: '/books' },
   { label: 'BUSCAR', href: '/search' },
   { label: 'LISTAS', href: '/lists' },
-  { label: 'RESEÑAS', href: '/reviews' },
 ];
 
 const PageShell = ({ children, fullHeight }: { children?: React.ReactNode }) => {
@@ -16,12 +17,17 @@ const PageShell = ({ children, fullHeight }: { children?: React.ReactNode }) => 
   const [opened, setOpened] = useState(false);
   const [token] = useLocalStorage({ key: 'token' });
 
+  const userIdQuery = useQuery({
+    queryKey: ['user', 'current'],
+    queryFn: getIdOfCurrentUser,
+  });
+
   let drawerLinks = staticDrawerLinks;
 
   if (token) {
     drawerLinks = [
       ...staticDrawerLinks,
-      { label: 'MI PERFIL', href: '/user/0' },
+      { label: 'MI PERFIL', href: `/user/${userIdQuery.data}` },
       { label: 'MIS PRÉSTAMOS', href: '/lends' },
     ];
   }

@@ -1,80 +1,47 @@
+import { useQuery } from '@tanstack/react-query';
 import ListPreview from '@/components/ListPreview';
 import PageShell from '@/layout/PageShell';
-import { ListTypePreview } from '@/types';
+import { getLists } from '@/services/api';
+import Empty from '@/components/Empty';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
-const mockLists: ListTypePreview[] = [
-  {
-    id: 1,
-    title: 'Best Books of 2021',
-    total_likes: 10,
-    total_books: 10,
-    preview_images: [
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-      'https://placehold.co/230x350',
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-    ],
-    private: false,
-    liked: false,
-    own: true,
-  },
-  {
-    id: 2,
-    title: 'Best Books of 2020',
-    total_likes: 10,
-    total_books: 10,
-    preview_images: [
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-      'https://placehold.co/230x350',
-      'https://placehold.co/200x330',
-    ],
-    private: false,
-    liked: true,
-    own: false,
-  },
-  {
-    id: 3,
-    title: 'Best Books of 2019',
-    total_likes: 10,
-    total_books: 10,
-    preview_images: [
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-      'https://placehold.co/230x350',
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-    ],
-    private: false,
-    liked: false,
-    own: false,
-  },
-];
+const Content = () => {
+  const listsQuery = useQuery({
+    queryKey: ['lists'],
+    queryFn: getLists,
+  });
+
+  if (listsQuery.isLoading || listsQuery.isFetching) { return <Loading />; }
+  if (listsQuery.isError || !listsQuery.data) { return <Error />; }
+  if (!listsQuery.data.length) { return <Empty />; }
+
+  return (
+    <div
+      className="stack gap-xl py-xxl"
+      style={{
+        maxWidth: 920,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}
+    >
+    {
+      listsQuery.data.map((listData) => (
+        <ListPreview data={listData} big />
+      ))
+    }
+    </div>
+  );
+};
 
 const Lists = () => {
-  const listsQuery = { data: mockLists };
-
   return (
     <PageShell>
       <div className="scrollable-page">
         <div className="page-header">
           LISTAS
         </div>
-        <div
-          className="stack gap-xl py-xxl"
-          style={{
-            maxWidth: 920,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-        {
-          listsQuery.data.map((listData) => (
-            <ListPreview data={listData} big />
-          ))
-        }
-        </div>
+        <Content />
       </div>
     </PageShell>
   );

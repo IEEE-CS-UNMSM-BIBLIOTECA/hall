@@ -15,7 +15,7 @@ const ListPreview = ({ data, big }: {
     <div className="stack gap-lg">
       <div className={`list-preview ${big && 'big'}`}>
       {
-        data.preview_images.map((url, i) => (
+        data.preview_images && data.preview_images.map((url, i) => (
           <img
             key={url}
             src={url}

@@ -1,57 +1,21 @@
+import { useQuery } from '@tanstack/react-query';
+import Error from '@/components/Error';
 import ListPreview from '@/components/ListPreview';
-import { ListTypePreview } from '@/types';
-
-const mockLists: ListTypePreview[] = [
-  {
-    id: 1,
-    title: 'Best Books of 2021',
-    description: 'A list of the best books of 2021',
-    total_likes: 10,
-    total_books: 10,
-    liked: false,
-    preview_images: [
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-      'https://placehold.co/230x350',
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-    ],
-  },
-  {
-    id: 2,
-    title: 'Best Books of 2020',
-    description: 'A list of the best books of 2020',
-    total_likes: 10,
-    total_books: 10,
-    liked: true,
-    preview_images: [
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-      'https://placehold.co/230x350',
-      'https://placehold.co/200x330',
-    ],
-  },
-  {
-    id: 3,
-    title: 'Best Books of 2019',
-    description: 'A list of the best books of 2019',
-    total_likes: 10,
-    total_books: 10,
-    liked: false,
-    preview_images: [
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-      'https://placehold.co/230x350',
-      'https://placehold.co/200x300',
-      'https://placehold.co/200x330',
-    ],
-  },
-];
+import Loading from '@/components/Loading';
+import { getUserLists } from '@/services/api';
+import Empty from '@/components/Empty';
 
 const UserLists = ({ userId }: {
   userId: string
 }) => {
-  const listsQuery = { data: mockLists };
+  const listsQuery = useQuery({
+    queryKey: ['user', userId, 'lists'],
+    queryFn: () => getUserLists(parseInt(userId, 10)),
+  });
+
+  if (listsQuery.isLoading || listsQuery.isFetching) { return <Loading />; }
+  if (listsQuery.isError || !listsQuery.data) { return <Error />; }
+  if (!listsQuery.data.length) { return <Empty />; }
 
   return (
     <div className="stack gap-xl">

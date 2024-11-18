@@ -2,16 +2,13 @@ import { Button, Title } from '@mantine/core';
 // import LoremIpsum from 'react-lorem-ipsum';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
 import PageShell from '@/layout/PageShell';
-import { UserTypePublic } from '@/types';
 import UserLists from './components/UserLists';
-
-const mockUser: UserTypePublic = {
-  id: 1,
-  username: 'johndoe',
-  bio: 'I am a software engineer',
-  profile_picture_url: 'https://placehold.it/500',
-};
+import { getUser } from '@/services/api';
+import Error from '@/components/Error';
+import Loading from '@/components/Loading';
+import UserReviews from './components/UserReviews';
 
 const LinkButton = ({ children, onClick, active }: {
   children: React.ReactNode;
@@ -34,21 +31,29 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
   const [currentTab, setCurrentTab] = useState<string>(initialTab);
   const [, setLocation] = useLocation();
 
+  const userQuery = useQuery({
+    queryKey: ['user', id],
+    queryFn: () => getUser(parseInt(id, 10)),
+  });
+
+  if (userQuery.isLoading || userQuery.isFetching) { return <PageShell><Loading /></PageShell>; }
+  if (userQuery.isError || !userQuery.data) { return <PageShell><Error /></PageShell>; }
+
   return (
     <PageShell>
       <div className="page-container gap-xxxl">
         <section className="stack gap-xxl jc-center" style={{ flex: 0.2 }}>
-          <img
+          {/* <img
             src={mockUser.profile_picture_url}
             alt={mockUser.username}
             className="square-md"
-          />
+          /> */}
           <div className="stack gap-lg">
             <Title order={2}>
-              {mockUser.username}
+              {userQuery.data.name}
             </Title>
             <p className="vertical-scroll" style={{ maxHeight: '150px' }}>
-              {mockUser.bio}
+              {userQuery.data.bio}
             </p>
           </div>
         </section>
@@ -77,6 +82,11 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
           {
             currentTab === 'lists' && (
               <UserLists userId={id} />
+            )
+          }
+          {
+            currentTab === 'reviews' && (
+              <UserReviews userId={id} />
             )
           }
           </div>
