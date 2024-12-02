@@ -15,6 +15,7 @@ const UserLists = ({ userId }: {
 
   if (listsQuery.isLoading || listsQuery.isFetching) { return <Loading />; }
   if (listsQuery.isError || !listsQuery.data) { return <Error />; }
+  console.log('listsQuery.data', listsQuery.data);
   if (!listsQuery.data.length) { return <Empty />; }
 
   return (

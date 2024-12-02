@@ -2,12 +2,14 @@ import { Button, Rating, Title } from '@mantine/core';
 // import LoremIpsum from 'react-lorem-ipsum';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
-import { ReviewTypePreview } from '../../types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ReviewPreview } from '@/types';
 import LikeButton from '../LikeButton';
 import UserBadge from '../UserBadge';
+import { addLikeToReview } from '@/services/api';
 
 const EmbeddedReview = ({ data, big }: {
-  data: ReviewTypePreview;
+  data: ReviewPreview;
   big?: boolean;
 }) => {
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -21,6 +23,24 @@ const EmbeddedReview = ({ data, big }: {
     const descClientHeight = descRef.current?.scrollHeight;
     setIsDescOverflowing(descScrollHeight < descClientHeight);
   }, [descRef.current]);
+
+  const queryClient = useQueryClient();
+
+  const addLikeMutation = useMutation({
+    mutationFn: () => addLikeToReview(Number(data.id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['review', data.id] });
+    },
+  });
+
+  const removeLikeMutation = useMutation({
+    mutationFn: () => addLikeToReview(Number(data.id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['review', data.id] });
+    },
+  });
+
+  console.log('data', data);
 
   return (
     <article className="stack gap-md jc-space-between" style={{ flex: 1 }}>
@@ -61,8 +81,8 @@ const EmbeddedReview = ({ data, big }: {
         <LikeButton
           totalLikes={data.total_likes}
           liked={data.liked}
-          addLike={() => {}}
-          removeLike={() => {}}
+          addLike={() => addLikeMutation.mutate()}
+          removeLike={() => removeLikeMutation.mutate()}
         />
       </footer>
     </article>

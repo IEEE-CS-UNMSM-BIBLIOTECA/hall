@@ -176,7 +176,25 @@ const Book = ({
                   hideLabel="Leer menos"
                   showLabel="Leer más"
                 >
-                  {documentData.description}
+                  <div className="stack gap-sm">
+                    {documentData.description}
+                    <div className="stack fz-sm">
+                    {
+                      [
+                        { label: 'ISBN', value: documentData.isbn },
+                        { label: 'Páginas', value: documentData.total_pages },
+                        { label: 'Edición', value: documentData.edition },
+                        { label: 'Editorial', value: documentData.publisher.name },
+                        { label: 'Idioma', value: documentData.language.name },
+                      ].map(({ label, value }) => (
+                        <div>
+                          <span className="c-dimmed">{label}: </span>
+                          <span>{value}</span>
+                        </div>
+                      ))
+                    }
+                    </div>
+                  </div>
                 </Spoiler>
                 <section className="stack gap-xs">
                   TAGS

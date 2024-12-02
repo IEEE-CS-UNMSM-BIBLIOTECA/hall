@@ -1,7 +1,7 @@
 import { Button, Checkbox, Modal } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { ListTypeAddDocument } from '@/types';
+import { ListAddDocument } from '@/types';
 import DynamicText from '@/components/DynamicText';
 import Loading from '@/components/Loading';
 import {
@@ -19,7 +19,7 @@ const List = ({
   queryClient,
 }: {
   document_id: number;
-  listData: ListTypeAddDocument;
+  listData: ListAddDocument;
   queryClient: ReturnType<typeof useQueryClient>;
 }) => {
   const addToListMutation = useMutation({
@@ -71,7 +71,7 @@ const Lists = ({
   queryClient,
 }: {
   document_id: number;
-  lists: ListTypeAddDocument[];
+  lists: ListAddDocument[];
   queryClient: ReturnType<typeof useQueryClient>;
 }) => {
   if (lists.length === 0) {

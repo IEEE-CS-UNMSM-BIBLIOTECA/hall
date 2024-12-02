@@ -8,6 +8,7 @@ const LikeIcon = ({ liked, addLike, removeLike }: {
   if (liked) {
     return (
       <IconHeartFilled
+        cursor="pointer"
         className="icon-button"
         size={20}
         onClick={removeLike}
@@ -17,6 +18,7 @@ const LikeIcon = ({ liked, addLike, removeLike }: {
 
   return (
     <IconHeart
+      cursor="pointer"
       className="icon-button"
       size={20}
       onClick={addLike}

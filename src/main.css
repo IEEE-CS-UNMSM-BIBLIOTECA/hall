@@ -252,6 +252,7 @@ img.square-xl { width: 450px; height: 450px; }
 
 /* debugging */
 
-.debug {
+.debug,
+.debug * {
   background-color: rgba(255, 0, 0, 0.1);
 }

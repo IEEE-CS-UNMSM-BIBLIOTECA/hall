@@ -1,92 +1,94 @@
 /* document */
 
-export interface DocumentTypePreview {
-  id:        number;
-  title:     string;
-  authors:   AuthorTypePreview[];
-  cover_url: string;
-}
-
-export interface DocumentType extends DocumentTypePreview {
+interface DocumentNonKeyFields {
+  title:                 string;
+  cover_url:             string;
   isbn:                  string;
   description:           string;
-  publication_year:      number | null;
+  publication_year:      number;
   acquisition_date:      string;
-  edition:               string;
+  edition:               number;
   external_lend_allowed: boolean;
   total_pages:           number;
   base_price:            number;
   total_copies:          number;
   available_copies:      number;
   mean_rating:           number | null;
-  language:              LanguageType;
-  format:                DocumentFormat;
-  publisher:             PublisherType;
-  tags:                  TagTypePreview[];
+}
+
+export interface Document extends DocumentNonKeyFields {
+  id:        number;
+  language:  Language;
+  format:    DocumentFormat;
+  publisher: Publisher;
+  tags:      BasicTag[];
+  authors:   BasicAuthor[];
+}
+
+export interface DocumentPreview {
+  id:        number;
+  title:     string;
+  authors:   BasicAuthor[];
+  cover_url: string;
 }
 
 /* review */
 
-export interface ReviewTypePreview {
-  id:          number;
+interface ReviewNonKeyFields {
   title:       string;
   content:     string;
   rating:      number;
-  total_likes: number;
+  spoiler:     boolean;
   liked:       boolean;
-  spoiler:     boolean;
-  user:        UserTypePublicPreview;
   own:         boolean;
+  total_likes: number;
 }
 
-export interface ReviewType extends ReviewTypePreview {
-  document: {
-    id:        number;
-    title:     string;
-    authors:   AuthorTypePreview[];
-    cover_url: string;
-  }
+export interface Review extends ReviewNonKeyFields {
+  id:       number;
+  document: DocumentPreview;
+  user:     UserPublicPreview;
 }
 
-export interface NewReviewType {
-  // user_id:     number;
+export interface CreateReviewPayload extends ReviewNonKeyFields {
   document_id: number;
-  title:       string;
-  content:     string;
-  rating:      number;
-  spoiler:     boolean;
+}
+
+export interface ReviewPreview extends ReviewNonKeyFields {
+  id:       number;
+  document: DocumentPreview;
+  user:     UserPublicPreview;
 }
 
 /* user */
 
-export interface UserTypePublicPreview {
-  id:                  number;
-  username:            string;
-  // profile_picture_url: string;
+interface UserNonKeyFields {
+  username:     string;
+  email:        string;
+  name:         string;
+  birth_date:   string;
+  bio:          string | null;
+  address:      string;
+  mobile_phone: string;
 }
 
-export interface UserTypePublic extends UserTypePublicPreview {
+export interface User extends UserNonKeyFields {
+  id:     number;
+  gender: Gender;
+}
+
+export interface UserPublicPreview {
+  id:       number;
+  username: string;
+}
+
+export interface UserPublic extends UserPublicPreview {
   bio: string;
 }
 
-export interface UserType extends UserTypePublic {
-  email:        string;
-  name:         string;
-  birth_date:   string;
-  address:      string;
-  mobile_phone: string;
-  gender:       GenderType;
-}
-
-export interface SignupPayload {
-  username:     string;
+export interface SignupPayload extends UserNonKeyFields {
   password:     string;
-  email:        string;
-  name:         string;
-  birth_date:   string;
   bio?:         string;
-  address:      string;
-  mobile_phone: string;
   gender_id:    number;
 }
 
@@ -97,8 +99,7 @@ export interface SigninPayload {
 
 /* list */
 
-export interface ListTypePreview {
-  id:             number;
+interface ListNonKeyFields {
   title:          string;
   total_likes:    number;
   total_books:    number;
@@ -108,11 +109,16 @@ export interface ListTypePreview {
   own:            boolean;
 }
 
-export interface ListType extends Omit<ListTypePreview, "preview_images"> {
-  user: UserTypePublicPreview;
+export interface ListPreview extends ListNonKeyFields {
+  id: number;
 }
 
-export interface ListTypeAddDocument {
+export interface List extends Omit<ListNonKeyFields, "preview_images"> {
+  id:   number;
+  user: UserPublicPreview;
+}
+
+export interface ListAddDocument {
   id:    number;
   title: string;
   has_document: boolean;
@@ -120,9 +126,9 @@ export interface ListTypeAddDocument {
 
 /* author */
 
-export interface AuthorTypePreview extends BaseEntity {}
+export interface BasicAuthor extends BaseEntity {}
 
-export interface AuthorType extends AuthorTypePreview {
+export interface Author extends BasicAuthor {
   image_url:  string;
   bio:        string;
   birth_date: string;
@@ -131,17 +137,17 @@ export interface AuthorType extends AuthorTypePreview {
 
 /* tag */
 
-export interface TagTypePreview extends BaseEntity {}
+export interface BasicTag extends BaseEntity {}
 
-export interface TagType extends TagType {
+export interface Tag extends BasicTag {
   mean_rating: number;
 }
 
 /* order */
 
-export interface OrderType {
+export interface Order {
   id:                 number;
-  document:           DocumentTypePreview;
+  document:           DocumentPreview;
   order_date:         string;
   max_return_date:    string;
   actual_return_date: string | null;
@@ -149,20 +155,20 @@ export interface OrderType {
 
 /* other */
 
-export interface OptionType {
+export interface Option {
   label:   string;
   onClick: () => void;
 }
 
 export interface DocumentFormat extends BaseEntity {}
 
-export interface PublisherType extends BaseEntity {}
+export interface Publisher extends BaseEntity {}
 
-export interface GenderType extends BaseEntity {}
+export interface Gender extends BaseEntity {}
 
-export interface LanguageType extends BaseEntity {}
+export interface Language extends BaseEntity {}
 
-export interface CountryType extends BaseEntity {}
+export interface Country extends BaseEntity {}
 
 interface BaseEntity {
   id:   number;

@@ -1,42 +1,42 @@
 import { Rating, Title } from '@mantine/core';
-import LoremIpsum from 'react-lorem-ipsum';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useLocation } from 'wouter';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import PageShell from '@/layout/PageShell';
-import { ReviewType } from '@/types';
 import UserBadge from '@/components/UserBadge';
 import LikeButton from '@/components/LikeButton';
 import Links from '@/components/Links';
+import { addLikeToReview, getReview, removeLikeFromReview } from '@/services/api';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
-const data: ReviewType = {
-  id: 1,
-  title: 'Excelente',
-  content: 'Me encantó este libro, lo recomiendo mucho.',
-  rating: 5,
-  total_likes: 10,
-  liked: true,
-  user: {
-    id: 1,
-    username: 'John Doe',
-    profile_picture_url: 'https://placehold.co/50x50',
-  },
-  spoiler: false,
-  document: {
-    id: 0,
-    title: 'Título 1',
-    cover_url: 'https://via.placeholder.com/200x310',
-    authors: [
-      {
-        id: 0,
-        name: 'Autor 1',
-      },
-    ],
-  },
-};
-
-const Review = ({ id }: { id: string }) => {
-  const reviewQuery = { data };
+const ReviewPage = ({ id }: { id: string }) => {
+  const reviewQuery = useQuery({
+    queryKey: ['review', id],
+    queryFn: () => getReview(Number(id)),
+  });
   const [, setLocation] = useLocation();
+
+  const queryClient = useQueryClient();
+
+  const addLikeMutation = useMutation({
+    mutationFn: () => addLikeToReview(Number(id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['review', id] });
+    },
+  });
+
+  const removeLikeMutation = useMutation({
+    mutationFn: () => removeLikeFromReview(Number(id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['review', id] });
+    },
+  });
+
+  if (reviewQuery.isLoading || reviewQuery.isFetching) { return <Loading />; }
+  if (reviewQuery.isError || !reviewQuery.data) { return <Error />; }
+
+  console.log('reviewQuery.data', reviewQuery.data);
 
   return (
     <PageShell>
@@ -73,8 +73,7 @@ const Review = ({ id }: { id: string }) => {
               {reviewQuery.data.title}
             </Title>
             <section>
-              {/* {reviewQuery.data.content} */}
-              <LoremIpsum p={4} />
+              {reviewQuery.data.content}
             </section>
             <footer className="group jc-space-between ai-center">
               <UserBadge
@@ -82,10 +81,10 @@ const Review = ({ id }: { id: string }) => {
                 id={reviewQuery.data.user.id}
               />
               <LikeButton
-                totalLikes={data.total_likes}
-                liked={data.liked}
-                addLike={() => {}}
-                removeLike={() => {}}
+                totalLikes={reviewQuery.data.total_likes}
+                liked={reviewQuery.data.liked}
+                addLike={() => addLikeMutation.mutate()}
+                removeLike={() => removeLikeMutation.mutate()}
               />
             </footer>
           </main>
@@ -95,4 +94,4 @@ const Review = ({ id }: { id: string }) => {
   );
 };
 
-export default Review;
+export default ReviewPage;

@@ -1,15 +1,35 @@
 import { Menu, Title } from '@mantine/core';
 import { IconBook, IconDots } from '@tabler/icons-react';
-import { ListTypePreview, OptionType } from '@/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ListPreview, Option } from '@/types';
 import LikeButton from '../LikeButton';
+import { addLikeToList } from '@/services/api';
 
-const ListPreview = ({ data, big }: {
-  data: ListTypePreview,
+const ListPreviewComponent = ({ data, big }: {
+  data: ListPreview,
   big?: boolean,
 }) => {
-  const options: OptionType[] | undefined = data.own ? [
+  const options: Option[] | undefined = data.own ? [
     // { label }
   ] : undefined;
+
+  const queryClient = useQueryClient();
+
+  const addLikeMutation = useMutation({
+    mutationFn: () => addLikeToList(Number(data.id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
+      queryClient.invalidateQueries({ queryKey: ['list', data.id] });
+    },
+  });
+
+  const removeLikeMutation = useMutation({
+    mutationFn: () => addLikeToList(Number(data.id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
+      queryClient.invalidateQueries({ queryKey: ['list', data.id] });
+    },
+  });
 
   return (
     <div className="stack gap-lg">
@@ -40,8 +60,8 @@ const ListPreview = ({ data, big }: {
           <LikeButton
             totalLikes={data.total_likes}
             liked={data.liked}
-            addLike={() => {}}
-            removeLike={() => {}}
+            addLike={() => addLikeMutation.mutate()}
+            removeLike={() => removeLikeMutation.mutate()}
           />
           <div className="group gap-xxs ai-center">
             <IconBook
@@ -68,4 +88,4 @@ const ListPreview = ({ data, big }: {
   );
 };
 
-export default ListPreview;
+export default ListPreviewComponent;

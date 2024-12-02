@@ -1,5 +1,4 @@
 import { Button, Title } from '@mantine/core';
-// import LoremIpsum from 'react-lorem-ipsum';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
@@ -43,14 +42,9 @@ const User = ({ id, initialTab }: { id: string; initialTab: string }) => {
     <PageShell>
       <div className="page-container gap-xxxl">
         <section className="stack gap-xxl jc-center" style={{ flex: 0.2 }}>
-          {/* <img
-            src={mockUser.profile_picture_url}
-            alt={mockUser.username}
-            className="square-md"
-          /> */}
           <div className="stack gap-lg">
             <Title order={2}>
-              {userQuery.data.name}
+              {userQuery.data.username}
             </Title>
             <p className="vertical-scroll" style={{ maxHeight: '150px' }}>
               {userQuery.data.bio}

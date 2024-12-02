@@ -1,7 +1,7 @@
 import { Button, Checkbox, Modal, Rating, Textarea, TextInput } from '@mantine/core';
 import { hasLength, isInRange, isNotEmpty, useForm } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { NewReviewType } from '@/types';
+import { CreateReviewPayload } from '@/types';
 import { addReview } from '@/services/api';
 
 const CreateReview = ({ document_id, opened, onClose }: {
@@ -28,7 +28,7 @@ const CreateReview = ({ document_id, opened, onClose }: {
   });
 
   const addReviewMutation = useMutation({
-    mutationFn: (data: NewReviewType) => addReview(data),
+    mutationFn: (data: CreateReviewPayload) => addReview(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', { document_id }] });
       queryClient.invalidateQueries({ queryKey: ['book', { id: document_id }] });

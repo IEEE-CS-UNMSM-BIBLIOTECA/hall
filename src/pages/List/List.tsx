@@ -1,13 +1,13 @@
 import Masonry from 'react-masonry-css';
 import { Flex, Title, Text, Menu } from '@mantine/core';
 import { IconBook, IconDots } from '@tabler/icons-react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import PageShell from '@/layout/PageShell';
 import BookCard from '@/components/BookCard';
 import './List.css';
 import LikeButton from '@/components/LikeButton';
 import UserBadge from '@/components/UserBadge';
-import { getBooksOfList, getList } from '@/services/api';
+import { addLikeToList, getBooksOfList, getList, removeLikeFromList } from '@/services/api';
 import Error from '@/components/Error';
 import Loading from '@/components/Loading';
 import Empty from '@/components/Empty';
@@ -48,10 +48,28 @@ const Content = ({ listId }: { listId: string }) => {
     queryFn: () => getList(parseInt(listId, 10)),
   });
 
+  const queryClient = useQueryClient();
+
+  const addLikeMutation = useMutation({
+    mutationFn: () => addLikeToList(Number(listId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
+      queryClient.invalidateQueries({ queryKey: ['list', listId] });
+    },
+  });
+
+  const removeLikeMutation = useMutation({
+    mutationFn: () => removeLikeFromList(Number(listId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
+      queryClient.invalidateQueries({ queryKey: ['list', listId] });
+    },
+  });
+
   if (listQuery.isLoading || listQuery.isFetching) { return <Loading />; }
   if (listQuery.isError || !listQuery.data) { return <Error />; }
 
-  console.log(listQuery.data);
+  console.log('listQuery.data', listQuery.data);
 
   return (
     <div className="scrollable-page">
@@ -90,14 +108,14 @@ const Content = ({ listId }: { listId: string }) => {
         >
           <UserBadge
             id={listQuery.data.user.id}
-            name={listQuery.data.user.user_name}
+            name={listQuery.data.user.username}
           />
           <div className="group gap-md" style={{ marginLeft: 'var(--mantine-spacing-lg)' }}>
             <LikeButton
               totalLikes={listQuery.data.total_likes}
-              liked={false}
-              addLike={() => {}}
-              removeLike={() => {}}
+              liked={listQuery.data.liked}
+              addLike={() => addLikeMutation.mutate()}
+              removeLike={() => removeLikeMutation.mutate()}
             />
             <div className="group gap-xxs ai-center">
               <IconBook className="icon-button" size={20} />
@@ -113,7 +131,7 @@ const Content = ({ listId }: { listId: string }) => {
   );
 };
 
-const List = ({ id }: { id: string }) => {
+const ListPage = ({ id }: { id: string }) => {
   return (
     <PageShell>
       <Content listId={id} />
@@ -121,4 +139,4 @@ const List = ({ id }: { id: string }) => {
   );
 };
 
-export default List;
+export default ListPage;

@@ -2,7 +2,7 @@ import { Image as MantineImage, Text, Box, Stack, Flex, Menu } from '@mantine/co
 import { IconDots } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import Links from '../Links';
-import { DocumentTypePreview } from '@/types';
+import { DocumentPreview } from '@/types';
 
 interface Option {
   label: string;
@@ -10,7 +10,7 @@ interface Option {
 }
 
 interface BookCardProps {
-  data: DocumentTypePreview;
+  data: DocumentPreview;
   options?: Option[];
 }
 

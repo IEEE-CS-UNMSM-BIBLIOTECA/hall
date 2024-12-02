@@ -18,8 +18,6 @@ const UserReviews = ({ userId }: {
   if (reviewsQuery.isError || !reviewsQuery.data) { return <Error />; }
   if (!reviewsQuery.data.length) { return <Empty />; }
 
-  console.log('reviewsQuery.data', reviewsQuery.data);
-
   return (
     <div className="stack gap-xl">
     {
@@ -27,18 +25,18 @@ const UserReviews = ({ userId }: {
         <div className="stack gap-sm">
           <div className="group gap-md">
             <img
-              alt={`Portada de ${reviewData.book.title}`}
-              src={reviewData.book.cover_url}
+              alt={`Portada de ${reviewData.document.title}`}
+              src={reviewData.document.cover_url}
               style={{ flex: 1 }}
             />
             <EmbeddedReview data={reviewData} />
           </div>
           <div className="stack">
-            <a className="fz-lg" href={`/book/${reviewData.book.id}`}>
-              {reviewData.book.title}
+            <a className="fz-lg" href={`/book/${reviewData.document.id}`}>
+              {reviewData.document.title}
             </a>
             <Links
-              links={reviewData.book.authors.map(({ id, name }) => ({
+              links={reviewData.document.authors.map(({ id, name }) => ({
                 href: `/author/${id}`,
                 label: name,
               }))}
